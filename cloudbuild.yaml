@@ -19,11 +19,20 @@ steps:
 # Install gcs plugin
 - name: 'gcr.io/triggermesh/helm'
   args: ['plugin', 'install', 'https://github.com/viglesiasce/helm-gcs.git']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-east4-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=your-cluster'
 
 # Package the chart
 - name: 'gcr.io/triggermesh/helm'
   args: ['package', 'knative']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-east4-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=your-cluster'
 
 # Push it to gcs bucket
 - name: 'gcr.io/triggermesh/helm'
   args: ['gcs', 'push', 'knative-0.1.1.tgz', 'gs://$PROJECT_ID-charts']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-east4-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=your-cluster'
