@@ -1,0 +1,29 @@
+steps:
+# Create Chart skeleton
+- name: 'debian:stable-slim'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+        mkdir -r knative/templates
+        mv Chart.yaml ./knative
+
+# Get the Istio manifest
+- name: 'gcr.io/cloud-builders/wget'
+  args: ['-O', 'knative/templates/istio.yaml', 'https://raw.githubusercontent.com/knative/serving/v0.1.1/third_party/istio-0.8.0/istio.yaml']
+
+# Get the Knative manifest
+- name: 'gcr.io/cloud-builders/wget'
+  args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release.yaml']
+
+# Install gcs plugin
+- name: 'gcr.io/triggermesh/helm'
+  args: ['plugin', 'install', 'https://github.com/viglesiasce/helm-gcs.git']
+
+# Package the chart
+- name: 'gcr.io/triggermesh/helm'
+  args: ['package', 'knative']
+
+# Push it to gcs bucket
+- name: 'gcr.io/triggermesh/helm'
+  args: ['gcs', 'push', 'knative-0.1.1.tgz', 'gs://$PROJECT-charts']
