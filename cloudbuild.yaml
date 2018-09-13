@@ -10,11 +10,11 @@ steps:
 
 # Get the Istio manifest
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/istio.yaml', 'https://raw.githubusercontent.com/knative/serving/v0.1.1/third_party/istio-0.8.0/istio.yaml']
+  args: ['-O', '/workspace/knative/templates/istio.yaml', 'https://raw.githubusercontent.com/knative/serving/v0.1.1/third_party/istio-0.8.0/istio.yaml']
 
 # Get the Knative manifest
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release.yaml']
+  args: ['-O', '/workspace/knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release.yaml']
 
 # Install gcs plugin
 - name: 'gcr.io/triggermesh/helm'
