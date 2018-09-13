@@ -12,6 +12,12 @@ helm repo add tm gs://triggermesh-charts
 
 ```
 helm search knative
+helm install --debug --dry-run tm/knative
+```
+
+If you are sure you want to do the install:
+
+```
 helm install tm/knative
 ```
 
