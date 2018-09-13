@@ -14,7 +14,7 @@ steps:
 
 # Get the Knative manifest
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release.yaml']
+  args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release-no-mon.yaml']
 
 # Initialize Helm without Cluster
 - name: 'gcr.io/triggermesh/helm'
