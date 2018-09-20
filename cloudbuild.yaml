@@ -16,6 +16,14 @@ steps:
 - name: 'gcr.io/cloud-builders/wget'
   args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release-no-mon.yaml']
 
+# Templatize the chart
+- name: 'debian:stable-slim'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+        sed -i 's/example.com/{{ .Values.domain }}/' knative/templates/knative.yaml 
+
 # Initialize Helm without Cluster
 - name: 'gcr.io/triggermesh/helm'
   args: ['init', '--client-only']
