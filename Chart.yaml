@@ -1,5 +1,10 @@
 apiVersion: v1
-appVersion: "1.0"
+appVersion: "0.1.1"
 description: A Helm chart for Knative
 name: knative
-version: 0.1.2
+version: 0.1.1
+
+dependencies:
+    - name: istio
+      from: gs://triggermesh-charts
+      version: 1.0.2
