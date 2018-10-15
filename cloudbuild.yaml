@@ -11,7 +11,7 @@ steps:
 
 # Get the Istio manifest
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/istio.yaml', 'https://raw.githubusercontent.com/knative/serving/v0.1.1/third_party/istio-1.0.2/istio.yaml']
+  args: ['-O', 'knative/templates/istio.yaml', 'https://raw.githubusercontent.com/knative/serving/master/third_party/istio-1.0.2/istio.yaml']
 
 # Get the Knative manifest
 - name: 'gcr.io/cloud-builders/wget'
