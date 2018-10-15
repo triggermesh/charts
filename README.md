@@ -14,6 +14,12 @@ or if you don't have the cloud storage plugin use http:
 helm repo add tm https://storage.googleapis.com/triggermesh-charts
 ```
 
+And update your chart repos:
+
+```
+helm repo update
+```
+
 ## Search for knative and install
 
 ```
