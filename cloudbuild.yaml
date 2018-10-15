@@ -51,9 +51,9 @@ steps:
   args: ['repo', 'index', '--url', 'https://storage.googleapis.com/triggermesh-charts', './repo']
 
 # Push index to gcs bucket
-- name: 'gcr.io/triggermesh/helm'
-  args: ['gcs', 'push', './repo/index.yaml', 'gs://$PROJECT_ID-charts']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', './repo/index.yaml', 'gs://$PROJECT_ID-charts/index.yaml']
 
 # Push it to gcs bucket
-- name: 'gcr.io/triggermesh/helm'
-  args: ['gcs', 'push', './repo/knative-0.1.2.tgz', 'gs://$PROJECT_ID-charts']
+- name: 'gcr.io/cloud-builders.gsutil'
+  args: ['cp', './repo/knative-0.1.2.tgz', 'gs://$PROJECT_ID-charts/knative-0.1.2.tgz']
