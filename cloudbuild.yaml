@@ -44,7 +44,7 @@ steps:
   - '-c'
   - |
         mkdir repo
-        mv knative-0.1.2.tz ./repo
+        mv knative-0.1.2.tgz ./repo
 
 # Generate index
 - name: 'gcr.io/triggermesh/helm'
