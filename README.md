@@ -8,6 +8,12 @@ It installs the released manifest for knative, including Istio as [documented](h
 helm repo add tm gs://triggermesh-charts
 ```
 
+or if you don't have the cloud storage plugin use http:
+
+```
+helm repo add tm https://storage.googleapis.com/triggermesh-charts
+```
+
 ## Search for knative and install
 
 ```
