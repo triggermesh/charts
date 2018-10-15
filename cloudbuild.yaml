@@ -55,5 +55,5 @@ steps:
   args: ['cp', './repo/index.yaml', 'gs://$PROJECT_ID-charts/index.yaml']
 
 # Push it to gcs bucket
-- name: 'gcr.io/cloud-builders.gsutil'
+- name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp', './repo/knative-0.1.2.tgz', 'gs://$PROJECT_ID-charts/knative-0.1.2.tgz']
