@@ -37,3 +37,10 @@ helm install tm/knative
 
 This chart is built via Google Cloud build, check `cloudbuild.yaml`
 
+## Adding a local registry
+
+See https://github.com/triggermesh/knative-local-registry.
+
+## Try Knative
+
+See for example the end-to-end guide at https://github.com/triggermesh/nodejs-runtime.
