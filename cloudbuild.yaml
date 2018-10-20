@@ -28,6 +28,7 @@ steps:
   - '-c'
   - |
         sed -i 's/example.com/{{ .Values.domain }}/' knative/templates/knative.yaml
+        sed -i 's/LoadBalancer/{{ .Values.istioIngressType }}/' knative/templates/istio.yaml
 
 # Initialize Helm without Cluster
 - name: 'gcr.io/triggermesh/helm'
