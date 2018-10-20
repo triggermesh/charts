@@ -17,6 +17,10 @@ steps:
 - name: 'gcr.io/cloud-builders/wget'
   args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release-no-mon.yaml']
 
+# Get the Knative build manifest
+- name: 'gcr.io/cloud-builders/wget'
+  args: ['-O', 'knative/templates/knative-build.yaml', 'https://github.com/knative/build/releases/download/v0.1.2/release-0.1.2.yaml']
+
 # Templatize the chart
 - name: 'debian:stable-slim'
   entrypoint: 'bash'
