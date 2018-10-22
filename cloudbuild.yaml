@@ -76,11 +76,11 @@ steps:
 #          #"--destination=<gcr.io/$PROJECT/knative-installer:$TAG>"]
 #          "--destination=knative.registry.svc.cluster.local/triggermesh/knative-installer"]
 
-# Build the installer using docker because kaniko failed on some gcr token with cloud-build-local
-- name: gcr.io/cloud-builders/docker
-  args: ["build",
-         "--file=./installer/Dockerfile",
-         "--tag", "knative.registry.svc.cluster.local/triggermesh/knative-installer",
-         "."]
-- name: gcr.io/cloud-builders/docker
-  args: ["push", "knative.registry.svc.cluster.local/triggermesh/knative-installer"]
+# # Build the installer using docker because kaniko failed on some gcr token with cloud-build-local
+# - name: gcr.io/cloud-builders/docker
+#   args: ["build",
+#          "--file=./installer/Dockerfile",
+#          "--tag", "knative.registry.svc.cluster.local/triggermesh/knative-installer",
+#          "."]
+# - name: gcr.io/cloud-builders/docker
+#   args: ["push", "knative.registry.svc.cluster.local/triggermesh/knative-installer"]
