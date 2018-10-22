@@ -7,8 +7,8 @@ set -e
 
 # Too many issues with helm, giving up
 
-helm template ./knative -x templates/istio.yaml | kubectl apply -f - || echo "Errors expected at first run"
+helm template ./knative -x templates/istio.yaml "$@" | kubectl apply -f - || echo "Errors expected at first run"
 # Rerun due to issues with CRD timing, for example "no matches for config.istio.io/, Kind=rule"
-helm template ./knative -x templates/istio.yaml | kubectl apply -f -
+helm template ./knative -x templates/istio.yaml "$@" | kubectl apply -f -
 
-helm template ./knative -x templates/knative.yaml | kubectl apply -f -
+helm template ./knative -x templates/knative.yaml "$@" | kubectl apply -f -
