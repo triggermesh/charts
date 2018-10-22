@@ -18,6 +18,7 @@ COPY knative /charts/knative
 
 WORKDIR /charts
 
-COPY *.sh ./
+COPY installer/*.sh ./
 
+# Intentionally ignore args until we've got helm running properly
 ENTRYPOINT ls -l *.sh

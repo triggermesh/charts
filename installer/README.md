@@ -1,8 +1,9 @@
 
-### development
+# Automated installer
 
-rm -rf ./w && cloud-build-local --write-workspace=./w --dryrun=false .
-
+Scripted in-cluster install of Knative.
+Our primary goal is repeatability,
+rather than configurability.
 
 ## Development
 
@@ -16,6 +17,12 @@ kubectl -n kube-system run -i -t knative-installer-dev --image=knative.registry.
 ```
 
 The registry name is from https://github.com/triggermesh/knative-local-registry.
+
+The install script can also be invoked directly:
+
+```
+kubectl -n kube-system run -i -t knative-installer-dev --image=knative.registry.svc.cluster.local/triggermesh/knative-installer --image-pull-policy=Never --restart=Never --rm --command -- ./install-knative.sh
+```
 
 ### With Kaniko
 
