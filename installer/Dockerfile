@@ -20,5 +20,4 @@ WORKDIR /charts
 
 COPY installer/*.sh ./
 
-# Intentionally ignore args until we've got helm running properly
-ENTRYPOINT ls -l *.sh
+ENTRYPOINT ["./install-knative.sh"]
