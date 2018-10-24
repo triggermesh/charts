@@ -2,6 +2,9 @@
 
 It installs the released manifest for knative, including Istio as [documented](https://github.com/knative/docs/blob/master/install/Knative-with-any-k8s.md)
 
+Note that because of Istio [RBAC](https://istio.io/docs/setup/kubernetes/helm-install/#installation-steps)
+you need Helm 2.10 or later.
+
 ## Setup the Chart repo
 
 ```
