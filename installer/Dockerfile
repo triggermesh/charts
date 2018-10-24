@@ -6,9 +6,8 @@ RUN apk update && apk add ca-certificates socat && rm -rf /var/cache/apk/*
 # end base image :)
 
 # Until we can rely on helm only we need to add kubectl (using any of these methods)
-#RUN apk update && apk add curl && rm -rf /var/cache/apk/* && \
-#  curl -sLS https://dl.k8s.io/v1.11.3/kubernetes-client-linux-amd64.tar.gz | tar -xvzf - -C /usr/local/bin/ --strip-components=3
-COPY --from=gcr.io/cloud-builders/kubectl@sha256:c97d99eaba62a14cdb922dcd2d4d6b186ff389c07ee4a018b856823eecef69e5 /builder/google-cloud-sdk/bin/kubectl /usr/local/bin/kubectl
+RUN apk update && apk add curl && rm -rf /var/cache/apk/* && \
+  curl -sLS https://dl.k8s.io/v1.11.3/kubernetes-client-linux-amd64.tar.gz | tar -xvzf - -C /usr/local/bin/ --strip-components=3
 
 RUN helm init --client-only
 
