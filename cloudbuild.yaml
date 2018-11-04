@@ -15,7 +15,7 @@ steps:
 
 # Get the Knative manifest
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.1.1/release-no-mon.yaml']
+  args: ['-O', 'knative/templates/knative.yaml', 'https://github.com/knative/serving/releases/download/v0.2.0/release-no-mon.yaml']
 
 # https://github.com/knative/build/releases/tag/v0.1.2 speeds up builds significantly
 - name: 'debian:stable-slim'
