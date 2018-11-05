@@ -23,6 +23,7 @@ steps:
   args:
   - '-c'
   - |
+        sed -i 's/{{/{{ "{{" }}/g' knative/templates/knative.yaml
         sed -i 's/example.com/{{ .Values.domain }}/' knative/templates/knative.yaml
         sed -i 's/LoadBalancer/{{ .Values.istioIngressType }}/' knative/templates/istio.yaml
 
