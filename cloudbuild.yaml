@@ -8,6 +8,7 @@ steps:
         mkdir -p knative/templates
         mv Chart.yaml ./knative
         mv values.yaml ./knative
+        mv knative-cluster-role.yaml ./knative/templates
 
 # Get the Istio manifest
 - name: 'gcr.io/cloud-builders/wget'
