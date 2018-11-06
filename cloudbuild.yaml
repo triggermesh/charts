@@ -69,7 +69,17 @@ steps:
   args: ['cp', './repo/knative-0.1.3.tgz', 'gs://$PROJECT_ID-charts/knative-0.1.3.tgz']
 
 # Build the installer
-- name: gcr.io/kaniko-project/executor:latest
-  args: ["--dockerfile=./installer/Dockerfile",
-         "--context=dir://.",
-         "--destination=gcr.io/$PROJECT_ID/knative-installer:latest"]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/knative-installer:0.1.3', '-f', './installer/Dockerfile', '.']
+
+# Tag and push
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/knative-installer:0.1.3']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'gcr.io/$PROJECT_ID/knative-installer:0.1.3', 'gcr.io/$PROJECT_ID/knative-installer:0.1']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/knative-installer:0.1']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'gcr.io/$PROJECT_ID/knative-installer:0.1.3', 'gcr.io/$PROJECT_ID/knative-installer:latest']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/knative-installer:latest']
