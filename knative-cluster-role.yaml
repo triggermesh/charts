@@ -4,22 +4,22 @@ metadata:
   name: knative-serving-only-role
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-  rules:
-    - apiGroups:
-        - serving.knative.dev
-      resources:
-        - configurations
-        - configurationgenerations
-        - routes
-        - revisions
-        - revisionuids
-        - autoscalers
-        - services
-      verbs:
-        - get
-        - list
-        - create
-        - update
-        - delete
-        - patch
-        - watch
+rules:
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - configurations
+  - configurationgenerations
+  - routes
+  - revisions
+  - revisionuids
+  - autoscalers
+  - services
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
