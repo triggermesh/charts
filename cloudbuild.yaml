@@ -49,11 +49,15 @@ steps:
         mkdir repo
         mv knative-0.2.0.tgz ./repo
 
+# Retrieve the current index
+- name: 'gcr.io/cloud-builders/wget'
+  args: ['-O', './upstream.yaml', 'https://storage.googleapis.com/triggermesh-charts/index.yaml']
+
 # Generate index
 - name: 'gcr.io/triggermesh/helm'
-  args: ['repo', 'index', '--url', 'https://storage.googleapis.com/triggermesh-charts', './repo']
+  args: ['repo', 'index', '--merge', './upstream.yaml', '--url', 'https://storage.googleapis.com/triggermesh-charts', './repo']
 
-# Push index to gcs bucket
+# Push new index to gcs bucket
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp', './repo/index.yaml', 'gs://$PROJECT_ID-charts/index.yaml']
 
