@@ -23,3 +23,17 @@ rules:
   - delete
   - patch
   - watch
+- apiGroups:
+  - build.knative.dev
+  resources:
+  - builds
+  - buildtemplates
+  - clusterbuildtemplates
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
