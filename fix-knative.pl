@@ -33,7 +33,10 @@ for (my $i = 0; $i < @components; $i++) {
 for ($i = 0; $i < @components; $i++) {
     $component = $components[$i];
     if ($component =~ m/CustomResourceDefinition/) {
-        $component =~ s/metadata:\n/metadata:\n  annotations:\n    "helm.sh\/hook": crd-install\n/;
+        $component =~ s/metadata:\n/metadata:\n  annotations:\n    "helm.sh\/hook": "crd-install"\n/;
+        @components[$i] = $component;
+    } elsif ($component =~ m/Namespace/) {
+        $component =~ s/metadata:\n/metadata:\n  annotations:\n    "helm.sh\/hook": "pre-install"\n/;
         @components[$i] = $component;
     }
 
