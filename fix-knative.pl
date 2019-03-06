@@ -17,6 +17,11 @@ while (<$YAML>) {
 }
 close($YAML);
 
+# Strip multiple newlines
+for (my $i = 0; $i < @components; $i++) {
+    $components[$i] =~ s/\n\n/\n/g;
+}
+
 # Strip duplicates
 for (my $i = 0; $i < @components; $i++) {
     $component = $components[$i];
