@@ -9,6 +9,7 @@ steps:
         mv Chart.yaml ./knative
         mv values.yaml ./knative
         mv knative-cluster-role.yaml ./knative/templates
+        mv knative-config-domain.yaml ./knative/templates
 
 # Get the Istio 1.0.7 manifest to resolve CVE-2019-9900 and CVE-2019-9901
 - name: 'gcr.io/cloud-builders/wget'
@@ -34,8 +35,8 @@ steps:
   - |
         cat knative/templates/knative-build.yaml knative/templates/knative-serving.yaml > knative/templates/knative.yaml.base
         rm knative/templates/knative-build.yaml knative/templates/knative-serving.yaml
+        sed -i 's/config-domain/config-domain-example/' knative/templates/knative.yaml.base
         sed -i 's/{{/{{ "{{" }}/g' knative/templates/knative.yaml.base
-        sed -i 's/example.com/{{ .Values.domain }}/' knative/templates/knative.yaml.base
         sed -i 's/LoadBalancer/{{ .Values.istioIngressType }}/' knative/templates/istio.yaml
         ./fix-knative.pl knative/templates/knative.yaml.base > knative/templates/knative.yaml
         rm knative/templates/knative.yaml.base
