@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    "helm.sh/hook": "pre-install"
+  name: knative-build
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    "helm.sh/hook": "pre-install"
+  labels:
+    istio-injection: enabled
+    serving.knative.dev/release: devel
+  name: knative-serving
