@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    serving.knative.dev/release: devel
+  name: config-domain
+  namespace: knative-serving
+data:
+  {{ .Values.domain }}: |
+
