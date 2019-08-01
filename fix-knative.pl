@@ -27,19 +27,6 @@ my $duplicateImage = 0;
 for (my $i = 0; $i < @components; $i++) {
     $component = $components[$i];
 
-    # Required hack to work around a duplicate CRD entry for
-    # images.caching.internal.knative.dev. Trust the second
-    # entry found since it originates from knative/serving
-    if (
-      ($component =~ m/CustomResourceDefinition/) &&
-      ($component =~ m/images.caching.internal.knative.dev/) &&
-      ($duplicateImage == 0)) {
-        splice(@components, $i, 1);
-        $i = $i-1;
-        $duplicateImage = 1;
-        next;
-    }
-
     # Required hack to ensure that all namespaces are created before anything else
     if ($component =~ m/kind: Namespace/) {
         splice(@components, $i, 1);
