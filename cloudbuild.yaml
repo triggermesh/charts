@@ -11,11 +11,12 @@ steps:
         mv knative-cluster-role.yaml ./knative/templates
         mv knative-config-domain.yaml ./knative/templates
         mv knative-namespace.yaml ./knative/templates
+        mv istio-crds.yaml ./knative/templates
 
-# Get the Istio 1.0.7 manifest to resolve CVE-2019-9900 and CVE-2019-9901
+# Get the Istio 1.1.7 manifest to resolve CVE-2019-9900 and CVE-2019-9901
 # TODO: This will need to be replaced with a dependency or build of Istio
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/istio.yaml', 'https://raw.githubusercontent.com/knative/serving/release-0.7/third_party/istio-1.0.7/istio.yaml']
+  args: ['-O', 'knative/templates/istio-lean.yaml', 'https://raw.githubusercontent.com/knative/serving/release-0.7/third_party/istio-1.1.7/istio-lean.yaml']
 
 # Get the Knative Build manifest [deprecated in lieu of Tekton]
 #- name: 'gcr.io/cloud-builders/wget'
@@ -35,7 +36,7 @@ steps:
   args:
   - '-c'
   - |
-        #cat knative/templates/knative-build.yaml knative/templates/knative-serving.yaml > knative/templates/knative.yaml.base
+        cat knative/templates/istio-crds.yaml knative/templates/istio-lean.yaml > knative/templates/istio.yaml
         cp knative/templates/knative-serving.yaml knative/templates/knative.yaml.base
         rm -f knative/templates/knative-build.yaml knative/templates/knative-serving.yaml
         sed -i 's/config-domain/config-domain-example/' knative/templates/knative.yaml.base
@@ -43,7 +44,7 @@ steps:
         sed -i 's/LoadBalancer/{{ .Values.istioIngressType }}/' knative/templates/istio.yaml
         ./fix-knative.pl knative/templates/knative.yaml.base > knative/templates/knative-fix.yaml
         cat knative/templates/knative-namespace.yaml knative/templates/knative-fix.yaml knative/templates/knative-config-domain.yaml > knative/templates/knative.yaml
-        rm knative/templates/knative-namespace.yaml knative/templates/knative.yaml.base knative/templates/knative-config-domain.yaml knative/templates/knative-fix.yaml
+        rm knative/templates/knative-namespace.yaml knative/templates/knative.yaml.base knative/templates/knative-config-domain.yaml knative/templates/knative-fix.yaml knative/templates/istio-crds.yaml knative/templates/istio-lean.yaml
 
 # Initialize Helm without Cluster
 - name: 'gcr.io/triggermesh/helm'
