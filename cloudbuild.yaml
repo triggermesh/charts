@@ -12,11 +12,7 @@ steps:
         mv knative-config-domain.yaml ./knative/templates
         mv knative-namespace.yaml ./knative/templates
         mv istio-crds.yaml ./knative/templates
-
-# Get the Istio 1.1.7 manifest to resolve CVE-2019-9900 and CVE-2019-9901
-# TODO: This will need to be replaced with a dependency or build of Istio
-- name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/istio-lean.yaml', 'https://raw.githubusercontent.com/knative/serving/release-0.7/third_party/istio-1.1.7/istio-lean.yaml']
+        mv istio-lean.yaml ./knative/templates
 
 # Get the Knative Build manifest [deprecated in lieu of Tekton]
 #- name: 'gcr.io/cloud-builders/wget'
