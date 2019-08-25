@@ -1,5 +1,5 @@
 ---
-# istio-lean is based on a modified form of istio-1.1.12
+# istio-lean is based on a modified form of istio-1.1.13
 # PATCH #1: Creating the istio-system namespace.
 apiVersion: v1
 kind: Namespace
@@ -406,7 +406,7 @@ kind: ClusterRoleBinding
 metadata:
   name: istio-multi
   labels:
-    chart: istio-1.1.12
+    chart: istio-1.1.13
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -597,7 +597,7 @@ spec:
       serviceAccountName: cluster-local-gateway-service-account
       containers:
         - name: istio-proxy
-          image: "docker.io/istio/proxyv2:1.1.12"
+          image: "docker.io/istio/proxyv2:1.1.13"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 15020
@@ -757,7 +757,7 @@ spec:
       serviceAccountName: istio-ingressgateway-service-account
       containers:
         - name: ingress-sds
-          image: "docker.io/istio/node-agent-k8s:1.1.12"
+          image: "docker.io/istio/node-agent-k8s:1.1.13"
           imagePullPolicy: IfNotPresent
           resources:
             limits:
@@ -781,7 +781,7 @@ spec:
           - name: ingressgatewaysdsudspath
             mountPath: /var/run/ingress_gateway
         - name: istio-proxy
-          image: "docker.io/istio/proxyv2:1.1.12"
+          image: "docker.io/istio/proxyv2:1.1.13"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 15020
@@ -1010,7 +1010,7 @@ spec:
                 - s390x
       containers:
       - name: mixer
-        image: "docker.io/istio/mixer:1.1.12"
+        image: "docker.io/istio/mixer:1.1.13"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 15014
@@ -1054,7 +1054,7 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
       - name: istio-proxy
-        image: "docker.io/istio/proxyv2:1.1.12"
+        image: "docker.io/istio/proxyv2:1.1.13"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9091
@@ -1143,7 +1143,7 @@ spec:
       serviceAccountName: istio-pilot-service-account
       containers:
         - name: discovery
-          image: "docker.io/istio/pilot:1.1.12"
+          image: "docker.io/istio/pilot:1.1.13"
           imagePullPolicy: IfNotPresent
           args:
           - "discovery"
