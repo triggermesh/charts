@@ -829,8 +829,8 @@ spec:
               cpu: 3000m
               memory: 2048Mi
             requests:
-              cpu: 3000m
-              memory: 2048Mi
+              cpu: 100m
+              memory: 128Mi
 
           env:
           - name: POD_NAME
@@ -1035,11 +1035,11 @@ spec:
           value: "6"
         resources:
           limits:
-            cpu: 4800m
-            memory: 4G
+            cpu: 100m
+            memory: 100Mi
           requests:
-            cpu: 1000m
-            memory: 1G
+            cpu: 50m
+            memory: 100Mi
 
         volumeMounts:
         - name: telemetry-adapter-secret
@@ -1187,8 +1187,8 @@ spec:
             value: "1"
           resources:
             requests:
-              cpu: 3000m
-              memory: 2048Mi
+              cpu: 10m
+              memory: 100Mi
 
           volumeMounts:
           - name: config-volume
