@@ -16,7 +16,9 @@ steps:
 
 # Get the Knative Serving manifest
 - name: 'gcr.io/cloud-builders/wget'
-  args: ['-O', 'knative/templates/knative-serving.yaml', 'https://github.com/knative/serving/releases/download/v0.9.0/serving.yaml']
+  # TODO: This is a 1 release workaround to force k8s v1.14 support
+  #args: ['-O', 'knative/templates/knative-serving.yaml', 'https://github.com/knative/serving/releases/download/v0.9.0/serving.yaml']
+  args: ['-O', 'knative/templates/knative-serving.yaml', 'https://github.com/knative/serving/releases/download/v0.9.0/serving-post-1.14.yaml']
 
 # Templatize the chart
 - name: 'debian:stable-slim'
