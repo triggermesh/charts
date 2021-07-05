@@ -1,0 +1,15 @@
+# backend controller role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.bridgecatalogentries.fullname" . }}
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - bridgecatalogentries
+  verbs:
+  - get
+  - list

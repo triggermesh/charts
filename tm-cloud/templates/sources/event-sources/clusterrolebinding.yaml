@@ -1,0 +1,146 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+
+---
+
+# Permissions not required by controllers directly, but granted to
+# receive-adapters via RoleBindings.
+#
+# Without them, the following error is thrown:
+#   "attempting to grant RBAC permissions not currently held"
+#
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureactivitylogssource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureactivitylogssource-adapter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureblobstoragesource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureblobstoragesource-adapter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: azureeventhubsource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: azureeventhubsource-adapter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: googlecloudpubsubsource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: googlecloudpubsubsource-adapter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ocimetricssource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ocimetricssource-adapter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: salesforcesource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: salesforcesource-adapter
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: twiliosource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: twiliosource-adapter
+
+---
+
+# Resolve sink URIs
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.event-sources.fullname" . }}-addressable-resolver
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: addressable-resolver

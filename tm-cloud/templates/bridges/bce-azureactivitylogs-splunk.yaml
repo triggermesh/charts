@@ -1,0 +1,68 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: azureactivitylogs-splunk
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Azure Activity Logs to Splunk
+shortDescription: Use this Bridge to forward Azure Activity Logs to Splunk.
+fullDescription: >-
+  This Bridge consumes Azure Activity Logs generated within an Azure
+  Subscription and sends them as CloudEvents to Splunk, where they can be
+  further analyzed and visualized.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: AzureActivityLogsSource
+  metadata:
+    name: activitylogs
+  spec:
+    eventHubID: ''
+    auth:
+      servicePrincipal:
+        tenantID:
+          valueFromSecret:
+            name: ''
+            key: tenant_id
+        clientID:
+          valueFromSecret:
+            name: ''
+            key: client_id
+        clientSecret:
+          valueFromSecret:
+            name: ''
+            key: client_secret
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: splunk
+  spec:
+    broker: events
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: SplunkTarget
+        name: splunk
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: SplunkTarget
+  metadata:
+    name: splunk
+  spec:
+    endpoint: ''
+    token:
+      valueFromSecret:
+        name: ''
+        key: token

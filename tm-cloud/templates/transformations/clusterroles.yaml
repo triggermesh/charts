@@ -1,0 +1,145 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.transformation.fullname" . }}
+  labels:
+    rbac.triggermesh.io/transformation-controller: "true"
+    {{- include "tm-cloud.transformation.labels" . | nindent 4 }}
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      transformation.flow.triggermesh.io/controller: "true"
+rules: []
+
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "tm-cloud.transformation.fullname" . }}-core
+  labels:
+    transformation.flow.triggermesh.io/controller: "true"
+    {{- include "tm-cloud.transformation.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - transformations
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - transformations/status
+  verbs:
+  - update
+
+# Knative's sharedmain method supports leader election via coordination lease mechanism.
+# This role is needed to let controller work with lease resources.
+# https://docs.google.com/document/d/1zHtVjVmzivO2PEhZkpqNo-M9cPnmfvBWMYzP8ehVXtM/edit#
+# https://github.com/knative/pkg/pull/1019
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+
+# Transformation controller creates the Knative service as its workhorse
+# to handle the CloudEvents and apply transformations, so it needs to have
+# a control over the Service resources.
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Read controller configurations
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  resourceNames:
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+  verbs:
+  - get
+
+---
+
+# The role is needed for the aggregated role addressable-resolver in knative-eventing to provide readonly access to "Addressables".
+# see https://github.com/knative/eventing/blob/release-0.16/docs/spec/channel.md#aggregated-addressable-resolver-clusterrole
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.transformation.fullname" . }}-addressable-resolver
+  labels:
+    duck.knative.dev/addressable: "true"
+    {{- include "tm-cloud.transformation.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - transformations
+  - transformations/status
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.transformation.fullname" . }}-admin
+  labels:
+    rbac.triggermesh.io/transformation-admin: "true"
+    {{- include "tm-cloud.transformation.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - transformations
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - watch

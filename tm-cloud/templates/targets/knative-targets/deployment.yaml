@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tm-cloud.knative-targets.fullname" . }}
+  labels:
+    {{- include "tm-cloud.knative-targets.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "tm-cloud.knative-targets.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: controller
+  template:
+    metadata:
+      labels:
+        {{- include "tm-cloud.knative-targets.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: controller
+      annotations:
+        checksum/knative-configs: {{ include (print .Template.BasePath "/knative/configmap.yaml") . | sha256sum }}
+    spec:
+{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
+      serviceAccountName: {{ include "tm-cloud.knative-targets.fullname" . }}
+      containers:
+      - name: controller
+        image: "{{ .Values.global.image.registry }}/triggermesh-private/knative-targets-controller:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        terminationMessagePolicy: FallbackToLogsOnError
+        env:
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        # Logging/observability configuration
+        - name: CONFIG_LOGGING_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+        - name: CONFIG_LEADERELECTION_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+        - name: METRICS_DOMAIN
+          value: triggermesh.io/targets
+        # Target adapters
+        - name: AWS_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/aws-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: CONFLUENT_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/confluent-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: DATADOGTARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/datadog-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: ELASTICSEARCH_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/elasticsearch-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: GOOGLESHEET_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/googlesheet-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: GOOGLECLOUDSTORAGE_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/googlecloudstorage-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: HASURATARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/hasura-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: HTTPTARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/http-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: INFRATARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/infra-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: JIRATARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/jira-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: LOGZTARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/logz-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: ORACLE_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/oracle-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: SALESFORCETARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/salesforce-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: SENDGRID_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/sendgrid-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: SLACK_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/slack-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: SPLUNKTARGET_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/splunk-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: TEKTON_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/tekton-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: TWILIO_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/twilio-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: UIPATH_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/uipath-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        - name: ZENDESK_ADAPTER_IMAGE
+          value: "{{ .Values.global.image.registry }}/triggermesh-private/zendesk-target-adapter:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        # Type-specific options
+        - name: TEKTON_REAPING_INTERVAL
+          value: 2m
+        ports:
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        - name: profiling
+          containerPort: 8008
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 50m
+            memory: 20Mi
+        securityContext:
+          allowPrivilegeEscalation: false

@@ -1,0 +1,100 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: github-twilio
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: GitHub Events to SMS
+shortDescription: Send SMS notifications via Twilio on GitHub push events
+fullDescription: >-
+  This Bridge listens to push events from GitHub and uses the content of those
+  events to send SMS notifications containing the author of the commit and the
+  repository in which it occurred.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: github-twilio
+# Event source
+- apiVersion: sources.knative.dev/v1alpha1
+  kind: GitHubSource
+  metadata:
+    name: github
+  spec:
+    accessToken:
+      secretKeyRef:
+        key: accessToken
+        name: ''
+    eventTypes:
+    - push
+    ownerAndRepository: ''
+    secretToken:
+      secretKeyRef:
+        key: secretToken
+        name: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: github-twilio
+# Transformation service
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: github-twilio
+  spec:
+    broker: github-twilio
+    filter:
+      attributes:
+        type: dev.knative.source.github.push
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: InfraTarget
+        name: github-twilio
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: InfraTarget
+  metadata:
+    name: github-twilio
+  spec:
+    script:
+      code: |-
+        function handle(input) {
+          input.type = "io.triggermesh.twilio.sms.send";
+          input.data.message = input.data.head_commit.author.username + " has made changes to " + input.data.repository.name;
+          return input;
+        }
+      timeout: 2000
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: twilio
+  spec:
+    broker: github-twilio
+    filter:
+      attributes:
+        type: io.triggermesh.twilio.sms.send
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: TwilioTarget
+        name: twilio
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: TwilioTarget
+  metadata:
+    name: twilio
+  spec:
+    defaultPhoneFrom: ''
+    defaultPhoneTo: ''
+    sid:
+      secretKeyRef:
+        key: sid
+        name: twilio
+    token:
+      secretKeyRef:
+        key: token
+        name: twilio

@@ -1,0 +1,36 @@
+{{- if not .Values.frontend.ingress.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tm-cloud.frontend.fullname" . }}-nginx-config
+  labels:
+    {{- include "tm-cloud.frontend.labels" . | nindent 4 }}
+data:
+  default.conf: |
+    server {
+      listen 8080;
+      gzip on;
+      gzip_static  on;
+
+      # forward requests to the frontend app
+      location / {
+        proxy_pass http://{{ include "tm-cloud.frontend.fullname" . }}:8080;
+      }
+
+      # forward requests to kubernetes API proxy
+      location ~ ^/(api|apis|openapi)/ {
+        proxy_pass https://kubernetes.default;
+      }
+
+      # forward requests to the ghbackend server
+      location ~ ^/(token|collecttokens|linkprofile|ssl|repos|repositories|register|events|lambdas|azurefunctions|gcpcloudrun|deregister|pushEvent|stats|healthz|tmconfig) {
+        proxy_pass http://{{ include "tm-cloud.ghbackend.fullname" . }};
+      }
+
+      # forward requests to keycloak server
+      location ~ ^/auth {
+        proxy_pass              http://{{ include "tm-cloud.keycloak.fullname" . }}:8080;
+        proxy_set_header Host   localhost:8080;
+      }
+    }
+{{- end }}

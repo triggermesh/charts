@@ -1,0 +1,62 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: github-eventbridge
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: GitHub to AWS EventBridge
+shortDescription: Sends GitHub events to AWS EventBridge.
+fullDescription: >-
+  This Bridge listens to GitHub events from a specific repository and forwards
+  these events to AWS EventBridge. Once on AWS EventBridge you can configure
+  the corresponding TriggerMesh partner event source and set a rule to further
+  forward the events to a AWS service like CloudWatch, SNS or SQS.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.knative.dev/v1alpha1
+  kind: GitHubSource
+  metadata:
+    name: github
+  spec:
+    accessToken:
+      secretKeyRef:
+        key: accessToken
+        name: githubsecret
+    eventTypes:
+    - ''
+    ownerAndRepository: ''
+    secretToken:
+      secretKeyRef:
+        key: secretToken
+        name: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: eventbridge
+  spec:
+    broker: events
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: AWSEventBridgeTarget
+        name: eventbridge
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: AWSEventBridgeTarget
+  metadata:
+    name: eventbridge
+  spec:
+    accountID: ''
+    region: ''

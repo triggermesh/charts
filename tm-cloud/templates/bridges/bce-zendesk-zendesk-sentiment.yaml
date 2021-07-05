@@ -1,0 +1,102 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: zendesk-zendesk-sentiment
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Zendesk Ticket Analysis
+shortDescription: Use this Bridge to perform a sentiment analysis of newly created Zendesk Tickets.
+fullDescription: >-
+  This Bridge reacts to the creation of Zendesk Tickets and performs a
+  sentiment analysis of those Tickets via AWS Comprehend. The result of this
+  sentiment analysis is then used to tag those new Tickets.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: ZendeskSource
+  metadata:
+    name: zendesk
+  spec:
+    email: ''
+    subdomain: ''
+    token:
+      valueFromSecret:
+        name: ''
+        key: token
+    webhookUsername: ''
+    webhookPassword:
+      valueFromSecret:
+        name: ''
+        key: webhookPassword
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Transformation service
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: transform-sentiment-tag
+  spec:
+    broker: events
+    filter:
+      attributes:
+        type: com.zendesk.ticket.created
+    subscriber:
+      ref:
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        name: transform-sentiment-tag
+- apiVersion: serving.knative.dev/v1
+  kind: Service
+  metadata:
+    name: transform-sentiment-tag
+    labels:
+      serving.knative.dev/visibility: cluster-local
+  spec:
+    template:
+      spec:
+        containers:
+        - image: gcr.io/triggermesh/bridge-examples/zendesk-zendesk-transform-sentiment-tag
+          env:
+          - name: LANGUAGE
+            value: en
+          - name: AWS_REGION
+            value: ''
+          envFrom:
+          - secretRef:
+              name: awscomprehend
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: zendesk
+  spec:
+    broker: events
+    filter:
+      attributes:
+        type: com.zendesk.ticket.tag.add
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: ZendeskTarget
+        name: zendesk
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: ZendeskTarget
+  metadata:
+   name: zendesk
+  spec:
+    email: ''
+    subdomain: ''
+    token:
+     secretKeyRef:
+       name: zendesk-api
+       key: token

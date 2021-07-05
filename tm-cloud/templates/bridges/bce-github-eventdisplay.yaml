@@ -1,0 +1,68 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: github-eventdisplay
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: GitHub event display Bridge
+shortDescription: Use this Bridge to receive events from a GitHub repository.
+fullDescription: >-
+  This Bridge configures a GitHub event source and sends all received events to
+  a service called event-display. The receiving service prints the events to
+  stdout and you can see them in the logs of the service. Start by creating a
+  secret which contains your GitHub access token, then configure the GitHub
+  source repository and event types. Submit the Bridge. Once it is ready,
+  generate a GitHub event in your repository and watch the event being
+  delivered to the event-display service. Use this as a starting point to
+  create some code automation.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.knative.dev/v1alpha1
+  kind: GitHubSource
+  metadata:
+    name: github
+  spec:
+    accessToken:
+      secretKeyRef:
+        key: accessToken
+        name: ''
+    eventTypes:
+    - push
+    ownerAndRepository: ''
+    secretToken:
+      secretKeyRef:
+        key: secretToken
+        name: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: event-display
+  spec:
+    broker: events
+    subscriber:
+      ref:
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        name: event-display
+- apiVersion: serving.knative.dev/v1
+  kind: Service
+  metadata:
+    name: event-display
+  spec:
+    template:
+      spec:
+        containers:
+        - image: gcr.io/knative-releases/knative.dev/eventing-contrib/cmd/event_display

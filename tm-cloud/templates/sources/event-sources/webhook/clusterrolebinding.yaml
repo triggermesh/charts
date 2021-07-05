@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.event-sources.fullname" . }}-webhook
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.event-sources.fullname" . }}-webhook
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "tm-cloud.event-sources.fullname" . }}-webhook

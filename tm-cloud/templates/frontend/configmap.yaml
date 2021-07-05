@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tm-cloud.frontend.fullname" . }}-vhost
+  labels:
+    {{- include "tm-cloud.frontend.labels" . | nindent 4 }}
+data:
+  vhost.conf: |
+    server {
+      listen 8080;
+      gzip on;
+      # Angular CLI already has gzipped the assets (ng build --prod --aot)
+      gzip_static  on;
+      access_log /dev/stdout;
+      location / {
+        root   /usr/share/nginx/html;
+        try_files $uri /index.html;
+      }
+    }
+    # Redirect www to non-www
+    # Taken from https://easyengine.io/tutorials/nginx/www-non-www-redirection/
+    server {
+      server_name "~^www\.(.*)$" ;
+      return 301 $scheme://$1$request_uri ;
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "tm-cloud.frontend.fullname" . }}-config
+  labels:
+    {{- include "tm-cloud.frontend.labels" . | nindent 4 }}
+data:
+  envs.json: |
+    {
+{{- if .Values.frontend.ingress.enabled }}
+      "BASE_URL": "http{{ if .Values.frontend.ingress.tls.enabled }}s{{ end }}://{{ .Values.frontend.ingress.hostname }}",
+      "SITE_URL": "http{{ if .Values.frontend.ingress.tls.enabled }}s{{ end }}://{{ .Values.frontend.ingress.hostname }}",
+{{- else }}
+      "BASE_URL": "http://localhost:8080",
+      "SITE_URL": "http://localhost:8080",
+{{- end }}
+      "REALM": "triggermesh",
+{{- if .Values.keycloak.ingress.enabled }}
+      "KEYCLOAK_URL": "http{{ if .Values.keycloak.ingress.tls.enabled }}s{{ end }}://{{ .Values.keycloak.ingress.hostname }}/auth",
+{{- else }}
+      "KEYCLOAK_URL": "http://localhost:8080/auth",
+{{- end }}
+      "KEYCLOAK_CLIENT_ID": "triggermesh-frontend-app",
+      "SENTRY_DSN": "",
+      "SENTRY_RELEASE": "",
+      "GA_TAG": ""
+    }

@@ -1,0 +1,15 @@
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  labels:
+    {{- include "knative-serving.labels" . | nindent 4 }}
+spec:
+  version: {{ .Chart.AppVersion }}
+  config:
+    domain:
+      {{- toYaml .Values.domain | nindent 6 }}
+    network:
+      autoTLS: Enabled
+    deployment:
+      registriesSkippingTagResolving: kind.local,ko.local,dev.local,knative.registry.svc.cluster.local

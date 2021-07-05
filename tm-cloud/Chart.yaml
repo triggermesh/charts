@@ -1,0 +1,28 @@
+apiVersion: v2
+name: tm-cloud
+description: A Helm chart for on-premise deployments of TriggerMesh cloud infrastructure
+
+type: application
+
+version: 0.1.0
+
+appVersion: "v1.6.0"
+
+dependencies:
+  - name: imagepullsecret-patcher
+    version: 0.1.x
+    condition: imagepullsecret-patcher.enabled
+    tags:
+      - licensing
+  - name: keycloak
+    version: 0.1.x
+    condition: keycloak.enabled
+    tags:
+      - authentication
+  - name: aws-event-sources
+    version: 0.1.7
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: aws-event-sources.enabled
+    tags:
+      - aws
+      - event-sources

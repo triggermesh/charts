@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}
+  labels:
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}

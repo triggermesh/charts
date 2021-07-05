@@ -1,0 +1,259 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.knative-sources.fullname" . }}
+  labels:
+    {{- include "tm-cloud.knative-sources.labels" . | nindent 4 }}
+rules:
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Manage receive-adapters
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+
+# Read Source resources and update their statuses
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - httppollersources
+  - slacksources
+  - webhooksources
+  - zendesksources
+  verbs:
+  - list
+  - watch
+  - get
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - httppollersources/status
+  - slacksources/status
+  - webhooksources/status
+  - zendesksources/status
+  verbs:
+  - update
+
+# Set finalizers
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - zendesksources
+  verbs:
+  - patch
+
+# Manage resource-specific ServiceAccounts and RoleBindings
+- apiGroups:
+  - ''
+  resources:
+  - serviceaccounts
+  verbs:
+  - list
+  - watch
+  - create
+- apiGroups:
+  - ''
+  resources:
+  - serviceaccounts
+  resourceNames:
+  - httppollersource-adapter
+  - slacksource-adapter
+  - webhooksource-adapter
+  - zendesksource-adapter
+  verbs:
+  - update
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  verbs:
+  - list
+  - watch
+  - create
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  resourceNames:
+  - httppollersource-adapter
+  - slacksource-adapter
+  - webhooksource-adapter
+  - zendesksource-adapter
+  verbs:
+  - update
+
+# Read credentials
+- apiGroups:
+  - ''
+  resources:
+  - secrets
+  verbs:
+  - get
+
+# Read controller configurations
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  resourceNames:
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+  verbs:
+  - get
+
+# Acquire leases for leader election
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+
+# Determine the exact reason why Deployments fail
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - list
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: httppollersource-adapter
+  labels:
+    {{- include "tm-cloud.knative-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: slacksource-adapter
+  labels:
+    {{- include "tm-cloud.knative-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: webhooksource-adapter
+  labels:
+    {{- include "tm-cloud.knative-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: zendesksource-adapter
+  labels:
+    {{- include "tm-cloud.knative-sources.labels" . | nindent 4 }}
+rules:
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Read Source resources
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - zendesksources
+  verbs:
+  - list
+  - watch
+
+# Read credentials
+- apiGroups:
+  - ''
+  resources:
+  - secrets
+  verbs:
+  - get
+
+# Acquire leases for leader election
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+
+---
+
+# The role is needed for the aggregated role source-observer in knative-eventing to provide readonly access to "Sources".
+# see https://github.com/knative/eventing/blob/release-0.14/docs/spec/sources.md#source-rbac
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.knative-sources.fullname" . }}-source-observer
+  labels:
+    duck.knative.dev/source: 'true'
+    {{- include "tm-cloud.knative-sources.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - slacksources
+  - zendesksources
+  - webhooksources
+  - httppollersources
+  verbs:
+  - get
+  - list
+  - watch

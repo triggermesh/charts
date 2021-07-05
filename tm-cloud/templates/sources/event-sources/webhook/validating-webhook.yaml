@@ -1,0 +1,16 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validation.webhook.azureventhubsource.sources.triggermesh.io
+  labels:
+    contrib.eventing.knative.dev/release: devel
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+webhooks:
+- name: validation.webhook.azureventhubsource.sources.triggermesh.io
+  admissionReviewVersions:
+  - v1beta1
+  clientConfig:
+    service:
+      name: {{ include "tm-cloud.event-sources.fullname" . }}-webhook
+      namespace: {{ .Release.Namespace }}
+  failurePolicy: Fail

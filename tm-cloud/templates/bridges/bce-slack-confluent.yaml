@@ -1,0 +1,57 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: slack-confluent
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Slack to Confluent
+shortDescription: Forward Slack API events to Confluent.
+fullDescription: >-
+  Listen to Slack events and forward them to a Confluent Kafka cluster for
+  further processing.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: slack
+# Event source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: SlackSource
+  metadata:
+    name: slackevents
+  spec:
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: slack
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: confluent
+  spec:
+    broker: slack
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: ConfluentTarget
+        name: confluent
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: ConfluentTarget
+  metadata:
+    name: confluent
+  spec:
+    topic: ''
+    securityProtocol: SASL_SSL
+    saslMechanism: PLAIN
+    bootstrapServers:
+      - ''
+    username: ''
+    password:
+      secretKeyRef:
+        name: ''
+        key: password

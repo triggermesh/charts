@@ -1,0 +1,32 @@
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeEventing
+metadata:
+  name: knative-eventing
+  labels:
+    {{- include "knative-eventing.labels" . | nindent 4 }}
+spec:
+  version: {{ .Chart.AppVersion }}
+  resources:
+  - container: ingress
+    requests:
+      cpu: 150m
+      memory: 100Mi
+    limits:
+      cpu: '2'
+      memory: 500Mi
+
+  - container: filter
+    requests:
+      cpu: 500m
+      memory: 70Mi
+    limits:
+      cpu: '4'
+      memory: 500Mi
+
+  - container: dispatcher
+    requests:
+      cpu: 200m
+      memory: 250Mi
+    limits:
+      cpu: '4'
+      memory: 1500Mi
