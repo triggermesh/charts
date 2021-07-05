@@ -1,0 +1,69 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: salesforce-elasticsearch
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Salesforce to Elasticsearch
+shortDescription: Send Salesforce events to be indexed at Elasticsearch
+fullDescription: >-
+  This Bridge connects to a Salesforce topic and sends all emited events to be indexed
+  at Elastisearch.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: salesforce-elasticsearch
+# Event source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: SalesforceSource
+  metadata:
+    name: salesforce
+  spec:
+    subscription:
+      channel: /data/ChangeEvents
+      replayID: -1
+    auth:
+      clientID: ''
+      server: https://login.salesforce.com
+      user: ''
+      certKey:
+        valueFromSecret:
+          key: certKey
+          name: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: salesforce-elasticsearch
+# Event Target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: elasticsearch
+  spec:
+    broker: salesforce-elasticsearch
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: ElasticsearchTarget
+        name: elasticsearch
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: ElasticsearchTarget
+  metadata:
+    name: elasticsearch
+  spec:
+    connection:
+      addresses:
+      - ''
+      password:
+        secretKeyRef:
+          key: password
+          name: ''
+      skipVerify: false
+      username: ''
+    discardCloudEventContext: false
+    indexName: ''

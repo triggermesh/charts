@@ -1,0 +1,131 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: oci-datadog
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Oracle Cloud Metrics to Datadog
+shortDescription: Send Oracle Cloud metrics to Datadog
+fullDescription: >-
+  This Bridge polls user-defined metric data from Oracle cloud and sends the
+  metric data to Datadog, allowing the user to create dashboards driven via
+  Oracle Cloud metric data and events.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1beta1
+  kind: Broker
+  metadata:
+    name: oci-datadog
+# Event source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: OCIMetricsSource
+  metadata:
+    name: ocimetrics
+  spec:
+    oracleApiPrivateKey:
+      valueFromSecret:
+        name: ''
+        key: apiKey
+    oracleApiPrivateKeyPassphrase:
+      valueFromSecret:
+        name: ''
+        key: apiPassphrase
+    oracleApiPrivateKeyFingerprint:
+      valueFromSecret:
+        name: ''
+        key: apiKeyFingerprint
+    oracleTenancy: ''
+    oracleUser: ''
+    oracleRegion: ''
+    metrics:
+    - name: cpumetrics
+      metricsNamespace: ''
+      metricsQuery: ''
+      oracleCompartment: ''
+    metricsPollingFrequency: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1beta1
+        kind: Broker
+        name: oci-datadog
+# Transformation Service
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: ocimetrics-datadog
+  spec:
+    broker: oci-datadog
+    filter:
+      attributes:
+        type: com.oracle.cloud.monitoring
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: InfraTarget
+        name: ocimetrics-datadog
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: InfraTarget
+  metadata:
+      name: ocimetrics-datadog
+  spec:
+    script:
+        code: |-
+            function handle(input) {
+              var series = [];
+              var PREFIX= "oci.";
+              input.data.forEach(function(e) {
+                  var resourceGroup = '';
+                  if (typeof e.dimensions.resourceDisplayName != "undefined") {
+                      resourceGroup = e.dimensions.resourceDisplayName;
+                  } else if (typeof e.dimensions.resourceName != "undefined") {
+                      resourceGroup = e.dimensions.resourceName;
+                  } else {
+                      resourceGroup = e.dimensions.resourceId;
+                  }
+                  var points = [];
+                  e.aggregatedDatapoints.forEach(function(p) {
+                      points.push([((new Date(p.timestamp)) / 1000).toString(), p.value.toString()])
+                  });
+                  series.push({
+                      metric: PREFIX + e.name,
+                      host: resourceGroup,
+                      points: points,
+                      type: "gauge",
+                  });
+              });
+              return {
+                  type: "io.triggermesh.datadog.metric.submit",
+                  data: {
+                      series: series,
+                  }
+              };
+            }
+    timeout: 2000
+    typeLoopProtection: true
+# Event Target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: datadog
+  spec:
+    broker: oci-datadog
+    filter:
+      attributes:
+        type: io.triggermesh.datadog.metric.submit
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: DatadogTarget
+        name: datadog
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: DatadogTarget
+  metadata:
+    name: datadog
+  spec:
+   metricPrefix: ''
+   apiKey:
+    secretKeyRef:
+      name: ddapitoken
+      key: apiKey

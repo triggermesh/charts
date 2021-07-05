@@ -1,0 +1,72 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: cron-tektontask
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Execute a Tekton Task/Pipeline on a Schedule
+shortDescription: Use this Bridge to launch the execution of a Tekton Task/Pipeline when you want.
+fullDescription: >-
+  This Bridge triggers the execution of a task on a given schedule. The task
+  called tekton-test prints a welcome message to stdout. You can create any
+  other Task. Configure the source by choosing the schedule that you want the
+  Task to run at and the name of the Task. After submitting the Bridge you will
+  see a task in the task list and on the set schedule that task will be run.
+  Check the stdout in the list of so-called taskruns.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.knative.dev/v1
+  kind: PingSource
+  metadata:
+    name: tekton-schedule
+  spec:
+    schedule: '*/1 * * * *'
+    data: '{"buildtype": "task", "name": "tekton-test", "params": {"greeting": "Hi from Triggermesh EveryBridge!"}}'
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: tekton
+  spec:
+    broker: events
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: TektonTarget
+        name: tekton
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: TektonTarget
+  metadata:
+    name: tekton
+# Bridge dependencies
+- apiVersion: tekton.dev/v1beta1
+  kind: Task
+  metadata:
+    name: tekton-test
+  spec:
+    params:
+    - name: greeting
+      type: string
+      description: Who are we saying hello to
+    steps:
+    - name: first-action
+      image: alpine
+      args:
+      - Hello
+      - world
+      - "$(params.greeting)"
+      command:
+      - echo
+      resources: {}

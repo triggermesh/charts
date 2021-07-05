@@ -1,0 +1,12 @@
+******************************************************************************
+*** PLEASE BE PATIENT: TriggerMesh Cloud may take a few minutes to install ***
+******************************************************************************
+
+Get the TriggerMesh Dashboard URL
+
+{{- if .Values.frontend.ingress.enabled }}
+  http{{ if and .Values.frontend.ingress.enabled .Values.frontend.ingress.tls.enabled }}s{{ end }}://{{ .Values.frontend.ingress.hostname }}
+{{- else }}
+  echo "Visit http://127.0.0.1:8080 to access the Keycloak dashboard"
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ include "tm-cloud.frontend.fullname" . }} 8080
+{{- end }}

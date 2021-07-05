@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tm-cloud.event-sources.fullname" . }}-webhook
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "tm-cloud.event-sources.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: webhook
+  template:
+    metadata:
+      labels:
+        {{- include "tm-cloud.event-sources.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: webhook
+      annotations:
+        sidecar.istio.io/inject: "false"
+        checksum/knative-configs: {{ include (print .Template.BasePath "/knative/configmap.yaml") . | sha256sum }}
+    spec:
+{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
+      serviceAccountName: {{ include "tm-cloud.event-sources.fullname" . }}-webhook
+      containers:
+      - name: azureeventhubsource-webhook
+        image: "{{ .Values.global.image.registry }}/triggermesh-private/azureeventhubsource-webhook:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        terminationMessagePolicy: FallbackToLogsOnError
+        env:
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CONFIG_LOGGING_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+        - name: CONFIG_LEADERELECTION_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+        - name: METRICS_DOMAIN
+          value: triggermesh.io/sources
+        - name: WEBHOOK_NAME
+          value: {{ include "tm-cloud.event-sources.fullname" . }}-webhook
+        ports:
+        - name: https
+          containerPort: 8443
+          protocol: TCP
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        readinessProbe:
+          periodSeconds: 1
+          httpGet:
+            scheme: HTTPS
+            port: https
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: "webhook"
+        livenessProbe:
+          periodSeconds: 1
+          httpGet:
+            scheme: HTTPS
+            port: https
+            httpHeaders:
+            - name: k-kubelet-probe
+              value: "webhook"

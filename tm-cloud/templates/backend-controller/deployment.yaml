@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tm-cloud.backend-controller.fullname" . }}
+  labels:
+    {{- include "tm-cloud.backend-controller.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "tm-cloud.backend-controller.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: controller
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "tm-cloud.backend-controller.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: controller
+      annotations:
+        checksum/knative-configs: {{ include (print .Template.BasePath "/knative/configmap.yaml") . | sha256sum }}
+    spec:
+{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
+      serviceAccountName: {{ include "tm-cloud.backend-controller.fullname" . }}
+      containers:
+      - name: controller
+        image: "{{ .Values.global.image.registry }}/triggermesh-private/backend-controller:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        terminationMessagePolicy: FallbackToLogsOnError
+        securityContext:
+          allowPrivilegeEscalation: false
+        env:
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        # Logging/observability configuration
+        - name: CONFIG_LOGGING_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+        - name: CONFIG_LEADERELECTION_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+        - name: METRICS_DOMAIN
+          value: triggermesh.io
+        ports:
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        - name: profiling
+          containerPort: 8008
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 20m
+            memory: 20Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3

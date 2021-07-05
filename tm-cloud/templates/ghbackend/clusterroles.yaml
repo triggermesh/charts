@@ -1,0 +1,269 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}
+  labels:
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.triggermesh.io/kubernetes-admin: "true"
+  - matchLabels:
+      rbac.triggermesh.io/triggermesh-user: "true"
+rules: []
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-user
+  labels:
+    rbac.triggermesh.io/triggermesh-user: "true"
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.triggermesh.io/sources-admin: "true"
+  - matchLabels:
+      rbac.triggermesh.io/targets-admin: "true"
+  - matchLabels:
+      rbac.triggermesh.io/knative-admin: "true"
+  - matchLabels:
+      rbac.triggermesh.io/tekton-admin: "true"
+  - matchLabels:
+      rbac.triggermesh.io/kubernetes-user: "true"
+  - matchLabels:
+      rbac.triggermesh.io/transformation-admin: "true"
+  - matchLabels:
+      rbac.triggermesh.io/triggermesh-user: "true"
+  - matchLabels:
+      rbac.triggermesh.io/flow-user: "true"
+  - matchLabels:
+      rbac.triggermesh.io/routing-user: "true"
+  - matchLabels:
+      rbac.triggermesh.io/extensions-user: "true"
+
+rules: []
+
+---
+
+# All sources used at eventing
+# not limited to knative but also triggermesh resources
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-all-sources-admin
+  labels:
+    rbac.triggermesh.io/sources-admin: "true"
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - sources.knative.dev
+  - sources.eventing.knative.dev
+  - sources.eventing.triggermesh.dev
+  - sources.triggermesh.io
+  resources: ["*"]
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+  - watch
+
+---
+
+# All targets used at triggermesh eventing
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-all-targets-admin
+  labels:
+    rbac.triggermesh.io/targets-admin: "true"
+rules:
+- apiGroups:
+  - targets.triggermesh.io
+  resources: ["*"]
+  verbs: &all-verbs
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - watch
+- apiGroups:
+  - eventing.knative.dev
+  resources:
+  - kafkasinks
+  verbs: *all-verbs
+
+---
+
+
+# All elements that serve as basis for eventing
+# not limited to Knative but also Triggermesh resources
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-all-knative-admin
+  labels:
+    rbac.triggermesh.io/knative-admin: "true"
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - serving.knative.dev
+  - eventing.knative.dev
+  - messaging.knative.dev
+  - messaging.triggermesh.dev
+  resources:
+  - brokers
+  - channels
+  - configurations
+  - revisions
+  - routes
+  - triggers
+  - subscriptions
+  - services
+  - kinesischannels
+  - inmemorychannels
+  - clusterchannelprovisioners
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+  - watch
+
+---
+
+# All elements that serve as basis for build pipelines
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-tekton-admin
+  labels:
+    rbac.triggermesh.io/tekton-admin: "true"
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - tekton.dev
+  resources:
+  - pipelineresources
+  - pipelineruns
+  - pipelines
+  - taskruns
+  - tasks
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+  - watch
+
+---
+
+# Standard kubernetes objects for Triggermesh users
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-kubernetes-objects-user
+  labels:
+    rbac.triggermesh.io/kubernetes-user: "true"
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  - pods/exec
+  - services
+  - serviceaccounts
+  - secrets
+  - configmaps
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+  - watch
+
+---
+
+# Standard kubernetes objects for Triggermesh admins
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-kubernetes-objects-admin
+  labels:
+    rbac.triggermesh.io/kubernetes-admin: "true"
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - clusterroles
+  - rolebindings
+  - roles
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+# Resources that must be created by the backend in the user namespace
+- apiGroups:
+  - ""
+  resources:
+  - limitranges
+  - resourcequotas
+  verbs:
+  - get
+  - create
+  - update

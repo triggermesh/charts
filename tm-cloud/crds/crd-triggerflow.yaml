@@ -1,0 +1,147 @@
+# Copyright (c) 2020 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: bridges.flow.triggermesh.io
+  labels:
+    knative.dev/crd-install: 'true'
+spec:
+  group: flow.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: Bridge
+    singular: bridge
+    plural: bridges
+    shortNames:
+    - bridge
+    categories:
+    - all
+    - triggermesh
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    subresources:
+      status: {}
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: BridgeSpec holds the desired state of the Bridge components.
+            type: object
+            properties:
+              options:
+                description: Options that apply globaly to all components in the bridge.
+                type: object
+                properties:
+                  defaultResyncPolicy:
+                    type: string
+                    enum: [exists, bridge, always, '']
+                  defaultDeletePolicy:
+                    type: string
+                    enum: [never, bridge, always, '']
+              components:
+                description: Components managed by the Bridge and individual options for each of them.
+                type: array
+                minLength: 1
+                items:
+                  type: object
+                  properties:
+                    options:
+                      description: Options that apply to this component lifecycle.
+                      type: object
+                      properties:
+                        resyncPolicy:
+                          type: string
+                          enum: [exists, bridge, always, '']
+                        deletePolicy:
+                          type: string
+                          enum: [never, bridge, always, '']
+                    object:
+                      description: Kubernetes object to be processed by the Bridge.
+                      type: object
+                      x-kubernetes-preserve-unknown-fields: true
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        metadata:
+                          type: object
+                          x-kubernetes-preserve-unknown-fields: true
+                          properties:
+                            name:
+                              type: string
+                          required:
+                          - name
+                      required:
+                      - apiVersion
+                      - kind
+                      - metadata
+                  required:
+                  - object
+          status:
+            type: object
+            properties:
+              observedGeneration:
+                type: integer
+                format: int64
+              conditions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    status:
+                      type: string
+                      enum: ['True', 'False', Unknown]
+                    severity:
+                      type: string
+                      enum: [Error, Warning, Info]
+                    reason:
+                      type: string
+                    message:
+                      type: string
+                    lastTransitionTime:
+                      type: string
+                      format: date-time
+                  required:
+                  - type
+                  - status
+    additionalPrinterColumns:
+    - name: Ready
+      type: string
+      jsonPath: .status.conditions[?(@.type=='Ready')].status
+    - name: Reason
+      type: string
+      jsonPath: .status.conditions[?(@.type=='Ready')].reason
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp

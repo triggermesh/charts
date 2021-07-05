@@ -1,0 +1,120 @@
+# Copyright (c) 2020 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: awseventbridgetargets.targets.triggermesh.io
+  labels:
+    knative.dev/crd-install: 'true'
+    duck.knative.dev/addressable: 'true'
+spec:
+  group: targets.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: AWSEventBridgeTarget
+    singular: awseventbridgetarget
+    plural: awseventbridgetargets
+    shortNames:
+    - ebt
+    categories:
+    - all
+    - knative
+    - eventing
+    - targets
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    subresources:
+      status: {}
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              accountID:
+                type: string
+                pattern: '^\d{12}$'
+              region:
+                type: string
+                pattern: '^[a-z]{2}(-gov)?-[a-z]+-\d$'
+            required:
+            - accountID
+            - region
+          status:
+            type: object
+            properties:
+              partnerEventSource:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  state:
+                    type: string
+                    enum: [ACTIVE, PENDING, DELETED, '']
+                required:
+                - name
+              observedGeneration:
+                type: integer
+                format: int64
+              conditions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    status:
+                      type: string
+                      enum: ['True', 'False', Unknown]
+                    severity:
+                      type: string
+                      enum: [Error, Warning, Info]
+                    reason:
+                      type: string
+                    message:
+                      type: string
+                    lastTransitionTime:
+                      type: string
+                      format: date-time
+                  required:
+                  - type
+                  - status
+              address:
+                type: object
+                properties:
+                  url:
+                    type: string
+    additionalPrinterColumns:
+    - name: EventSource
+      type: string
+      jsonPath: .status.partnerEventSource.name
+    - name: State
+      type: string
+      jsonPath: .status.partnerEventSource.state
+    - name: URL
+      type: string
+      jsonPath: .status.address.url
+    - name: Ready
+      type: string
+      jsonPath: .status.conditions[?(@.type=='Ready')].status
+    - name: Reason
+      type: string
+      jsonPath: .status.conditions[?(@.type=='Ready')].reason
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp

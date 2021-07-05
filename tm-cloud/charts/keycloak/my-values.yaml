@@ -1,0 +1,16 @@
+admin:
+  password: passw0rd
+
+realm:
+  triggermesh:
+    client_secret: d12cc10e-ac86-44ac-a34b-007c2f4e0dbb
+
+ingress:
+  enabled: true
+  hostname: auth.tm.fuloi.com
+  tls:
+    enabled: true
+
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod

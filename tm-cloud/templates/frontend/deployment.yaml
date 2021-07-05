@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tm-cloud.frontend.fullname" . }}
+  labels:
+    {{- include "tm-cloud.frontend.labels" . | nindent 4 }}
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      {{- include "tm-cloud.frontend.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: dashboard
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "tm-cloud.frontend.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: dashboard
+      annotations:
+        checksum/config: {{ include (print .Template.BasePath "/frontend/configmap.yaml") . | sha256sum }}
+    spec:
+{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
+      serviceAccountName: {{ include "tm-cloud.ghbackend.fullname" . }}
+      containers:
+      - name: dashboard
+        image: "{{ .Values.global.image.registry }}/triggermesh-private/console:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        env:
+        - name: SITE_URL
+{{- if .Values.frontend.ingress.enabled }}
+          value: "http{{ if .Values.frontend.ingress.tls.enabled }}s{{ end }}://{{ .Values.frontend.ingress.hostname }}"
+{{- else }}
+          value: "http://localhost:8080"
+{{- end }}
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/nginx/html/static/envs.json
+          subPath: envs.json
+        - name: vhost
+          mountPath: /etc/nginx/conf.d/
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: http
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "tm-cloud.frontend.fullname" . }}-config
+      - name: vhost
+        configMap:
+          defaultMode: 420
+          name: {{ include "tm-cloud.frontend.fullname" . }}-vhost
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30

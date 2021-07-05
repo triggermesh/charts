@@ -1,0 +1,95 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: sqs-sendgrid
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: AWS SQS to Sendgrid
+shortDescription: Send messages from a SQS queue per email
+fullDescription: >-
+  This Bridge consumes messages from a AWS SQS queue and sends their
+  content per email via SendGrid.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: aws-sqs
+# Event source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: AWSSQSSource
+  metadata:
+    name: sqs
+  spec:
+    arn: ''
+    credentials:
+      accessKeyID:
+        valueFromSecret:
+          key: aws_access_key_id
+          name: ''
+      secretAccessKey:
+        valueFromSecret:
+          key: aws_secret_access_key
+          name: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: aws-sqs
+# Transformation service
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: sqs-sendgrid
+  spec:
+    broker: aws-sqs
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: InfraTarget
+        name: sqs-sendgrid
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: InfraTarget
+  metadata:
+    name: sqs-sendgrid
+  spec:
+    script:
+      code: |-
+        function handle(input) {
+          console.log("got event");
+          input.data.Message = input.data.Body;
+          input.type = "io.triggermesh.sendgrid.email.send";
+          return input;
+        }
+      timeout: 2000
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: sendgrid
+  spec:
+    broker: aws-sqs
+    filter:
+      attributes:
+        type: io.triggermesh.sendgrid.email.send
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: SendGridTarget
+        name: sendgrid
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: SendGridTarget
+  metadata:
+    name: sendgrid
+  spec:
+    apiKey:
+      secretKeyRef:
+        key: apiKey
+        name: ''
+    defaultFromEmail: ''
+    defaultFromName: ''
+    defaultSubject: ''
+    defaultToEmail: ''
+    defaultToName: ''

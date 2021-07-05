@@ -1,0 +1,52 @@
+# backend controller role
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.backend-controller.fullname" . }}
+  labels:
+    {{- include "tm-cloud.backend-controller.labels" . | nindent 4 }}
+rules:
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Read controller configurations and TriggerMesh user resources
+- apiGroups:
+  - ''
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+
+# Read user resources from configmaps
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - update # controller sets finalizer to cleanup resources
+
+# User resources
+- apiGroups:
+  - ''
+  resources:
+  - limitranges
+  - resourcequotas
+  verbs:
+  - get
+  - create
+  - update
+  - delete

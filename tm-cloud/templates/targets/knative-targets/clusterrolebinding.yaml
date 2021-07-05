@@ -1,0 +1,33 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.knative-targets.fullname" . }}
+  labels:
+    {{- include "tm-cloud.knative-targets.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "tm-cloud.knative-targets.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.knative-targets.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+
+---
+
+# Allow the TektonTarget reconciler to grant RBAC permissions referenced by the
+# roleRef to other RoleBindings.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.knative-targets.fullname" . }}-tektontarget
+  labels:
+    {{- include "tm-cloud.knative-targets.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tektontarget-adapter
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.knative-targets.fullname" . }}
+  namespace: {{ .Release.Namespace }}

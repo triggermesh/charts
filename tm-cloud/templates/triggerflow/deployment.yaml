@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tm-cloud.triggerflow.fullname" . }}
+  labels:
+    {{- include "tm-cloud.triggerflow.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "tm-cloud.triggerflow.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: controller
+  template:
+    metadata:
+      labels:
+        {{- include "tm-cloud.triggerflow.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: controller
+      annotations:
+        checksum/config: {{ include (print .Template.BasePath "/triggerflow/configmap.yaml") . | sha256sum }}
+        checksum/knative-configs: {{ include (print .Template.BasePath "/knative/configmap.yaml") . | sha256sum }}
+    spec:
+{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
+      serviceAccountName: {{ include "tm-cloud.triggerflow.fullname" . }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+      containers:
+      - name: controller
+        image: "{{ .Values.global.image.registry }}/triggermesh-private/triggerflow:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        terminationMessagePolicy: FallbackToLogsOnError
+        env:
+        - name: CONFIG_TRIGGERFLOW_NAME
+          value: {{ include "tm-cloud.triggerflow.fullname" . }}
+        - name: SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        # Logging/observability configuration
+        - name: CONFIG_LOGGING_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+        - name: CONFIG_OBSERVABILITY_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+        - name: CONFIG_LEADERELECTION_NAME
+          value: {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+        - name: METRICS_DOMAIN
+          value: triggermesh.io/flows
+        ports:
+        - name: metrics
+          containerPort: 9090
+          protocol: TCP
+        - name: profiling
+          containerPort: 8008
+          protocol: TCP
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 300Mi
+          limits:
+            cpu: 100m
+            memory: 300Mi

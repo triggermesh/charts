@@ -1,0 +1,194 @@
+{{- if .Values.frontend.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "tm-cloud.frontend.fullname" . }}
+  labels:
+    {{- include "tm-cloud.frontend.labels" . | nindent 4 }}
+  {{- with .Values.frontend.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.frontend.ingress.tls.enabled }}
+  tls:
+  - hosts:
+      - {{ .Values.frontend.ingress.hostname }}
+    secretName: {{ include "tm-cloud.frontend.fullname" . }}-tls
+{{- end }}
+  rules:
+  - host: {{ .Values.frontend.ingress.hostname }}
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.frontend.fullname" . }}
+            port:
+              name: http
+      - path: /register
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /pushEvent
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /deregister
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /repos
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /status
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /token
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /ssl-certificate
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /stats
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /lambdas
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /azurefunctions
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /gcpcloudrun
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /events
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /linkprofile
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /healthz
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /tmconfig
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+      - path: /collecttokens
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.ghbackend.fullname" . }}
+            port:
+              name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "tm-cloud.frontend.fullname" . }}-k8s
+  labels:
+    {{- include "tm-cloud.frontend.labels" . | nindent 4 }}
+  annotations:
+  {{- with .Values.frontend.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+spec:
+{{- if .Values.frontend.ingress.tls.enabled }}
+  tls:
+  - hosts:
+      - {{ .Values.frontend.ingress.hostname }}
+    secretName: {{ include "tm-cloud.frontend.fullname" . }}-tls
+{{- end }}
+  rules:
+  - host: {{ .Values.frontend.ingress.hostname }}
+    http:
+      paths:
+      - path: /apis
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.frontend.fullname" . }}-k8s
+            port:
+              number: 443
+      - path: /api
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.frontend.fullname" . }}-k8s
+            port:
+              number: 443
+      - path: /version
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.frontend.fullname" . }}-k8s
+            port:
+              number: 443
+      - path: /openapi
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ include "tm-cloud.frontend.fullname" . }}-k8s
+            port:
+              number: 443
+{{- end }}

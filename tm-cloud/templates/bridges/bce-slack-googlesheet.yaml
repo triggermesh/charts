@@ -1,0 +1,53 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: slack-googlesheet
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: Slack to Google Sheet
+shortDescription: Send received messages from a Slack bot to a Google Sheet document.
+fullDescription: >-
+  Listen to Slack events and forward them to a Google Sheet document for
+  further processing and logging.
+
+components:
+# Event Broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event Source
+- apiVersion: sources.triggermesh.io/v1alpha1
+  kind: SlackSource
+  metadata:
+    name: slack
+  spec:
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event Target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: googlesheet
+  spec:
+    broker: events
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: GoogleSheetTarget
+        name: googlesheet
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: GoogleSheetTarget
+  metadata:
+    name: googlesheet
+  spec:
+    id: ''
+    defaultPrefix: ''
+    googleServiceAccount:
+      secretKeyRef:
+        name: googlesheet
+        key: googleServiceAccount

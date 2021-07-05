@@ -1,0 +1,12 @@
+dependencies:
+- name: imagepullsecret-patcher
+  repository: ""
+  version: 0.1.x
+- name: keycloak
+  repository: ""
+  version: 0.1.x
+- name: aws-event-sources
+  repository: https://storage.googleapis.com/triggermesh-charts
+  version: 0.1.7
+digest: sha256:afbddd78ef2941d7435e2e33ea5aa4f0ee03525a6794512eb1ab2d1d995e7d7e
+generated: "2021-06-24T17:26:55.517868+05:30"
