@@ -1,0 +1,9 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio
+  namespace: {{ .Values.targetNamespace }}
+  labels:
+    {{- include "istio.labels" . | nindent 4 }}
+spec:
+  profile: {{ .Values.profile }}
