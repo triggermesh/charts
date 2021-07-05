@@ -1,9 +1,15 @@
 apiVersion: v2
 name: tekton
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying tekton
 
 type: application
 
-version: 0.1.0
+version: 0.1.1
 
 appVersion: "0.1.0"
+
+dependencies:
+  - name: tekton-operator
+    version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: tekton-operator.enabled

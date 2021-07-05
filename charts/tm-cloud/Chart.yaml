@@ -11,18 +11,22 @@ appVersion: "v1.6.0"
 dependencies:
   - name: imagepullsecret-patcher
     version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
     condition: imagepullsecret-patcher.enabled
     tags:
       - licensing
   - name: keycloak
     version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
     condition: keycloak.enabled
     tags:
       - authentication
   - name: aws-event-sources
-    version: 0.1.7
+    version: 0.1.x
     repository: https://storage.googleapis.com/triggermesh-charts
     condition: aws-event-sources.enabled
     tags:
       - aws
       - event-sources
+
+

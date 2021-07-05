@@ -1,0 +1,6 @@
+dependencies:
+- name: tekton-operator
+  repository: https://storage.googleapis.com/triggermesh-charts
+  version: 0.1.0
+digest: sha256:3fd0bdc196524cf0e5b62f63da33730c5d2e0edfc770fb28021280534e20a6be
+generated: "2021-07-05T16:00:04.981568+05:30"

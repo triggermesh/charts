@@ -1,9 +1,0 @@
-apiVersion: v2
-name: imagepullsecret-patcher
-description: A Helm chart for imagepullsecret-patcher
-
-type: application
-
-version: 0.1.0
-
-appVersion: "v0.14"

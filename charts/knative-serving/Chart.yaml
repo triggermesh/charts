@@ -1,9 +1,15 @@
 apiVersion: v2
 name: knative-serving
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying knative-serving
 
 type: application
 
-version: 0.1.0
+version: 0.1.1
 
 appVersion: "0.23.0"
+
+dependencies:
+  - name: knative-operator
+    version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: knative-operator.enabled

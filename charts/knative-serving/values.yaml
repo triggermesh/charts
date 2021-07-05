@@ -1,1 +1,4 @@
 domain: {}
+
+knative-operator:
+  enabled: false

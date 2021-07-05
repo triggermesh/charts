@@ -1,9 +1,15 @@
 apiVersion: v2
 name: knative-eventing
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying knative-eventing
 
 type: application
 
 version: 0.1.0
 
 appVersion: "0.23.0"
+
+dependencies:
+  - name: knative-operator
+    version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: knative-operator.enabled

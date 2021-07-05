@@ -1,0 +1,2 @@
+knative-operator:
+  enabled: false

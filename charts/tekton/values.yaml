@@ -1,2 +1,5 @@
 profile: all
 targetNamespace: tekton-pipelines
+
+tekton-operator:
+  enabled: false

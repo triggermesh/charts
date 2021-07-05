@@ -1,3 +1,6 @@
 profile: default
 createNamespace: false
 targetNamespace: istio-system
+
+istio-operator:
+  enabled: false
