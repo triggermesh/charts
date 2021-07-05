@@ -1,4 +1,4 @@
-profile: all
+profile: default
 targetNamespace: tekton-pipelines
 
 tekton-operator:
