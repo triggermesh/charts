@@ -46,7 +46,10 @@ jobs:
             helm repo index --merge upstream.yaml --url https://storage.googleapis.com/${GOOGLE_PROJECT_ID}-charts charts-repo/
       - run:
           name: Publishing charts
-          command: gsutil rsync -r charts-repo/  gs://${GOOGLE_PROJECT_ID}-charts/
+          command: |
+            gsutil rsync -r charts-repo/  gs://${GOOGLE_PROJECT_ID}-charts/
+            gsutil -m setmeta -h "Cache-Control:no-cache" gs://${GOOGLE_PROJECT_ID}-charts/*.tgz
+            gsutil -m setmeta -h "Cache-Control:no-cache" gs://${GOOGLE_PROJECT_ID}-charts/index.yaml
 
 workflows:
   build-test-and-publish:
