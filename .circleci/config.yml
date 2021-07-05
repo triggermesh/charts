@@ -1,0 +1,73 @@
+version: 2.1
+
+orbs:
+  helm: circleci/helm@1
+  gcp-cli: circleci/gcp-cli@1
+
+jobs:
+  checkout:
+    executor:
+      name: gcp-cli/google
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+
+  lint:
+    executor:
+      name: gcp-cli/google
+    steps:
+      - attach_workspace:
+          at: ~/
+      - helm/install-helm-client:
+          version: v3.2.4
+      - run:
+          name: Lint charts
+          command: helm lint charts/*
+
+  publish:
+    executor:
+      name: gcp-cli/google
+    steps:
+      - attach_workspace:
+          at: ~/
+      - gcp-cli/initialize
+      - helm/install-helm-client:
+          version: v3.2.4
+      - run:
+          name: Packaging charts
+          command: helm package charts/* -d charts-repo/
+      - run:
+          name: Generating repository index
+          command: |
+            gsutil cp gs://${GOOGLE_PROJECT_ID}-charts/index.yaml upstream.yaml
+            helm repo index --merge upstream.yaml --url https://storage.googleapis.com/${GOOGLE_PROJECT_ID}-charts charts-repo/
+      - run:
+          name: Publishing charts
+          command: gsutil rsync -r charts-repo/  gs://${GOOGLE_PROJECT_ID}-charts/
+
+workflows:
+  build-test-and-publish:
+    jobs:
+      - checkout:
+          filters:
+            tags:
+              only: /^v([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
+      - lint:
+          context: production
+          requires:
+            - checkout
+          filters:
+            tags:
+              only: /^v([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
+      - publish:
+          context: production
+          requires:
+            - lint
+          filters:
+            tags:
+              only: /^v([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
+            branches:
+              only: master
