@@ -1,0 +1,9 @@
+apiVersion: operator.tekton.dev/v1alpha1
+kind: TektonConfig
+metadata:
+  name: config
+  labels:
+    {{- include "tekton.labels" . | nindent 4 }}
+spec:
+  profile: {{ .Values.profile }}
+  targetNamespace: {{ .Values.targetNamespace }}
