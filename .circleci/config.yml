@@ -38,7 +38,7 @@ jobs:
           version: v3.2.4
       - run:
           name: Packaging charts
-          command: helm package charts/* -d charts-repo/
+          command: helm package -u charts/* -d charts-repo/
       - run:
           name: Generating repository index
           command: |
