@@ -1,0 +1,57 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: cron-sockeye
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+  annotations:
+    web.cloud.triggermesh.io/priority: '0'
+
+title: Your first Bridge
+shortDescription: Use this Bridge to say Hello on a schedule.
+fullDescription: >-
+  This Bridge will send JSON data on a given schedule to the Sockeye
+  application. Set your desired schedule and desired JSON data in the source
+  configuration. Submit the Bridge. Once the Bridge is ready, you can open the
+  URL to the Sockeye application and you will see your events flow.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.knative.dev/v1
+  kind: PingSource
+  metadata:
+    name: hello
+  spec:
+    data: '{ "hello": "world" }'
+    schedule: '*/1 * * * *'
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event target
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: sockeye
+  spec:
+    broker: events
+    subscriber:
+      ref:
+        apiVersion: serving.knative.dev/v1
+        kind: Service
+        name: sockeye
+- apiVersion: serving.knative.dev/v1
+  kind: Service
+  metadata:
+    name: sockeye
+  spec:
+    template:
+      spec:
+        containers:
+        - image: docker.io/n3wscott/sockeye:v0.7.0@sha256:e603d8494eeacce966e57f8f508e4c4f6bebc71d095e3f5a0a1abaf42c5f0e48

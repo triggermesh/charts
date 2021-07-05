@@ -1,0 +1,48 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  image:
+    registry: "gcr.io"
+    tag: ""
+    pullPolicy: "IfNotPresent"
+    pullSecrets: []
+
+frontend:
+  ingress:
+    enabled: false
+    hostname: chart-example.local
+    tls:
+      enabled: false
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+imagepullsecret-patcher:
+  enabled: true
+  imagePullSecretName: triggermesh-image-pull-secret
+  excludedNamespaces: "kube-system"
+
+keycloak:
+  enabled: true
+
+  admin:
+    username: admin
+    password: password
+
+  ingress:
+    enabled: false
+    hostname: chart-example.local
+
+  realm:
+    triggermesh:
+      client_secret:
+
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 2Gi
+
+aws-event-sources:
+  enabled: true

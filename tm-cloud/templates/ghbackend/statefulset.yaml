@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "tm-cloud.ghbackend.fullname" . }}
+  labels:
+    {{- include "tm-cloud.ghbackend.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "tm-cloud.ghbackend.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: controller
+  serviceName: {{ template "tm-cloud.ghbackend.fullname" . }}
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "tm-cloud.ghbackend.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: controller
+    spec:
+{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
+      serviceAccountName: {{ include "tm-cloud.ghbackend.fullname" . }}
+      containers:
+      - name: controller
+        image: "{{ .Values.global.image.registry }}/triggermesh-private/gh-backend:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        env:
+        - name: BASE_URL
+{{- if .Values.frontend.ingress.enabled }}
+          value: http{{ if .Values.frontend.ingress.tls.enabled }}s{{ end }}://{{ .Values.frontend.ingress.hostname }}
+{{- else }}
+          value: http://localhost:8080
+{{- end }}
+        - name: TM_ROLE_NAME
+          value: {{ include "tm-cloud.ghbackend.fullname" . }}-triggermesh-user
+        - name: TM_NAMESPACE
+          value: {{ .Release.Namespace }}
+{{- if .Values.keycloak.enabled }}
+        - name: KEYCLOAK_URL
+          value: http://{{ include "tm-cloud.keycloak.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:8080
+        - name: KEYCLOAK_REALM
+          value: triggermesh
+        - name: AUTH_SECRET_NAME
+          value: {{ include "tm-cloud.keycloak.fullname" . }}-auth-token
+{{- end }}
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /root/triggermesh
+          name: datadir
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: datadir
+      terminationGracePeriodSeconds: 60
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      labels:
+        {{- include "tm-cloud.ghbackend.labels" . | nindent 10 }}
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi

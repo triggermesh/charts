@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tm-cloud.transformation.fullname" . }}
+  labels:
+    {{- include "tm-cloud.transformation.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "tm-cloud.transformation.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: {{ include "tm-cloud.transformation.fullname" . }}

@@ -1,0 +1,74 @@
+apiVersion: flow.triggermesh.io/v1alpha1
+kind: BridgeCatalogEntry
+metadata:
+  name: gitlab-lambda
+  labels:
+    {{- include "tm-cloud.bridgecatalogentries.labels" . | nindent 4 }}
+
+title: GitLab to AWS Lambda
+shortDescription: Invoke an AWS Lambda function when an event happens in your GitLab repository.
+fullDescription: >-
+  This Bridge configures a GitLab event source to receive events from GitLab
+  when a particular event happens in a repository, then the event is used to
+  trigger the execution of a function in AWS Lambda. The AWS Lambda that gets
+  executed is defined by its ARN. You will need to store the proper AWS API
+  credentials in a secret for this Bridge to run.
+
+components:
+# Event broker
+- apiVersion: eventing.knative.dev/v1
+  kind: Broker
+  metadata:
+    name: events
+# Event source
+- apiVersion: sources.knative.dev/v1alpha1
+  kind: GitLabSource
+  metadata:
+    name: gitlab
+  spec:
+    accessToken:
+      secretKeyRef:
+        key: accessToken
+        name: ''
+    eventTypes:
+    - push_events
+    projectUrl: ''
+    secretToken:
+      secretKeyRef:
+        key: secretToken
+        name: ''
+    sink:
+      ref:
+        apiVersion: eventing.knative.dev/v1
+        kind: Broker
+        name: events
+# Event Target
+- apiVersion: targets.triggermesh.io/v1alpha1
+  kind: AWSLambdaTarget
+  metadata:
+    name: lambda
+  spec:
+    arn: ''
+    awsApiKey:
+      secretKeyRef:
+        name: ''
+        key: aws_access_key_id
+    awsApiSecret:
+      secretKeyRef:
+        name: ''
+        key: aws_secret_access_key
+# Event Trigger
+- apiVersion: eventing.knative.dev/v1
+  kind: Trigger
+  metadata:
+    name: lambda
+  spec:
+    broker: events
+    filter:
+      attributes:
+        type: dev.knative.sources.gitlab.push
+    subscriber:
+      ref:
+        apiVersion: targets.triggermesh.io/v1alpha1
+        kind: AWSLambdaTarget
+        name: lambda

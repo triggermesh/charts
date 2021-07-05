@@ -1,0 +1,270 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.event-sources.fullname" . }}
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules:
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Manage receive-adapters
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+
+# Read Source resources and update their statuses
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - azureactivitylogssources
+  - azureblobstoragesources
+  - azureeventhubsources
+  - googlecloudpubsubsources
+  - ocimetricssources
+  - salesforcesources
+  - twiliosources
+  verbs:
+  - list
+  - watch
+  - get
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - azureactivitylogssources/status
+  - azureblobstoragesources/status
+  - azureeventhubsources/status
+  - googlecloudpubsubsources/status
+  - ocimetricssources/status
+  - salesforcesources/status
+  - twiliosources/status
+  verbs:
+  - update
+
+# Set finalizers
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - azureactivitylogssources
+  - azureblobstoragesources
+  - googlecloudpubsubsources
+  verbs:
+  - patch
+
+# Manage resource-specific ServiceAccounts and RoleBindings
+- apiGroups:
+  - ''
+  resources:
+  - serviceaccounts
+  verbs:
+  - list
+  - watch
+  - create
+- apiGroups:
+  - ''
+  resources:
+  - serviceaccounts
+  resourceNames:
+  - azureactivitylogssource-adapter
+  - azureblobstoragesource-adapter
+  - azureeventhubsource-adapter
+  - googlecloudpubsubsource-adapter
+  - ocimetricssource-adapter
+  - salesforcesource-adapter
+  - twiliosource-adapter
+  verbs:
+  - update
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  verbs:
+  - list
+  - watch
+  - create
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  resourceNames:
+  - azureactivitylogssource-adapter
+  - azureblobstoragesource-adapter
+  - azureeventhubsource-adapter
+  - googlecloudpubsubsource-adapter
+  - googlecloudstoragesource-adapter
+  - ocimetricssource-adapter
+  - salesforcesource-adapter
+  - twiliosource-adapter
+  verbs:
+  - update
+
+# Read credentials
+- apiGroups:
+  - ''
+  resources:
+  - secrets
+  verbs:
+  - get
+
+# Read controller configurations
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  resourceNames:
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+  verbs:
+  - get
+
+# Acquire leases for leader election
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+
+# Determine the exact reason why Deployments fail
+- apiGroups:
+  - ''
+  resources:
+  - pods
+  verbs:
+  - list
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azureactivitylogssource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azureblobstoragesource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: azureeventhubsource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: googlecloudpubsubsource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ocimetricssource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: salesforcesource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: twiliosource-adapter
+  labels:
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules: []
+
+---
+
+# The role is needed for the aggregated role source-observer in knative-eventing to provide readonly access to "Sources".
+# see https://github.com/knative/eventing/blob/release-0.14/docs/spec/sources.md#source-rbac
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.event-sources.fullname" . }}-source-observer
+  labels:
+    duck.knative.dev/source: 'true'
+    {{- include "tm-cloud.event-sources.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - sources.triggermesh.io
+  resources:
+  - azureactivitylogssources
+  - azureblobstoragesources
+  - azureeventhubsources
+  - googlecloudpubsubsources
+  - ocimetricssources
+  - salesforcesources
+  - twiliosources
+  verbs:
+  - get
+  - list
+  - watch

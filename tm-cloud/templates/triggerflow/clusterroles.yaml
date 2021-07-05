@@ -1,0 +1,157 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.triggerflow.fullname" . }}
+  labels:
+    {{- include "tm-cloud.triggerflow.labels" . | nindent 4 }}
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      # flow core objects
+      rbac.triggermesh.io/flow-controller: "true"
+  - matchLabels:
+      # knative core objects
+      rbac.triggermesh.io/knative-admin: "true"
+  - matchLabels:
+      # knative sources
+      rbac.triggermesh.io/sources-admin: "true"
+  - matchLabels:
+      # knative targets
+      rbac.triggermesh.io/targets-admin: "true"
+  - matchLabels:
+      # tekton objects
+      rbac.triggermesh.io/tekton-admin: "true"
+  - matchLabels:
+      # transformation core objects
+      rbac.triggermesh.io/transformation-admin: "true"
+  - matchLabels:
+      # router objects
+      rbac.triggermesh.io/router-admin: "true"
+  - matchLabels:
+      # kubernetes core objects
+      rbac.triggermesh.io/kubernetes-objects-triggerflow: "true"
+rules: []
+
+---
+
+# Triggermesh specific resources for flows
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.triggerflow.fullname" . }}-flow-controller
+  labels:
+    rbac.triggermesh.io/flow-controller: "true"
+    {{- include "tm-cloud.triggerflow.labels" . | nindent 4 }}
+rules:
+
+# Manage bridges
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - bridges
+  verbs:
+  - get
+  - list
+  - watch
+  - patch  # set finalizers
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - bridges/status
+  verbs:
+  - update
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Read controller configurations
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  resourceNames:
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+  verbs:
+  - get
+
+# Knative's sharedmain method supports leader election via coordination lease mechanism.
+# This role is needed to let controller work with lease resources.
+# https://docs.google.com/document/d/1zHtVjVmzivO2PEhZkpqNo-M9cPnmfvBWMYzP8ehVXtM/edit#
+# https://github.com/knative/pkg/pull/1019
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+---
+
+# Kubernetes core resources managed at bridges
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.triggerflow.fullname" . }}-triggermesh-kubernetes-objects
+  labels:
+    rbac.triggermesh.io/kubernetes-objects-triggerflow: "true"
+    {{- include "tm-cloud.triggerflow.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - watch
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "tm-cloud.triggerflow.fullname" . }}-triggermesh-flow-user
+  labels:
+    rbac.triggermesh.io/flow-user: "true"
+    {{- include "tm-cloud.triggerflow.labels" . | nindent 4 }}
+rules:
+
+# Manage bridges
+- apiGroups:
+  - flow.triggermesh.io
+  resources:
+  - bridges
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
