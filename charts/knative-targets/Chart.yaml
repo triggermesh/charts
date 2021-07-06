@@ -1,0 +1,9 @@
+apiVersion: v2
+name: knative-targets
+description: A Helm chart for deploying knative-targets
+
+type: application
+
+version: 0.1.0
+
+appVersion: "v0.23.0"
