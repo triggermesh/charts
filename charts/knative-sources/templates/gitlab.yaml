@@ -1,0 +1,586 @@
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-controller-manager
+  namespace: {{ .Release.Namespace }}
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-webhook
+  namespace: {{ .Release.Namespace }}
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+
+---
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitlabsource-manager-role
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+rules:
+  - apiGroups:
+      - sources.knative.dev
+    resources:
+      - gitlabsources
+    verbs: &everything
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - sources.knative.dev
+    resources:
+      - gitlabsources/status
+    verbs:
+      - get
+      - update
+      - patch
+  - apiGroups:
+      - sources.knative.dev
+    resources:
+      - gitlabsources/finalizers
+    verbs: *everything
+  - apiGroups:
+      - serving.knative.dev
+    resources:
+      - services
+    verbs: *everything
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+      # Webhook controller needs it to update certs in secret
+      - update
+  # Deployments admin
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs: *everything
+  # Events admin
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - configmaps
+    verbs: *everything
+  # Acquire leases for leader election
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - create
+      - update
+---
+# The role is needed for the aggregated role source-observer in knative-eventing to provide readonly access to "Sources".
+# See https://knative.dev/eventing/blob/master/config/200-source-observer-clusterrole.yaml.
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: eventing-contrib-gitlab-source-observer
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+    duck.knative.dev/source: "true"
+rules:
+  - apiGroups:
+      - "sources.knative.dev"
+    resources:
+      - "gitlabsources"
+    verbs:
+      - get
+      - list
+      - watch
+
+---
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitlabsource-manager-rolebinding
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gitlabsource-manager-role
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-controller-manager
+    namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eventing-sources-gitlab-addressable-resolver
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-controller-manager
+    namespace: {{ .Release.Namespace }}
+# An aggregated ClusterRole for all Addressable CRDs.
+# Ref: https://github.com/knative/eventing/tree/master/config/core/rolesaddressable-resolvers-clusterrole.yaml
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: addressable-resolver
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eventing-sources-gitlab-webhook
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-webhook
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gitlab-webhook
+
+---
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitlab-webhook
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+rules:
+  # Sources admin
+  - apiGroups:
+      - sources.knative.dev
+    resources:
+      - gitlabsources
+    verbs: &everything
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  # Sources finalizer
+  - apiGroups:
+      - sources.knative.dev
+    resources:
+      - gitlabsources/finalizers
+    verbs: *everything
+  # Source statuses update
+  - apiGroups:
+      - sources.knative.dev
+    resources:
+      - gitlabsources/status
+    verbs:
+      - get
+      - update
+      - patch
+  # Deployments admin
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs: *everything
+  # Knative Services admin
+  - apiGroups:
+      - serving.knative.dev
+    resources:
+      - services
+    verbs: *everything
+  # Secrets read
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+  # Events admin
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - configmaps
+    verbs: *everything
+  # EventTypes admin
+  - apiGroups:
+      - eventing.knative.dev
+    resources:
+      - eventtypes
+    verbs: *everything
+  # For manipulating certs into secrets.
+  - apiGroups:
+      - ""
+    resources:
+      - "secrets"
+    verbs:
+      - "get"
+      - "create"
+      - "update"
+      - "list"
+      - "watch"
+  # Namespace labelling for webhook
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - create
+      - update
+      - list
+      - watch
+      - patch
+  # For actually registering our webhook.
+  - apiGroups:
+      - "admissionregistration.k8s.io"
+    resources:
+      - "mutatingwebhookconfigurations"
+      - "validatingwebhookconfigurations"
+    verbs: *everything
+  # Bindings admin
+  - apiGroups:
+      - bindings.knative.dev
+    resources:
+      - gitlabbindings
+    verbs: &everything
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  # Bindings finalizer
+  - apiGroups:
+      - bindings.knative.dev
+    resources:
+      - gitlabbindings/finalizers
+    verbs: *everything
+  # Source statuses update
+  - apiGroups:
+      - bindings.knative.dev
+    resources:
+      - gitlabbindings/status
+    verbs:
+      - get
+      - update
+      - patch
+      # For leader election
+  - apiGroups:
+      - "coordination.k8s.io"
+    resources:
+      - "leases"
+    verbs: *everything
+
+---
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+    control-plane: gitlab-controller-manager
+  name: gitlab-controller-manager-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+    - name: https-gitlab
+      port: 443
+      targetPort: 8443
+  selector:
+    control-plane: gitlab-controller-manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+    control-plane: gitlab-controller-manager
+  name: gitlab-controller-manager
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      control-plane: gitlab-controller-manager
+  template:
+    metadata:
+      labels:
+        control-plane: gitlab-controller-manager
+    spec:
+      serviceAccountName: gitlab-controller-manager
+      containers:
+        - name: manager
+          env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: CONFIG_OBSERVABILITY_NAME
+              value: config-observability
+            - name: METRICS_DOMAIN
+              value: knative.dev/sources
+            - name: GL_RA_IMAGE
+              value: gcr.io/knative-releases/knative.dev/eventing-gitlab/cmd/receive_adapter@sha256:e1b5cd12c2e4f38e9583b12de69978ccc7bcecb89f9853557779dec7b9e10f69
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          image: gcr.io/knative-releases/knative.dev/eventing-gitlab/cmd/controller@sha256:85222f07881c1560b4af009af4306a8098dd9813d8ab7c20d313a8567b1bead5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 30Mi
+            requests:
+              cpu: 100m
+              memory: 20Mi
+      terminationGracePeriodSeconds: 10
+
+---
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: defaulting.webhook.gitlab.sources.knative.dev
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+webhooks:
+  - admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: gitlab-webhook
+        namespace: {{ .Release.Namespace }}
+    sideEffects: None
+    failurePolicy: Fail
+    name: defaulting.webhook.gitlab.sources.knative.dev
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validation.webhook.gitlab.sources.knative.dev
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+webhooks:
+  - admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: gitlab-webhook
+        namespace: {{ .Release.Namespace }}
+    sideEffects: None
+    failurePolicy: Fail
+    name: validation.webhook.gitlab.sources.knative.dev
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: gitlabbindings.webhook.gitlab.sources.knative.dev
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+webhooks:
+  - admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: gitlab-webhook
+        namespace: {{ .Release.Namespace }}
+    sideEffects: None
+    failurePolicy: Fail
+    name: gitlabbindings.webhook.gitlab.sources.knative.dev
+
+---
+# Copyright 2020 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-webhook-certs
+  namespace: {{ .Release.Namespace }}
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+# The data is populated at install time.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+    role: webhook
+  name: gitlab-webhook
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+    - name: https-webhook
+      port: 443
+      targetPort: 8443
+  selector:
+    role: gitlab-webhook
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab-webhook
+  namespace: {{ .Release.Namespace }}
+  labels:
+    contrib.eventing.knative.dev/release: "v0.23.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels: &labels
+      app: gitlab-webhook
+      role: gitlab-webhook
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      serviceAccountName: gitlab-webhook
+      containers:
+        - name: gitlab-webhook
+          terminationMessagePolicy: FallbackToLogsOnError
+          image: gcr.io/knative-releases/knative.dev/eventing-gitlab/cmd/webhook@sha256:cc2861212b6c62940210ea260b5733e2df9ca34a041ce02a8d28a8926709bf3d
+          env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: METRICS_DOMAIN
+              value: knative.dev/eventing
+            - name: WEBHOOK_NAME
+              value: gitlab-webhook
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - containerPort: 9090
+              name: metrics
+          # TODO set proper resource limits.
+
+          readinessProbe: &probe
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "webhook"
+          livenessProbe:
+            !!merge <<: *probe
+            initialDelaySeconds: 20
+
+---

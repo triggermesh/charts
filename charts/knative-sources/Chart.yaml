@@ -1,0 +1,9 @@
+apiVersion: v2
+name: knative-sources
+description: A Helm chart for deploying knative-sources
+
+type: application
+
+version: 0.1.0
+
+appVersion: "v0.23.0"
