@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: gcr.io/knative-releases/knative.dev/operator/cmd/operator@sha256:7debfa4d2ebc0ea53463f2d0f5e0144a9ed0a8f60c54fd98bec1835906aa59f3
+  repository: gcr.io/knative-releases/knative.dev/operator/cmd/operator@sha256:21c3426aa7fb67566193b9d33aadceb167e347bbad876d3bf5e63c8270f6ff20
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

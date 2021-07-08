@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   name: knativeeventings.operator.knative.dev
   labels:
-    operator.knative.dev/release: "v0.23.0"
+    operator.knative.dev/release: "v0.24.0"
 spec:
   group: operator.knative.dev
   versions:
@@ -77,6 +77,69 @@ spec:
                         description: The number of replicas that HA parts of the control plane will be scaled to
                         type: integer
                         minimum: 1
+                      nodeSelector:
+                        additionalProperties:
+                          type: string
+                        description: NodeSelector overrides nodeSelector for the deployment.
+                        type: object
+                source:
+                  description: The source configuration for Knative Eventing
+                  properties:
+                    ceph:
+                      description: Ceph settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    couchdb:
+                      description: Apache CouchDB settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    github:
+                      description: GitHub settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    gitlab:
+                      description: GitLab settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    kafka:
+                      description: Apache Kafka settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    natss:
+                      description: NATS Streaming settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    prometheus:
+                      description: Prometheus settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    rabbitmq:
+                      description: RabbitMQ settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    redis:
+                      description: Redis settings
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                  type: object
                 manifests:
                   description: A list of eventing manifests, which will be installed by the operator
                   items:
@@ -234,7 +297,7 @@ kind: CustomResourceDefinition
 metadata:
   name: knativeservings.operator.knative.dev
   labels:
-    operator.knative.dev/release: "v0.23.0"
+    operator.knative.dev/release: "v0.24.0"
 spec:
   group: operator.knative.dev
   versions:
@@ -328,6 +391,11 @@ spec:
                         description: The number of replicas that HA parts of the control plane will be scaled to
                         type: integer
                         minimum: 1
+                      nodeSelector:
+                        additionalProperties:
+                          type: string
+                        description: NodeSelector overrides nodeSelector for the deployment.
+                        type: object
                 ingress:
                   description: The ingress configuration for Knative Serving
                   properties:
