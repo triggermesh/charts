@@ -4,9 +4,9 @@ description: A Helm chart for on-premise deployments of TriggerMesh cloud infras
 
 type: application
 
-version: 0.1.0
+version: 0.1.1
 
-appVersion: "v1.6.0"
+appVersion: "v1.7.0"
 
 dependencies:
   - name: imagepullsecret-patcher

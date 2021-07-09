@@ -24,11 +24,11 @@ spec:
   names:
     kind: BridgeCatalogEntry
     plural: bridgecatalogentries
-    shortNames:
-    - bce
     categories:
     - all
     - triggermesh
+    shortNames:
+    - bce
   versions:
   - name: v1alpha1
     served: true
