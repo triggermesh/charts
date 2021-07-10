@@ -122,8 +122,6 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
-      labels:
-        {{- include "keycloak.labels" . | nindent 10 }}
     {{- if .Values.persistence.annotations }}
       annotations:
     {{ toYaml .Values.persistence.annotations | indent 10 }}
