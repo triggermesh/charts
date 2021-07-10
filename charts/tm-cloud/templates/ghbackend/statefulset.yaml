@@ -74,8 +74,6 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
-      labels:
-        {{- include "tm-cloud.ghbackend.labels" . | nindent 10 }}
     spec:
       accessModes:
         - ReadWriteOnce
