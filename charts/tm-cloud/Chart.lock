@@ -4,9 +4,9 @@ dependencies:
   version: 0.1.0
 - name: keycloak
   repository: https://storage.googleapis.com/triggermesh-charts
-  version: 0.1.0
+  version: 0.1.1
 - name: aws-event-sources
   repository: https://storage.googleapis.com/triggermesh-charts
-  version: 0.1.7
-digest: sha256:3451a586b1f0f6af37d54afc63f6d7a8865f47cb1d068ed2a51839c41f8969d9
-generated: "2021-07-05T16:29:50.715247+05:30"
+  version: 0.1.8
+digest: sha256:2d55fe48d332043fe9f6c51f57f7d9541ada62117351fdb3402ef9de5379336e
+generated: "2021-07-12T09:53:36.31063+05:30"
