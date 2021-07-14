@@ -7,3 +7,35 @@ metadata:
     {{- include "istio.labels" . | nindent 4 }}
 spec:
   profile: {{ .Values.profile }}
+  components:
+    pilot:
+      enabled: {{ .Values.pilot.enabled }}
+      k8s:
+        {{- with .Values.pilot.nodeSelector }}
+        nodeSelector:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.pilot.affinity }}
+        affinity:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.pilot.tolerations }}
+        tolerations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: {{ .Values.ingressGateways.enabled }}
+      k8s:
+        {{- with .Values.ingressGateways.nodeSelector }}
+        nodeSelector:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.ingressGateways.affinity }}
+        affinity:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.ingressGateways.tolerations }}
+        tolerations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
