@@ -1,5 +1,8 @@
+enableTekton: true
+
 profile: default
 targetNamespace: tekton-pipelines
 
 tekton-operator:
   enabled: false
+  createNamespace: true
