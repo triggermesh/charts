@@ -1,3 +1,4 @@
+enableIstio: true
 profile: default
 createNamespace: false
 targetNamespace: istio-system
@@ -16,3 +17,4 @@ ingressGateways:
 
 istio-operator:
   enabled: false
+  createNamespace: true
