@@ -1,4 +1,10 @@
 domain: {}
 
+tls:
+  enabled: true
+  clusterIssuer: letsencrypt-dns-issuer
+  nscert:
+    enabled: true
+
 knative-operator:
   enabled: false
