@@ -1,0 +1,10 @@
+************************************************************
+*** PLEASE BE PATIENT: Knative Serving is being deployed ***
+************************************************************
+
+{{- if .Values.tls.enabled }}
+  Knative Serving is configured with autoTLS support enabled.
+  Please ensure the cert-manager ClusterIssuer for DNS-01 challenge named {{ .Values.tls.clusterIssuer }} exists.
+
+  Refer to https://knative.dev/docs/serving/using-auto-tls/#clusterissuer-for-dns-01-challenge for more information.
+{{- end }}
