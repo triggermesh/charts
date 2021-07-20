@@ -37,7 +37,8 @@ keycloak:
 
   realm:
     triggermesh:
-      client_secret:
+      # client_secret:
+      registrationAllowed: true
 
   persistence:
     enabled: true
