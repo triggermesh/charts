@@ -7,6 +7,7 @@ realm:
   triggermesh:
     client_id: triggermesh
     client_secret:
+    registrationAllowed: true
 
 image:
   repository: jboss/keycloak

@@ -28,7 +28,7 @@ data:
     "actionTokenGeneratedByUserLifespan": 300,
     "enabled": true,
     "sslRequired": "{{ if and .Values.ingress.enabled .Values.ingress.tls.enabled }}external{{else}}none{{ end }}",
-    "registrationAllowed": true,
+    "registrationAllowed": {{ .Values.realm.triggermesh.registrationAllowed }},
     "registrationEmailAsUsername": false,
     "rememberMe": false,
     "verifyEmail": false,
