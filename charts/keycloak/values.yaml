@@ -6,7 +6,7 @@ admin:
 realm:
   triggermesh:
     client_id: triggermesh
-    client_secret:
+    # client_secret:
     registrationAllowed: true
 
 image:
