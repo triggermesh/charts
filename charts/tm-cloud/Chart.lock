@@ -7,6 +7,6 @@ dependencies:
   version: 0.1.4
 - name: aws-event-sources
   repository: https://storage.googleapis.com/triggermesh-charts
-  version: 0.1.8
-digest: sha256:07fe8272eedd2691899cfe212e0bf2068d37f2adcefba0ef5860efe449f565c8
-generated: "2021-07-20T10:25:58.593372+05:30"
+  version: 0.1.9
+digest: sha256:8c303b01c000b77cd4cf75aeab25ec74828f919c1da0b61deea4331083bb15ff
+generated: "2021-08-12T13:18:29.578376+05:30"
