@@ -2,13 +2,17 @@
 
 Installs TriggerMesh AWS event sources controller. The following event sources are currently supported by the controller
 
+- Amazon CloudWatch (`kind: AWSCloudWatchSource`)
+- Amazon CloudWatch Logs (`kind: AWSCloudWatchLogsSource`)
 - Amazon CodeCommit (`kind: AWSCodeCommitSource`)
 - Amazon Cognito Identity (`kind: AWSCognitoIdentitySource`)
 - Amazon Cognito UserPool (`kind: AWSCognitoUserPoolSource`)
 - Amazon DynamoDB (`kind: AWSDynamoDBSource`)
 - Amazon Kinesis (`kind: AWSKinesisSource`)
-- Amazon Simple Notification Service (`kind: AWSSNSSource`)
-- Amazon Simple Queue Service (`kind: AWSSQSSource`)
+- Amazon Performance Insights (`kind: AWSPerformanceInsightsSource`)
+- Amazon S3 (`kind: AWSS3Source`)
+- Amazon SNS (`kind: AWSSNSSource`)
+- Amazon SQS (`kind: AWSSQSSource`)
 
 Refer to [aws-event-sources/config/samples](https://github.com/triggermesh/aws-event-sources/tree/master/config/samples) for examples that make use of the controller.
 
