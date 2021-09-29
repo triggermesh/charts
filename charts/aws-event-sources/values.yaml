@@ -15,7 +15,7 @@ imagePullSecrets: []
 image:
   registry: gcr.io
   repository: triggermesh/aws-event-sources-controller
-  tag: v1.7.0
+  tag: v1.9.0
   pullPolicy: IfNotPresent
 
 adapters:
