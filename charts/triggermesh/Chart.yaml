@@ -1,0 +1,9 @@
+apiVersion: v2
+name: triggermesh
+description: A Helm chart deploying TriggerMesh Open Source Components
+
+type: application
+
+version: 0.1.0
+
+appVersion: "v1.10.1-rc1"
