@@ -105,10 +105,20 @@ spec:
         # Target adapters
         - name: ALIBABAOSS_ADAPTER_IMAGE
           value: "gcr.io/triggermesh/alibabaosstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        - name: AWS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awstargets-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_COMPREHEND_ADAPTER_IMAGE
           value: "gcr.io/triggermesh/awscomprehendtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AWS_DYNAMODB_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/awsdynamodbtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AWS_KINESIS_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/awskinesistarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AWS_LAMBDA_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/awslambdatarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AWS_S3_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/awss3target-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AWS_SNS_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/awssnstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AWS_SQS_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/awssqstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: CONFLUENT_ADAPTER_IMAGE
           value: "gcr.io/triggermesh/confluenttarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: DATADOGTARGET_IMAGE
