@@ -5,6 +5,7 @@ metadata:
   namespace: {{.Values.operatorNamespace}}
   labels:
     operator.tekton.dev/release: devel
+    {{- include "tekton-operator.labels" . | nindent 4 }}
 data:
   _example: |
     ################################

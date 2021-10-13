@@ -21,22 +21,10 @@ spec:
       labels:
         {{- include "tekton-operator.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "tekton-operator.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: operator
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
+        - env:
             - name: IMAGE_PIPELINES_PROXY
-              value: gcr.io/tekton-releases/github.com/tektoncd/operator/cmd/kubernetes/webhook:v0.23.0-2@sha256:f359bf33d2cb6073f1b19b04cd76f6d341aa5a2ddd485c9a10a5b234d8fb4db0
+              value: "{{ .Values.webhook.image.repository }}:{{ .Values.webhook.image.tag | default .Chart.AppVersion }}"
             - name: SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -49,9 +37,21 @@ spec:
               value: {{ include "tekton-operator.fullname" . }}
             - name: CONFIG_LOGGING_NAME
               value: {{ include "tekton-operator.fullname" . }}-config-logging
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ include "tekton-operator.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      serviceAccountName: {{ include "tekton-operator.serviceAccountName" . }}
       {{- with .Values.nodeSelector }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}

@@ -2,7 +2,13 @@ image:
   repository: gcr.io/tekton-releases/github.com/tektoncd/operator/cmd/kubernetes/operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.23.0-2@sha256:bc04c98f9a0aee94b5be740e2818a043383475347a576e766a984933d4e8999f"
+  tag: ""
+
+webhook:
+  image:
+    repository: gcr.io/tekton-releases/github.com/tektoncd/operator/cmd/kubernetes/webhook
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
