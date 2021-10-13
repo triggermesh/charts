@@ -18,7 +18,7 @@ metadata:
   name: github-controller-manager
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 
 ---
 # Copyright 2019 The Knative Authors
@@ -41,7 +41,7 @@ metadata:
   name: github-webhook
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 
 ---
 # Copyright 2019 The Knative Authors
@@ -63,7 +63,7 @@ kind: ClusterRole
 metadata:
   name: eventing-sources-github-controller
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 rules:
   # Sources admin
   - apiGroups:
@@ -182,7 +182,7 @@ kind: ClusterRoleBinding
 metadata:
   name: eventing-sources-github-addressable-resolver
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 subjects:
   - kind: ServiceAccount
     name: github-controller-manager
@@ -214,7 +214,7 @@ kind: ClusterRoleBinding
 metadata:
   name: eventing-sources-github-controller
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 subjects:
   - kind: ServiceAccount
     name: github-controller-manager
@@ -244,7 +244,7 @@ kind: ClusterRoleBinding
 metadata:
   name: eventing-sources-github-podspecable-binding
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 subjects:
   - kind: ServiceAccount
     name: github-webhook
@@ -274,7 +274,7 @@ kind: ClusterRoleBinding
 metadata:
   name: eventing-sources-github-webhook
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 subjects:
   - kind: ServiceAccount
     name: github-webhook
@@ -304,7 +304,7 @@ kind: ClusterRole
 metadata:
   name: github-webhook
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 rules:
   # Sources admin
   - apiGroups:
@@ -453,7 +453,7 @@ metadata:
   name: github-controller
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
     control-plane: github-controller-manager
 spec:
   selector:
@@ -483,7 +483,7 @@ metadata:
   name: github-controller-manager
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
     control-plane: github-controller-manager
 spec:
   selector:
@@ -496,7 +496,7 @@ spec:
     spec:
       serviceAccountName: github-controller-manager
       containers:
-        - image: gcr.io/knative-releases/knative.dev/eventing-github/cmd/controller@sha256:83ccb4230ed547d00a896979ae8d07b3b5dc5381c97f203705b8f883c7b49b92
+        - image: gcr.io/knative-releases/knative.dev/eventing-github/cmd/controller@sha256:60b89ee8dcf111c1a23d32027096f71e2938ef887ae8d2318ede1b021f630f87
           name: manager
           env:
             - name: SYSTEM_NAMESPACE
@@ -512,7 +512,7 @@ spec:
             - name: METRICS_DOMAIN
               value: knative.dev/sources
             - name: GH_RA_IMAGE
-              value: gcr.io/knative-releases/knative.dev/eventing-github/cmd/receive_adapter@sha256:f3c116b1443fac5b7a898940617884dea6495dc4fcc9b52ed0e4546d99171b4c
+              value: gcr.io/knative-releases/knative.dev/eventing-github/cmd/receive_adapter@sha256:a104c23e8e0b6c8c85b892a91ec98ff7ac38ba2c7a6907866b381a0c26dcd6af
           resources:
             requests:
               cpu: 100m
@@ -542,7 +542,7 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: defaulting.webhook.github.sources.knative.dev
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 webhooks:
   - admissionReviewVersions:
       - v1beta1
@@ -558,7 +558,7 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: validation.webhook.github.sources.knative.dev
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 webhooks:
   - admissionReviewVersions:
       - v1beta1
@@ -591,7 +591,7 @@ metadata:
   name: github-webhook-certs
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 # The data is populated at install time.
 
 ---
@@ -615,7 +615,7 @@ metadata:
   name: github-webhook
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 spec:
   replicas: 1
   selector:
@@ -632,7 +632,7 @@ spec:
       containers:
         - name: github-webhook
           terminationMessagePolicy: FallbackToLogsOnError
-          image: gcr.io/knative-releases/knative.dev/eventing-github/cmd/webhook@sha256:27bbc2536fd473a93bef8f68f2c4915d4b4e42c06c3b5526a09e303f3d2a6997
+          image: gcr.io/knative-releases/knative.dev/eventing-github/cmd/webhook@sha256:fe7795d99645d7a65682489944c50a1d92c3dcdf7bb806b623ab330aae5f5088
           env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
@@ -696,7 +696,7 @@ metadata:
   name: config-leader-election-github
   namespace: {{ .Release.Namespace }}
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.0"
+    contrib.eventing.knative.dev/release: "v0.25.1"
 data:
   # An inactive but valid configuration follows; see example.
   resourceLock: "leases"
@@ -917,7 +917,7 @@ data:
     #   PodIP         string  // IP of the pod hosting the revision
     # }
     #
-    logging.request-log-template: '{"httpRequest": {"requestMethod": "{{`{{`}}.Request.Method{{`}}`}}", "requestUrl": "{{`{{`}}js .Request.RequestURI{{`}}`}}", "requestSize": "{{`{{`}}.Request.ContentLength{{`}}`}}", "status": {{`{{`}}.Response.Code}}, "responseSize": "{{`{{`}}.Response.Size{{`}}`}}", "userAgent": "{{`{{`}}js .Request.UserAgent{{`}}`}}", "remoteIp": "{{`{{`}}js .Request.RemoteAddr{{`}}`}}", "serverIp": "{{`{{`}}.Revision.PodIP{{`}}`}}", "referer": "{{`{{`}}js .Request.Referer{{`}}`}}", "latency": "{{`{{`}}.Response.Latency}}s", "protocol": "{{`{{`}}.Request.Proto{{`}}`}}"}, "traceId": "{{`{{`}}index .Request.Header "X-B3-Traceid"{{`}}`}}"}'
+    logging.request-log-template: '{"httpRequest": {"requestMethod": "{{`{{`}}.Request.Method{{`}}`}}", "requestUrl": "{{`{{`}}js .Request.RequestURI{{`}}`}}", "requestSize": "{{`{{`}}.Request.ContentLength{{`}}`}}", "status": {{`{{`}}.Response.Code{{`}}`}}, "responseSize": "{{`{{`}}.Response.Size{{`}}`}}", "userAgent": "{{`{{`}}js .Request.UserAgent{{`}}`}}", "remoteIp": "{{`{{`}}js .Request.RemoteAddr{{`}}`}}", "serverIp": "{{`{{`}}.Revision.PodIP{{`}}`}}", "referer": "{{`{{`}}js .Request.Referer{{`}}`}}", "latency": "{{`{{`}}.Response.Latency{{`}}`}}s", "protocol": "{{`{{`}}.Request.Proto{{`}}`}}"}, "traceId": "{{`{{`}}index .Request.Header "X-B3-Traceid"{{`}}`}}"}'
 
     # metrics.backend-destination field specifies the system metrics destination.
     # It supports either prometheus (the default) or stackdriver.
