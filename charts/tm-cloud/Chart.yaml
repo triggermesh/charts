@@ -4,9 +4,9 @@ description: A Helm chart for on-premise deployments of TriggerMesh cloud infras
 
 type: application
 
-version: 0.1.5
+version: 0.2.0
 
-appVersion: "v1.7.0"
+appVersion: "v1.10.0"
 
 dependencies:
   - name: imagepullsecret-patcher
@@ -21,12 +21,14 @@ dependencies:
     condition: keycloak.enabled
     tags:
       - authentication
-  - name: aws-event-sources
+  - name: triggermesh
     version: 0.1.x
     repository: https://storage.googleapis.com/triggermesh-charts
-    condition: aws-event-sources.enabled
+    condition: triggermesh.enabled
     tags:
-      - aws
-      - event-sources
-
-
+      - triggermesh
+      - knative
+      - sources
+      - targets
+      - transformations
+      - functions

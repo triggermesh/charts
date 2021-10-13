@@ -45,5 +45,5 @@ keycloak:
     accessMode: ReadWriteOnce
     size: 2Gi
 
-aws-event-sources:
+triggermesh:
   enabled: true
