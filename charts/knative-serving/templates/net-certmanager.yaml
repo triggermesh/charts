@@ -1,4 +1,5 @@
 {{- if .Values.tls.enabled }}
+
 ---
 # net-certmanager.yaml
 # Copyright 2020 The Knative Authors
@@ -21,10 +22,8 @@ metadata:
   # These are the permissions needed by the `cert-manager` `Certificate` implementation.
   name: knative-serving-certmanager
   labels:
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
     serving.knative.dev/controller: "true"
-    networking.knative.dev/certificate-provider: cert-manager
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 rules:
   - apiGroups: ["cert-manager.io"]
     resources: ["certificates", "clusterissuers"]
@@ -48,15 +47,15 @@ rules:
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: config.webhook.net-certmanager.networking.internal.knative.dev
   labels:
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 webhooks:
   - admissionReviewVersions:
+      - v1
       - v1beta1
     clientConfig:
       service:
@@ -91,8 +90,7 @@ metadata:
   name: net-certmanager-webhook-certs
   namespace: {{ .Release.Namespace }}
   labels:
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 
 ---
 # Copyright 2020 The Knative Authors
@@ -115,9 +113,7 @@ metadata:
   name: config-certmanager
   namespace: {{ .Release.Namespace }}
   labels:
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    networking.knative.dev/certificate-provider: cert-manager
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 data:
   _example: |
     ################################
@@ -141,10 +137,10 @@ data:
     issuerRef: |
       kind: ClusterIssuer
       name: letsencrypt-issuer
+
   issuerRef: |
     kind: ClusterIssuer
     name: {{ .Values.tls.clusterIssuer }}
-
 ---
 # Copyright 2020 The Knative Authors
 #
@@ -163,32 +159,29 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: networking-certmanager
+  name: net-certmanager-controller
   namespace: {{ .Release.Namespace }}
   labels:
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    networking.knative.dev/certificate-provider: cert-manager
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: networking-certmanager
+      app: net-certmanager-controller
       {{- include "knative-serving.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
-        app: networking-certmanager
-        serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
+        app: net-certmanager-controller
         {{- include "knative-serving.labels" . | nindent 8 }}
     spec:
       serviceAccountName: controller
       containers:
-        - name: networking-certmanager
+        - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/controller@sha256:12a117bebef25f8d76816cfde148789719cab5b51e6f96c64f36226876ff915e
+          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/controller:v{{ .Chart.AppVersion }}
           resources:
             requests:
               cpu: 30m
@@ -225,11 +218,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: networking-certmanager
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    networking.knative.dev/certificate-provider: cert-manager
-    {{- include "knative-serving.labels" . | nindent 4 }}
-  name: networking-certmanager
+    app: net-certmanager-controller
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
+  name: net-certmanager-controller
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
@@ -241,7 +232,7 @@ spec:
       port: 8008
       targetPort: 8008
   selector:
-    app: networking-certmanager
+    app: net-certmanager-controller
     {{- include "knative-serving.selectorLabels" . | nindent 4 }}
 
 ---
@@ -265,8 +256,7 @@ metadata:
   name: net-certmanager-webhook
   namespace: {{ .Release.Namespace }}
   labels:
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -280,7 +270,6 @@ spec:
       labels:
         app: net-certmanager-webhook
         role: net-certmanager-webhook
-        serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
         {{- include "knative-serving.labels" . | nindent 8 }}
     spec:
       serviceAccountName: controller
@@ -288,7 +277,7 @@ spec:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/webhook@sha256:e3a236cda27d7400a2a8d0f5126ac50f570ef6fa31e84807d768604308df7193
+          image: gcr.io/knative-releases/knative.dev/net-certmanager/cmd/webhook:v{{ .Chart.AppVersion }}
           resources:
             requests:
               cpu: 20m
@@ -347,8 +336,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     role: net-certmanager-webhook
-    serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.net-certmanager.labels" . | nindent 4 }}
 spec:
   ports:
     # Define metrics and profiling for them to be accessible within service meshes.
