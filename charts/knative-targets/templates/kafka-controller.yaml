@@ -29,7 +29,6 @@ data:
       </root>
     </configuration>
 
-
 ---
 # Copyright 2020 The Knative Authors
 #
@@ -263,13 +262,13 @@ spec:
               weight: 100
       containers:
         - name: controller
-          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/kafka-controller@sha256:ac319279f138e0b0a1fb23d473c4e83371c4588b2a2b77c8915544ef4172d57f
+          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/kafka-controller@sha256:e380e27c92b2fa65660892ecada755ed86e042115bee6ca8f6922201668d8d6b
           imagePullPolicy: IfNotPresent
           env:
             - name: BROKER_DATA_PLANE_CONFIG_MAP_NAMESPACE
-              value: knative-eventing
+              value: {{ .Release.Namespace }}
             - name: SINK_DATA_PLANE_CONFIG_MAP_NAMESPACE
-              value: knative-eventing
+              value: {{ .Release.Namespace }}
             - name: BROKER_DATA_PLANE_CONFIG_MAP_NAME
               value: kafka-broker-brokers-triggers
             - name: SINK_DATA_PLANE_CONFIG_MAP_NAME
@@ -397,6 +396,13 @@ rules:
     resources:
       - "leases"
     verbs: *everything
+  # finalizers are needed for the owner reference of the webhook
+  - apiGroups:
+      - ""
+    resources:
+      - "namespaces/finalizers"
+    verbs:
+      - "update"
 
 ---
 # Copyright 2020 The Knative Authors
@@ -606,7 +612,7 @@ spec:
       containers:
         - name: kafka-webhook-eventing
           terminationMessagePolicy: FallbackToLogsOnError
-          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/webhook-kafka@sha256:4ed2d642f94242fb9dce6a6a47f3cb4fabe56a702813f0780a4f72b7b6fd1cbc
+          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/webhook-kafka@sha256:a79977ed72fbd566ee05b97399ce167a324dad629016a626086735d3b9f6fc3c
           resources:
             requests:
               cpu: 20m

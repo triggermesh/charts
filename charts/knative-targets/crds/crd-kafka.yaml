@@ -162,4 +162,4 @@ spec:
 #      clientConfig:
 #        service:
 #          name: eventing-kafka-webhook
-#          namespace: {{ .Release.Namespace }}
+#          namespace: knative-eventing
