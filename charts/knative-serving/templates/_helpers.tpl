@@ -60,3 +60,12 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Net-certmanager labels
+*/}}
+{{- define "knative-serving.net-certmanager.labels" -}}
+{{ include "knative-serving.labels" . }}
+serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
+networking.knative.dev/certificate-provider: cert-manager
+{{- end }}
