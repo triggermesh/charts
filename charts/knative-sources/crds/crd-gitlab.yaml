@@ -17,7 +17,7 @@ kind: CustomResourceDefinition
 metadata:
   name: gitlabbindings.bindings.knative.dev
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.1"
+    contrib.eventing.knative.dev/release: "v0.25.1"
     duck.knative.dev/binding: "true"
     knative.dev/crd-install: "true"
 spec:
@@ -125,7 +125,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2020 The Knative Authors
+# Copyright 2021 The Knative Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -144,7 +144,7 @@ kind: CustomResourceDefinition
 metadata:
   name: gitlabsources.sources.knative.dev
   labels:
-    contrib.eventing.knative.dev/release: "v0.23.1"
+    contrib.eventing.knative.dev/release: "v0.25.1"
     eventing.knative.dev/source: "true"
     duck.knative.dev/source: "true"
     knative.dev/crd-install: "true"
@@ -313,9 +313,9 @@ spec:
             status:
               type: object
               properties:
-                id:
+                webhookID:
                   description: ID of the project hook registered with GitLab
-                  type: string
+                  type: integer
                 sinkUri:
                   type: string
                   format: uri
