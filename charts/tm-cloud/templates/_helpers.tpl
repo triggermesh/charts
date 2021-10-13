@@ -204,103 +204,7 @@ app.kubernetes.io/part-of: knative-configs
 {{- end }}
 
 {{/*
-Event Sources FQDN
-*/}}
-{{- define "tm-cloud.event-sources.fullname" -}}
-{{- $name := include "tm-cloud.fullname" . }}
-{{- printf "%s-%s" $name "event-sources" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Event Sources labels
-*/}}
-{{- define "tm-cloud.event-sources.labels" -}}
-{{ include "tm-cloud.labels" . }}
-app.kubernetes.io/part-of: event-sources
-{{- end }}
-
-{{/*
-Event Sources Selector labels
-*/}}
-{{- define "tm-cloud.event-sources.selectorLabels" -}}
-{{ include "tm-cloud.selectorLabels" . }}
-app.kubernetes.io/part-of: event-sources
-{{- end }}
-
-{{/*
-Knative Sources FQDN
-*/}}
-{{- define "tm-cloud.knative-sources.fullname" -}}
-{{- $name := include "tm-cloud.fullname" . }}
-{{- printf "%s-%s" $name "knative-sources" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Knative Sources labels
-*/}}
-{{- define "tm-cloud.knative-sources.labels" -}}
-{{ include "tm-cloud.labels" . }}
-app.kubernetes.io/part-of: knative-sources
-{{- end }}
-
-{{/*
-Knative Sources Selector labels
-*/}}
-{{- define "tm-cloud.knative-sources.selectorLabels" -}}
-{{ include "tm-cloud.selectorLabels" . }}
-app.kubernetes.io/part-of: knative-sources
-{{- end }}
-
-{{/*
-Knative Targets FQDN
-*/}}
-{{- define "tm-cloud.knative-targets.fullname" -}}
-{{- $name := include "tm-cloud.fullname" . }}
-{{- printf "%s-%s" $name "knative-targets" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Knative Targets labels
-*/}}
-{{- define "tm-cloud.knative-targets.labels" -}}
-{{ include "tm-cloud.labels" . }}
-app.kubernetes.io/part-of: knative-targets
-{{- end }}
-
-{{/*
-Knative Targets Selector labels
-*/}}
-{{- define "tm-cloud.knative-targets.selectorLabels" -}}
-{{ include "tm-cloud.selectorLabels" . }}
-app.kubernetes.io/part-of: knative-targets
-{{- end }}
-
-{{/*
-Transformation FQDN
-*/}}
-{{- define "tm-cloud.transformation.fullname" -}}
-{{- $name := include "tm-cloud.fullname" . }}
-{{- printf "%s-%s" $name "transformation" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-Transformations labels
-*/}}
-{{- define "tm-cloud.transformation.labels" -}}
-{{ include "tm-cloud.labels" . }}
-app.kubernetes.io/part-of: transformation
-{{- end }}
-
-{{/*
-Transformations Selector labels
-*/}}
-{{- define "tm-cloud.transformation.selectorLabels" -}}
-{{ include "tm-cloud.selectorLabels" . }}
-app.kubernetes.io/part-of: transformation
-{{- end }}
-
-{{/*
-TriggerFLow FQDN
+TriggerFlow FQDN
 */}}
 {{- define "tm-cloud.triggerflow.fullname" -}}
 {{- $name := include "tm-cloud.fullname" . }}
@@ -308,7 +212,7 @@ TriggerFLow FQDN
 {{- end }}
 
 {{/*
-TriggerFLow labels
+TriggerFlow labels
 */}}
 {{- define "tm-cloud.triggerflow.labels" -}}
 {{ include "tm-cloud.labels" . }}
@@ -316,7 +220,7 @@ app.kubernetes.io/part-of: triggerflow
 {{- end }}
 
 {{/*
-TriggerFLow Selector labels
+TriggerFlow Selector labels
 */}}
 {{- define "tm-cloud.triggerflow.selectorLabels" -}}
 {{ include "tm-cloud.selectorLabels" . }}
