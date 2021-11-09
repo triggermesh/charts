@@ -134,6 +134,7 @@ rules:
   - ''
   resources:
   - serviceaccounts
+  - serviceaccounts/finalizers
   resourceNames:
   - awscloudwatchlogssource-adapter
   - awscloudwatchsource-adapter
