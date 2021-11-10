@@ -21,7 +21,7 @@ metadata:
     serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
     serving.knative.dev/controller: "true"
     networking.knative.dev/wildcard-certificate-provider: nscert
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.networking-ns-cert.labels" . | nindent 4 }}
 rules:
   - apiGroups: [""]
     resources: ["namespaces/finalizers"]
@@ -45,25 +45,25 @@ rules:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: networking-ns-cert
+  name: net-nscert-controller
   namespace: {{ .Release.Namespace }}
   labels:
     serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
     networking.knative.dev/wildcard-certificate-provider: nscert
-    {{- include "knative-serving.labels" . | nindent 4 }}
+    {{- include "knative-serving.networking-ns-cert.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: networking-ns-cert
-      {{- include "knative-serving.selectorLabels" . | nindent 6 }}
+      app: net-nscert-controller
+      {{- include "knative-serving.networking-ns-cert.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
-        app: networking-ns-cert
+        app: net-nscert-controller
         serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
-        {{- include "knative-serving.labels" . | nindent 8 }}
+        {{- include "knative-serving.networking-ns-cert.labels" . | nindent 8 }}
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -72,15 +72,15 @@ spec:
             - podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    app: networking-ns-cert
+                    app: net-nscert-controller
                 topologyKey: kubernetes.io/hostname
               weight: 100
       serviceAccountName: controller
       containers:
-        - name: networking-nscert
+        - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/networking/nscert@sha256:449c78d926880c0c711ae5b903f0f9dedd990951ede65b41e561f10f59a2ea23
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/networking/nscert@sha256:302024936e22c28f8901f1de6052441553af57351abce76ffdbf4a1932cc2906
           resources:
             requests:
               cpu: 30m
@@ -117,11 +117,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: networking-ns-cert
+    app: net-nscert-controller
     serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
     networking.knative.dev/wildcard-certificate-provider: nscert
-    {{- include "knative-serving.labels" . | nindent 4 }}
-  name: networking-ns-cert
+    {{- include "knative-serving.networking-ns-cert.labels" . | nindent 4 }}
+  name: net-nscert-controller
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
@@ -133,8 +133,8 @@ spec:
       port: 8008
       targetPort: 8008
   selector:
-    app: networking-ns-cert
-    {{- include "knative-serving.selectorLabels" . | nindent 4 }}
+    app: net-nscert-controller
+    {{- include "knative-serving.networking-ns-cert.selectorLabels" . | nindent 4 }}
 
 ---
 {{- end }}
