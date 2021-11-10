@@ -40,6 +40,7 @@ helm.sh/chart: {{ include "knative-operator.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 operator.knative.dev/release: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/part-of: knative-operator
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
