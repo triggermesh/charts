@@ -181,7 +181,7 @@ spec:
               weight: 100
       containers:
         - name: kafka-sink-receiver
-          image: gcr.io/knative-releases/knative-kafka-broker-receiver:db7a90f4-25c5-11ec-bd47-d66808481f6a
+          image: gcr.io/knative-releases/knative-kafka-broker-receiver:01834fa0-1fd8-11ec-a0a2-6e1827973222
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /etc/config
