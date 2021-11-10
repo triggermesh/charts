@@ -138,13 +138,31 @@ rules:
       - watch
       - patch
       - update
-  # Eventing resources and finalizers we care about.
+  # eventing.knative.dev resources and finalizers we care about.
   - apiGroups:
       - "eventing.knative.dev"
     resources:
       - "brokers/finalizers"
       - "triggers/finalizers"
       - "kafkasinks/finalizers"
+    verbs:
+      - update
+  # messaging.knative.dev resources and finalizers we care about.
+  - apiGroups:
+      - messaging.knative.dev
+    resources:
+      - kafkachannels
+      - kafkachannels/status
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - messaging.knative.dev
+    resources:
+      - kafkachannels/finalizers
     verbs:
       - update
 
@@ -262,30 +280,44 @@ spec:
               weight: 100
       containers:
         - name: controller
-          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/kafka-controller@sha256:e380e27c92b2fa65660892ecada755ed86e042115bee6ca8f6922201668d8d6b
+          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/kafka-controller@sha256:d39664e78a858c3023c13dcfff3b36ceae003f7a6a21a23a3ef62a180c6c47b4
           imagePullPolicy: IfNotPresent
           env:
             - name: BROKER_DATA_PLANE_CONFIG_MAP_NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: CHANNEL_DATA_PLANE_CONFIG_MAP_NAMESPACE
               value: {{ .Release.Namespace }}
             - name: SINK_DATA_PLANE_CONFIG_MAP_NAMESPACE
               value: {{ .Release.Namespace }}
             - name: BROKER_DATA_PLANE_CONFIG_MAP_NAME
               value: kafka-broker-brokers-triggers
+            - name: CHANNEL_DATA_PLANE_CONFIG_MAP_NAME
+              value: kafka-channel-channels-subscriptions
             - name: SINK_DATA_PLANE_CONFIG_MAP_NAME
               value: kafka-sink-sinks
             - name: BROKER_DATA_PLANE_CONFIG_FORMAT
+              value: json
+            - name: CHANNEL_DATA_PLANE_CONFIG_FORMAT
               value: json
             - name: SINK_DATA_PLANE_CONFIG_FORMAT
               value: json
             - name: BROKER_INGRESS_NAME
               value: kafka-broker-ingress
+            - name: CHANNEL_INGRESS_NAME
+              value: kafka-channel-ingress
             - name: SINK_INGRESS_NAME
               value: kafka-sink-ingress
             - name: BROKER_GENERAL_CONFIG_MAP_NAME
               value: kafka-broker-config
+            - name: CHANNEL_GENERAL_CONFIG_MAP_NAME
+              value: kafka-broker-config
             - name: SINK_GENERAL_CONFIG_MAP_NAME
               value: kafka-broker-config
             - name: BROKER_SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CHANNEL_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
@@ -612,7 +644,7 @@ spec:
       containers:
         - name: kafka-webhook-eventing
           terminationMessagePolicy: FallbackToLogsOnError
-          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/webhook-kafka@sha256:a79977ed72fbd566ee05b97399ce167a324dad629016a626086735d3b9f6fc3c
+          image: gcr.io/knative-releases/knative.dev/eventing-kafka-broker/control-plane/cmd/webhook-kafka@sha256:f382ca58a88f60edd8d6c3af911dfbf3a97a848e11f022594448e687dabd34c1
           resources:
             requests:
               cpu: 20m
