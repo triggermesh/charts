@@ -1,6 +1,6 @@
 dependencies:
 - name: knative-operator
   repository: https://storage.googleapis.com/triggermesh-charts
-  version: 0.2.0
-digest: sha256:f3485f232a3fc328ee7a4dda5e530681ef3367862b64886035ecf7dcf8238cb9
-generated: "2021-10-13T13:36:48.818793+05:30"
+  version: 0.3.0
+digest: sha256:318d999fb700fe3702ae2f3210573a9b526ffd17eb95362ab6fbe29714208afb
+generated: "2021-11-10T15:44:47.656201+05:30"

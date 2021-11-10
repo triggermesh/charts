@@ -40,6 +40,7 @@ helm.sh/chart: {{ include "knative-serving.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/part-of: knative-serving
 {{- end }}
 
 {{/*
@@ -68,4 +69,25 @@ Net-certmanager labels
 {{ include "knative-serving.labels" . }}
 serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
 networking.knative.dev/certificate-provider: cert-manager
+{{- end }}
+
+{{/*
+networking-ns-cert labels
+*/}}
+{{- define "knative-serving.networking-ns-cert.labels" -}}
+helm.sh/chart: {{ include "knative-serving.chart" . }}
+{{ include "knative-serving.networking-ns-cert.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/part-of: knative-serving
+{{- end }}
+
+{{/*
+networking-ns-cert Selector labels
+*/}}
+{{- define "knative-serving.networking-ns-cert.selectorLabels" -}}
+app.kubernetes.io/name: networking-ns-cert
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

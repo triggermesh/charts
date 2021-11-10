@@ -4,12 +4,12 @@ description: A Helm chart for deploying knative-serving
 
 type: application
 
-version: 0.2.0
+version: 0.3.0
 
-appVersion: "0.25.1"
+appVersion: "0.26.0"
 
 dependencies:
   - name: knative-operator
-    version: 0.2.x
+    version: 0.3.x
     repository: https://storage.googleapis.com/triggermesh-charts
     condition: knative-operator.enabled
