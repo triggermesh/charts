@@ -515,7 +515,7 @@ spec:
               type: object
               properties:
                 arn:
-                  description: ARN of the CodeCommit repository to receive events from. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awscodecommit.html#awscodecommit-resources-for-iam-policies
+                  description: ARN of the CodeCommit repository to receive events from. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awscodecommit.html#awscodecommit-resources-for-iam-policies.
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:codecommit:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:.+$
                 branch:
@@ -1513,7 +1513,7 @@ spec:
                   description: Duration which defines how often metrics should be pulled from Amazon Performance Insights. Expressed as a duration string, which format is documented at https://pkg.go.dev/time#ParseDuration.
                   type: string
                 metrics:
-                  description: List of metrics to retrieve from Amazon Performance Insights. Each item represents the 'metric' attribute of a MetricQuery. For more information, please refer to the Performance Insights API reference at https://docs.aws.amazon.com/performance-insights/latest/APIReference/API_MetricQuery.html
+                  description: List of metrics to retrieve from Amazon Performance Insights. Each item represents the 'metric' attribute of a MetricQuery. For more information, please refer to the Performance Insights API reference at https://docs.aws.amazon.com/performance-insights/latest/APIReference/API_MetricQuery.html.
                   type: array
                   items:
                     type: string
@@ -2193,7 +2193,7 @@ spec:
                       description: Period of time during which Amazon SQS prevents other consumers from receiving and processing a message that has been received via ReceiveMessage. Expressed as a duration string, which format is documented at https://pkg.go.dev/time#ParseDuration. If not defined, the overall visibility timeout for the queue is used. For more details, please refer to the Amazon SQS Developer Guide at https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html.
                       type: string
                 credentials:
-                  description: Credentials to interact with the Amazon SQS API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                  description: Credentials to interact with the Amazon SQS API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                   type: object
                   properties:
                     accessKeyID:
@@ -2662,7 +2662,8 @@ spec:
                     The accepted format is
                       /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{storageAccountName}
 
-                    Besides the Storage Account name itself, the resource ID contains the subscription ID and resource group name which all together uniquely identify the Storage Account within Azure.
+                    Besides the Storage Account name itself, the resource ID contains the subscription ID and resource
+                    group name which all together uniquely identify the Storage Account within Azure.
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.Storage\/storageAccounts\/[a-z0-9]{3,24}$
                 eventHubID:
@@ -2673,14 +2674,16 @@ spec:
                       - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventHubs/{eventHubName}
                       - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
 
-                    If the resource ID represents an Event Hubs namespace, an Event Hubs instance is created on behalf of the user inside that namespace. Otherwise, the user-provided Event Hub is used.
+                    If the resource ID represents an Event Hubs namespace, an Event Hubs instance is created on behalf of
+                    the user inside that namespace. Otherwise, the user-provided Event Hub is used.
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}(?:\/eventHubs\/[a-zA-Z0-9][\w.-]{0,49})?$
                 eventTypes:
                   description: |-
                     Types of events to subscribe to.
 
-                    The list of available event types can be found at https://docs.microsoft.com/en-us/azure/event-grid/event-schema-blob-storage.
+                    The list of available event types can be found at
+                    https://docs.microsoft.com/en-us/azure/event-grid/event-schema-blob-storage.
 
                     When this attribute is not set, the source automatically subscribes to the following event types
                     - Microsoft.Storage.BlobCreated
@@ -2697,7 +2700,8 @@ spec:
                       - Microsoft.Storage.DirectoryRenamed
                       - Microsoft.Storage.BlobTierChanged
                       - Microsoft.Storage.AsyncOperationInitiated
-                      # A special type of event documented at https://docs.microsoft.com/en-us/azure/storage/blobs/blob-inventory.
+                      # A special type of event documented at
+                      # https://docs.microsoft.com/en-us/azure/storage/blobs/blob-inventory.
                       # Allowed for completeness, but users should be aware that those events use a different schema from
                       # the other Storage event types.
                       - Microsoft.Storage.BlobInventoryPolicyCompleted
@@ -2951,7 +2955,8 @@ spec:
 
                     If not specified, Azure automatically selects all available event types for the provided 'scope'.
 
-                    For a list of all available event types, please refer to the list of Azure services that support system topics at https://docs.microsoft.com/en-us/azure/event-grid/system-topics.
+                    For a list of all available event types, please refer to the list of Azure services that support
+                    system topics at https://docs.microsoft.com/en-us/azure/event-grid/system-topics.
                   type: array
                   items:
                     type: string
@@ -2963,7 +2968,8 @@ spec:
                       - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventHubs/{eventHubName}
                       - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
 
-                    If the resource ID represents an Event Hubs namespace, an Event Hubs instance is created on behalf of the user inside that namespace. Otherwise, the user-provided Event Hub is used.
+                    If the resource ID represents an Event Hubs namespace, an Event Hubs instance is created on behalf of
+                    the user inside that namespace. Otherwise, the user-provided Event Hub is used.
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}(?:\/eventHubs\/[a-zA-Z0-9][\w.-]{0,49})?$
                 auth:
@@ -4240,7 +4246,7 @@ spec:
                   type: object
                   properties:
                     topic:
-                      description: Full resource name of the Pub/Sub topic where notifications originating from the configured billing budget are sent to. If not supplied, a topic is created on behalf of the user, in the GCP project referenced by the 'project' attribute. The expected format is described at https://cloud.google.com/pubsub/docs/admin#resource_names
+                      description: Full resource name of the Pub/Sub topic where notifications originating from the configured billing budget are sent to. If not supplied, a topic is created on behalf of the user, in the GCP project referenced by the 'project' attribute. The expected format is described at https://cloud.google.com/pubsub/docs/admin#resource_names.
                       type: string
                       pattern: ^projects\/[a-z][a-z0-9-]{3,29}\/topics\/[a-zA-Z][\w-.~%+]{2,254}$
                     project:
@@ -4313,6 +4319,191 @@ spec:
                   type: string
                 subscription:
                   description: Resource name of the Pub/Sub subscription currently used by the event source for pulling billing budget events.
+                  type: string
+                sinkUri:
+                  description: URI of the sink where events are currently sent to.
+                  type: string
+                  format: uri
+                ceAttributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      source:
+                        type: string
+                    required:
+                      - type
+                      - source
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+      additionalPrinterColumns:
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+        - name: Sink
+          type: string
+          jsonPath: .status.sinkUri
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# Copyright 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: googlecloudiotsources.sources.triggermesh.io
+  labels:
+    eventing.knative.dev/source: 'true'
+    duck.knative.dev/source: 'true'
+    knative.dev/crd-install: 'true'
+    triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "com.google.cloud.iot.message" }
+      ]
+spec:
+  group: sources.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: GoogleCloudIoTSource
+    plural: googlecloudiotsources
+    categories:
+      - all
+      - knative
+      - eventing
+      - sources
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh event source for Google Cloud IoT.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the event source.
+              type: object
+              properties:
+                registry:
+                  description: Full resource name of the Registry.
+                  type: string
+                  pattern: ^projects\/[a-z][a-z0-9-]{3,29}\/locations\/[a-z][a-z0-9-]{3,29}\/registries\/[a-zA-Z][\w-.~%+]{2,254}$
+                pubsub:
+                  description: Attributes related to the configuration of Pub/Sub resources associated with the Cloud IoT Registry.
+                  type: object
+                  properties:
+                    topic:
+                      description: Full resource name of the Pub/Sub topic where messages originating from the configured IoT Registry are sent to. If not supplied, a topic is created on behalf of the user, in the GCP project referenced by the 'project' attribute. The expected format is described at https://cloud.google.com/pubsub/docs/admin#resource_names.
+                      type: string
+                      pattern: ^projects\/[a-z][a-z0-9-]{3,29}\/topics\/[a-zA-Z][\w-.~%+]{2,254}$
+                serviceAccountKey:
+                  description: Service account key used to authenticate the event source and allow it to interact with Google Cloud APIs. Only the JSON format is supported.
+                  type: object
+                  properties:
+                    value:
+                      description: Literal value of the service account key.
+                      type: string
+                    valueFromSecret:
+                      description: A reference to a Kubernetes Secret object containing the service account key.
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        key:
+                          type: string
+                      required:
+                        - name
+                        - key
+                  oneOf:
+                    - required: [value]
+                    - required: [valueFromSecret]
+                sink:
+                  description: The destination of events received via messages.
+                  type: object
+                  properties:
+                    ref:
+                      description: Reference to an addressable Kubernetes object to be used as the destination of events.
+                      type: object
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        namespace:
+                          type: string
+                        name:
+                          type: string
+                      required:
+                        - apiVersion
+                        - kind
+                        - name
+                    uri:
+                      description: URI to use as the destination of events.
+                      type: string
+                      format: uri
+                  oneOf:
+                    - required: [ref]
+                    - required: [uri]
+              required:
+                - registry
+                - serviceAccountKey
+                - sink
+            status:
+              description: Reported status of the event source.
+              type: object
+              properties:
+                topic:
+                  description: Resource name of the Pub/Sub topic where IoT messages are currently sent to.
+                  type: string
+                subscription:
+                  description: Resource name of the Pub/Sub subscription currently used by the event source for pulling events from the IoT Registry.
                   type: string
                 sinkUri:
                   description: URI of the sink where events are currently sent to.
@@ -4618,13 +4809,6 @@ spec:
                       description: Full resource name of the Pub/Sub topic where change notifications originating from the configured repo are sent to. If not supplied, a topic is created on behalf of the user, in the GCP project referenced by the 'project' attribute. The expected format is described at https://cloud.google.com/pubsub/docs/admin#resource_names
                       type: string
                       pattern: ^projects\/[a-z][a-z0-9-]{3,29}\/topics\/[a-zA-Z][\w-.~%+]{2,254}$
-                    project:
-                      description: Name of the GCP project where Pub/Sub resources associated with the Cloud Repo are to be created. Mutually exclusive with 'topic' which, if supplied, already contains the project name.
-                      type: string
-                      pattern: ^[a-z][a-z0-9-]{3,29}$
-                  oneOf:
-                    - required: [project]
-                    - required: [topic]
                 serviceAccountKey:
                   description: Service account key used to authenticate the event source and allow it to interact with Google Cloud APIs. Only the JSON format is supported.
                   type: object
@@ -4675,7 +4859,6 @@ spec:
                     - required: [uri]
               required:
                 - repository
-                - pubsub
                 - serviceAccountKey
                 - sink
             status:
@@ -6378,7 +6561,7 @@ spec:
               properties:
                 endpoint:
                   type: string
-                  description: The domain name used to access the OSS. For more information, please refer to the region and endpoint guide at https://www.alibabacloud.com/help/doc-detail/31837.htm?spm=a2c63.p38356.879954.8.23bc7d91ARN6Hy#concept-zt4-cvy-5db
+                  description: The domain name used to access the OSS. For more information, please refer to the region and endpoint guide at https://www.alibabacloud.com/help/doc-detail/31837.htm?spm=a2c63.p38356.879954.8.23bc7d91ARN6Hy#concept-zt4-cvy-5db.
                   pattern: ^oss-([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{1,3}$
                 bucket:
                   type: string
@@ -6407,7 +6590,7 @@ spec:
                           type: string
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -6542,6 +6725,7 @@ spec:
                   type: object
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -6553,6 +6737,7 @@ spec:
                   type: object
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -6563,7 +6748,7 @@ spec:
                   description: Code of the AWS region to use for the Comprehend API. Available region codes are documented in the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints.
                   type: string
                 language:
-                  description: Language code to use for Comprehend. Available languages can be found at https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html
+                  description: Language code to use for Comprehend. Available languages can be found at https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html.
                   type: string
               required:
                 - region
@@ -6682,6 +6867,7 @@ spec:
                   description: API Key to interact with the Amazon DynamoDB API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -6693,6 +6879,7 @@ spec:
                   type: object
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -6818,6 +7005,7 @@ spec:
                   description: API Key to interact with the Amazon Kinesis API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -6829,6 +7017,7 @@ spec:
                   description: API Secret to interact with the Amazon Kinesis API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -6845,6 +7034,10 @@ spec:
                 discardCloudEventContext:
                   description: Produce a new cloud event based on the response from the Kinesis invocation.
                   type: boolean
+              required:
+                - arn
+                - awsApiSecret
+                - awsApiKey
             status:
               type: object
               description: Reported status of the event target.
@@ -6957,6 +7150,7 @@ spec:
                   description: API Key to interact with the Amazon Lambda API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -6968,6 +7162,7 @@ spec:
                   description: API Secret to interact with the Amazon Lambda API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -6981,6 +7176,10 @@ spec:
                 discardCloudEventContext:
                   description: Produce a new cloud event based on the response from the lambda function.
                   type: boolean
+              required:
+                - arn
+                - awsApiSecret
+                - awsApiKey
             status:
               type: object
               description: Reported status of the event target.
@@ -7094,6 +7293,7 @@ spec:
                   description: API Key to interact with the Amazon S3 API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -7105,6 +7305,7 @@ spec:
                   description: API Secret to interact with the Amazon S3 API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -7118,6 +7319,10 @@ spec:
                 discardCloudEventContext:
                   description: Produce a new cloud event based on the response from the Kinesis invocation.
                   type: boolean
+              required:
+                - arn
+                - awsApiSecret
+                - awsApiKey
             status:
               type: object
               description: Reported status of the event target.
@@ -7246,6 +7451,7 @@ spec:
                   description: API Key to interact with the SNS API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -7257,6 +7463,7 @@ spec:
                   description: API Secret to interact with the SNS API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -7270,6 +7477,10 @@ spec:
                 discardCloudEventContext:
                   description: Produce a new cloud event based on the response from the SNS API call.
                   type: boolean
+              required:
+                - arn
+                - awsApiSecret
+                - awsApiKey
             status:
               type: object
               description: Reported status of the event target.
@@ -7382,6 +7593,7 @@ spec:
                   type: object
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the access key ID.
                       type: object
                       properties:
                         key:
@@ -7393,6 +7605,7 @@ spec:
                   type: object
                   properties:
                     secretKeyRef:
+                      description: A reference to a Kubernetes Secret object containing the secret access key.
                       type: object
                       properties:
                         key:
@@ -7406,6 +7619,10 @@ spec:
                 discardCloudEventContext:
                   description: Produce a new cloud event based on the response from the lambda function.
                   type: boolean
+              required:
+                - arn
+                - awsApiSecret
+                - awsApiKey
             status:
               type: object
               description: Reported status of the event target.
@@ -7536,7 +7753,7 @@ spec:
                     type: string
                     minLength: 1
                 securityProtocol:
-                  description: Encryption protocol to use for connecting to Confluent Kafka. This can be "Plaintext", "SslPlaintext", "SaslSsl", or "Ssl". Additional information can be found at https://docs.confluent.io/platform/current/connect/security.html
+                  description: Encryption protocol to use for connecting to Confluent Kafka. This can be "Plaintext", "SslPlaintext", "SaslSsl", or "Ssl". Additional information can be found at https://docs.confluent.io/platform/current/connect/security.html.
                   type: string
                 saslMechanism:
                   description: When using the "saslSsl" securityProtocol attribute, indicate which mechanism to use. This can be "Gssapi", "OAuthBearer", "Plain", "ScramSha256", and "ScramSha512".
@@ -7670,7 +7887,7 @@ spec:
                         name:
                           type: string
                 eventOptions:
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   type: object
                   properties:
                     payloadPolicy:
@@ -7848,7 +8065,7 @@ spec:
                     - required: [apiKey]
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -7926,6 +8143,164 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  name: googlecloudfirestoretargets.targets.triggermesh.io
+  labels:
+    knative.dev/crd-install: 'true'
+    duck.knative.dev/addressable: 'true'
+    triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "io.triggermesh.google.firestore.write" },
+        { "type": "io.triggermesh.google.firestore.query.tables" },
+        { "type": "io.triggermesh.google.firestore.query.table" },
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "io.triggermesh.google.firestore.write.response" },
+        { "type": "io.triggermesh.google.firestore.query.tables.response" },
+        { "type": "io.triggermesh.google.firestore.query.table.response" }
+      ]
+spec:
+  group: targets.triggermesh.io
+  names:
+    kind: GoogleCloudFirestoreTarget
+    plural: googlecloudfirestoretargets
+    categories:
+      - all
+      - knative
+      - eventing
+      - targets
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: TriggerMesh event target for Google Cloud Firestore.
+          properties:
+            spec:
+              type: object
+              description: Desired state of event target.
+              properties:
+                defaultCollection:
+                  description: Default firestore collection to stream events into.
+                  type: string
+                projectID:
+                  description: Google Cloud Project ID associated with the firestore database.
+                  type: string
+                discardCloudEventContext:
+                  description: Indicate whether the full cloud event payload should be sent to the target, or the data component only.
+                  type: boolean
+                credentialsJson:
+                  type: object
+                  description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production.
+                  properties:
+                    secretKeyRef:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                        name:
+                          type: string
+                eventOptions:
+                  type: object
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
+                  properties:
+                    payloadPolicy:
+                      type: string
+                      enum: [always, error, never]
+              required:
+                - credentialsJson
+                - projectID
+                - defaultCollection
+            status:
+              type: object
+              properties:
+                acceptedEventTypes:
+                  type: array
+                  items:
+                    type: string
+                ceAttributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      source:
+                        type: string
+                    required:
+                      - type
+                      - source
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: URL
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# Copyright 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
   name: googlecloudstoragetargets.targets.triggermesh.io
   labels:
     knative.dev/crd-install: 'true'
@@ -7934,12 +8309,12 @@ metadata:
   annotations:
     registry.triggermesh.io/acceptedEventTypes: |
       [
-        { "type": "com.google.cloud.storage.object.insert" }
+        { "type": "com.google.cloud.storage.object.insert" },
+        { "type": "*" }
       ]
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.google.cloud.storage.object.insert.response" },
-        { "type": "*" }
+        { "type": "com.google.cloud.storage.object.insert.response" }
       ]
 spec:
   group: targets.triggermesh.io
@@ -7971,7 +8346,7 @@ spec:
                   description: GCP Storage bucket to stream events to.
                   type: string
                 credentialsJson:
-                  description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production
+                  description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production.
                   type: object
                   properties:
                     secretKeyRef:
@@ -7983,7 +8358,7 @@ spec:
                           type: string
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -8115,7 +8490,7 @@ spec:
               type: object
               properties:
                 credentialsJson:
-                  description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production
+                  description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production.
                   type: object
                   properties:
                     secretKeyRef:
@@ -8127,7 +8502,7 @@ spec:
                           type: string
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -8137,165 +8512,6 @@ spec:
             status:
               type: object
               description: Reported status of the event target.
-              properties:
-                acceptedEventTypes:
-                  type: array
-                  items:
-                    type: string
-                ceAttributes:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      source:
-                        type: string
-                    required:
-                      - type
-                      - source
-                observedGeneration:
-                  type: integer
-                  format: int64
-                conditions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      status:
-                        type: string
-                        enum: ['True', 'False', Unknown]
-                      severity:
-                        type: string
-                        enum: [Error, Warning, Info]
-                      reason:
-                        type: string
-                      message:
-                        type: string
-                      lastTransitionTime:
-                        type: string
-                        format: date-time
-                    required:
-                      - type
-                      - status
-                address:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-      additionalPrinterColumns:
-        - name: URL
-          type: string
-          jsonPath: .status.address.url
-        - name: Ready
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].status
-        - name: Reason
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].reason
-        - name: Age
-          type: date
-          jsonPath: .metadata.creationTimestamp
-
----
-# Copyright 2021 TriggerMesh Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  name: googlecloudfirestoretargets.targets.triggermesh.io
-  labels:
-    knative.dev/crd-install: 'true'
-    duck.knative.dev/addressable: 'true'
-    triggermesh.io/crd-install: 'true'
-  annotations:
-    registry.triggermesh.io/acceptedEventTypes: |
-      [
-        { "type": "io.triggermesh.google.firestore.write" },
-        { "type": "io.triggermesh.google.firestore.query.tables" },
-        { "type": "io.triggermesh.google.firestore.query.table" },
-        {"type": "*" }
-      ]
-    registry.knative.dev/eventTypes: |
-      [
-        { "type": "io.triggermesh.google.firestore.write.response" },
-        { "type": "io.triggermesh.google.firestore.query.tables.response" },
-        { "type": "io.triggermesh.google.firestore.query.table.response" },
-        { "type": "*" }
-      ]
-spec:
-  group: targets.triggermesh.io
-  names:
-    kind: GoogleCloudFirestoreTarget
-    plural: googlecloudfirestoretargets
-    categories:
-      - all
-      - knative
-      - eventing
-      - targets
-  scope: Namespaced
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-      subresources:
-        status: {}
-      schema:
-        openAPIV3Schema:
-          type: object
-          description: TriggerMesh event target for Google Cloud Firestore.
-          properties:
-            spec:
-              type: object
-              description: Desired state of event target.
-              properties:
-                defaultCollection:
-                  description: Default firestore collection to stream events into.
-                  type: string
-                projectID:
-                  description: Google Cloud Project ID associated with the firestore database.
-                  type: string
-                discardCloudEventContext:
-                  description: Indicate whether the full cloud event payload should be sent to the target, or the data component only.
-                  type: boolean
-                credentialsJson:
-                  type: object
-                  description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production
-                  properties:
-                    secretKeyRef:
-                      type: object
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                eventOptions:
-                  type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
-                  properties:
-                    payloadPolicy:
-                      type: string
-                      enum: [always, error, never]
-              required:
-                - credentialsJson
-                - projectID
-                - defaultCollection
-            status:
-              type: object
               properties:
                 acceptedEventTypes:
                   type: array
@@ -9049,7 +9265,7 @@ spec:
                   format: url
                   pattern: ^https?:\/\/.+$
                 eventOptions:
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   type: object
                   properties:
                     payloadPolicy:
@@ -9062,6 +9278,184 @@ spec:
               type: object
               description: Reported status of the event target.
               properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: URL
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# Copyright 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: logzmetricstargets.targets.triggermesh.io
+  labels:
+    knative.dev/crd-install: 'true'
+    triggermesh.io/crd-install: 'true'
+    duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type" : "io.triggermesh.opentelemetry.metrics.push" }
+      ]
+spec:
+  group: targets.triggermesh.io
+  names:
+    kind: LogzMetricsTarget
+    plural: logzmetricstargets
+    categories:
+      - all
+      - knative
+      - eventing
+      - targets
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: The OpenTelemetry metrics target pushes metrics to a range of backends.
+          properties:
+            spec:
+              type: object
+              description: The OpenTelemetry target exposes a common interface to a range of metrics backends.
+              properties:
+                connection:
+                  type: object
+                  description: Connection information for LogzMetrics.
+                  properties:
+                    listenerURL:
+                      type: string
+                      description: Listener URL for pushing metrics.
+                    token:
+                      type: object
+                      description: Token for connecting to Logz metrics listener.
+                      properties:
+                        secretKeyRef:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                            name:
+                              type: string
+                instruments:
+                  type: array
+                  description: Instruments configured for pushing metrics. It is mandatory that all metrics pushed by using this target are pre-registered using this list.
+                  items:
+                    type: object
+                    minLength: 1
+                    properties:
+                      name:
+                        type: string
+                        description: Name for the Instrument.
+                      description:
+                        type: string
+                        description: Description for the Instrument.
+                      instrument:
+                        type: string
+                        enum: ['Histogram', 'Counter', 'UpDownCounter']
+                        description: |-
+                          Instrument Kind as defined by OpenTelemetry. Supported values are
+                          - Histogram, for absolute values that can be aggregated. - Counter, for delta values that increase monotonically. - UpDownCounter, for delta values that can increase and decrease.
+                      number:
+                        type: string
+                        enum: ['Int64', 'Float64']
+                        description: |-
+                          Number Kind as defined by OpenTelemetry. Defines the measure data type accepted by the Instrument. Supported values are
+                          - Int64 - Float64
+                    required:
+                      - name
+                      - instrument
+                      - number
+                eventOptions:
+                  type: object
+                  description: Event replies options.
+                  properties:
+                    payloadPolicy:
+                      description: |-
+                        Whether this target should generate response events. Possible values are
+                        - always, if a response is available it will be sent. - error, only responses categorized as errors will be sent. - never, no responses will be sent.
+                      type: string
+                      enum: [always, error, never]
+              required:
+                - connection
+                - instruments
+            status:
+              type: object
+              properties:
+                acceptedEventTypes:
+                  type: array
+                  items:
+                    type: string
+                ceAttributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      source:
+                        type: string
+                    required:
+                      - type
+                      - source
                 observedGeneration:
                   type: integer
                   format: int64
@@ -9174,7 +9568,7 @@ spec:
                           type: string
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -9305,7 +9699,7 @@ spec:
               properties:
                 oracleApiPrivateKey:
                   type: object
-                  description: Oracle API Private Key to sign each request to the Oracle Cloud. For details on how to create a private keypair for Oracle Cloud, refer to https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm
+                  description: Oracle API Private Key to sign each request to the Oracle Cloud. For details on how to create a private keypair for Oracle Cloud, refer to https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm.
                   properties:
                     secretKeyRef:
                       type: object
@@ -9316,7 +9710,7 @@ spec:
                           type: string
                 oracleApiPrivateKeyPassphrase:
                   type: object
-                  description: Passphrase to unlock the private key used to sign each request to the Oracle Cloud. For details on how to create a private keypair for Oracle Cloud, refer to https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm
+                  description: Passphrase to unlock the private key used to sign each request to the Oracle Cloud. For details on how to create a private keypair for Oracle Cloud, refer to https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm.
                   properties:
                     secretKeyRef:
                       type: object
@@ -9327,7 +9721,7 @@ spec:
                           type: string
                 oracleApiPrivateKeyFingerprint:
                   type: object
-                  description: MD5 fingerprint to identify the keypair associated with the key used to sign each request to the Oracle Cloud. For details on how to create a private keypair for Oracle Cloud, refer to https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm
+                  description: MD5 fingerprint to identify the keypair associated with the key used to sign each request to the Oracle Cloud. For details on how to create a private keypair for Oracle Cloud, refer to https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm.
                   properties:
                     secretKeyRef:
                       type: object
@@ -9343,7 +9737,7 @@ spec:
                   description: The Oracle Cloud ID (OCID) of the user who owns the key used to interact with the Oracle Cloud.
                   type: string
                 oracleRegion:
-                  description: The Oracle Cloud region containing the service being executed. A full list of supported regions can be found at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+                  description: The Oracle Cloud region containing the service being executed. A full list of supported regions can be found at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm.
                   type: string
                 function:
                   type: object
@@ -9463,7 +9857,7 @@ spec:
               properties:
                 auth:
                   type: object
-                  description: Attributes required to setup OAuth authentication with Salesforce. To create the credentials, refer to https://help.salesforce.com/articleView?id=sf.remoteaccess_oauth_jwt_flow.htm
+                  description: Attributes required to setup OAuth authentication with Salesforce. To create the credentials, refer to https://help.salesforce.com/articleView?id=sf.remoteaccess_oauth_jwt_flow.htm.
                   properties:
                     clientID:
                       description: OAuth Client ID used to identify the target.
@@ -9500,7 +9894,7 @@ spec:
                   pattern: v\d+\.\d+$
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -9645,7 +10039,7 @@ spec:
                           type: string
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -9777,7 +10171,7 @@ spec:
               properties:
                 token:
                   type: object
-                  description: Slack API token used to interface with Slack. Consult the Slack API documenation for details on how to setup an app for the target https://api.slack.com/web#authentication
+                  description: Slack API token used to interface with Slack. Consult the Slack API documenation for details on how to setup an app for the target https://api.slack.com/web#authentication.
                   properties:
                     secretKeyRef:
                       type: object
@@ -9903,12 +10297,12 @@ spec:
               properties:
                 endpoint:
                   type: string
-                  description: URL of the HTTP Event Collector (HEC). Only the scheme, hostname, and port (optionally) are evaluated, the URL path is trimmed if present. see https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector#Enable_HTTP_Event_Collector
+                  description: URL of the HTTP Event Collector (HEC). Only the scheme, hostname, and port (optionally) are evaluated, the URL path is trimmed if present. See https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector#Enable_HTTP_Event_Collector.
                   format: url
                   pattern: ^https?:\/\/.+$
                 token:
                   type: object
-                  description: Token for authenticating requests against the HEC. See https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector#About_Event_Collector_tokens
+                  description: Token for authenticating requests against the HEC. See https://docs.splunk.com/Documentation/Splunk/latest/Data/UsetheHTTPEventCollector#About_Event_Collector_tokens.
                   properties:
                     value:
                       type: string
@@ -10206,7 +10600,7 @@ spec:
                           type: string
                 eventOptions:
                   type: object
-                  description: "When should this target generate a response event for processing: always, on error, or never"
+                  description: 'When should this target generate a response event for processing: always, on error, or never.'
                   properties:
                     payloadPolicy:
                       type: string
@@ -10339,7 +10733,7 @@ spec:
               type: object
               properties:
                 userKey:
-                  description: UiPath user refresh token to support OAuth based authentication. For additional details, refer to https://docs.uipath.com/orchestrator/reference/using-oauth-for-external-apps
+                  description: UiPath user refresh token to support OAuth based authentication. For additional details, refer to https://docs.uipath.com/orchestrator/reference/using-oauth-for-external-apps.
                   type: object
                   properties:
                     secretKeyRef:
@@ -10350,22 +10744,22 @@ spec:
                         name:
                           type: string
                 robotName:
-                  description: Robot to invoke. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-robots
+                  description: Robot to invoke. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-robots.
                   type: string
                 processName:
                   description: UiProccess encompassing the robot. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-processes
                   type: string
                 tenantName:
-                  description: UiPath tenant name. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-tenants
+                  description: UiPath tenant name. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-tenants.
                   type: string
                 accountLogicalName:
                   description: The unique site URL used to identify the UiPath tenant.
                   type: string
                 clientID:
-                  description: OAuth ClientID registered by UiPath to identify the target. For details on registering a new client, please see https://docs.uipath.com/orchestrator/reference/using-oauth-for-external-apps
+                  description: OAuth ClientID registered by UiPath to identify the target. For details on registering a new client, please see https://docs.uipath.com/orchestrator/reference/using-oauth-for-external-apps.
                   type: string
                 organizationUnitID:
-                  description: A grouping of orchestrator components within a tenant. For additional details, please see https://docs.uipath.com/orchestrator/docs/about-organization-units
+                  description: A grouping of orchestrator components within a tenant. For additional details, please see https://docs.uipath.com/orchestrator/docs/about-organization-units.
                   type: string
               required:
                 - organizationUnitID
@@ -10630,8 +11024,8 @@ spec:
                   description: Sink is a reference to an object that will resolve to a uri to use as the sink.
                   type: object
                   oneOf:
-                    - required: ["ref"]
-                    - required: ["uri"]
+                    - required: [ref]
+                    - required: [uri]
                   properties:
                     ref:
                       description: Ref points to an Addressable.
@@ -10696,10 +11090,10 @@ spec:
           jsonPath: .status.address.url
         - name: Ready
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
         - name: Reason
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
 # Copyright 2021 TriggerMesh Inc.
@@ -10778,8 +11172,8 @@ spec:
                   description: Sink is a reference to an object that will resolve to a uri to use as the sink.
                   type: object
                   oneOf:
-                    - required: ["ref"]
-                    - required: ["uri"]
+                    - required: [ref]
+                    - required: [uri]
                   properties:
                     ref:
                       description: Ref points to an Addressable.
@@ -10844,10 +11238,10 @@ spec:
           jsonPath: .status.address.url
         - name: Ready
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
         - name: Reason
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
 # Copyright 2021 TriggerMesh Inc.
@@ -10905,7 +11299,7 @@ spec:
                 runtime:
                   description: Function runtime name. Python, Ruby or Node runtimes are currently supported.
                   type: string
-                  enum: ["python", "ruby", "node"]
+                  enum: [python, ruby, node]
                 code:
                   description: Function code.
                   type: string
@@ -10945,8 +11339,8 @@ spec:
                   description: Sink is a reference to an object that will resolve to a uri to use as the sink.
                   type: object
                   oneOf:
-                    - required: ["ref"]
-                    - required: ["uri"]
+                    - required: [ref]
+                    - required: [uri]
                   properties:
                     ref:
                       description: Ref points to an Addressable.
@@ -11007,10 +11401,10 @@ spec:
           jsonPath: .status.address.url
         - name: Ready
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
         - name: Reason
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
 # Copyright 2020 TriggerMesh Inc.
@@ -11198,10 +11592,10 @@ spec:
           jsonPath: .status.address.url
         - name: Ready
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
         - name: Reason
           type: string
-          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
 

@@ -21,23 +21,21 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: {{ template "triggermesh.controller.fullname" . }}
 
 ---
-
 # Permissions not required by controllers directly, but granted to
 # receive-adapters via RoleBindings.
 #
 # Without them, the following error is thrown:
 #   "attempting to grant RBAC permissions not currently held"
 #
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -45,9 +43,9 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -60,9 +58,9 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -75,9 +73,9 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -90,9 +88,9 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -105,16 +103,14 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: splitter-adapter
-
 ---
-
 # Resolve sink URIs
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -123,9 +119,9 @@ metadata:
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.controller.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
