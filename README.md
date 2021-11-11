@@ -14,7 +14,7 @@ $ helm repo add triggermesh https://storage.googleapis.com/triggermesh-charts
 $ helm search repo triggermesh
 ```
 
-## Install a chart from the TriggerMesh Ligrary 
+## Install a chart from the TriggerMesh Library
 
 ```bash
 $ helm install my-release triggermesh/<chart>

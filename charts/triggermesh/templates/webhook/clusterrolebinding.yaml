@@ -21,9 +21,9 @@ metadata:
   labels:
     {{- include "triggermesh.webhook.labels" . | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: {{ include "triggermesh.webhook.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.webhook.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

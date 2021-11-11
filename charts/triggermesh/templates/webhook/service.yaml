@@ -20,9 +20,8 @@ metadata:
     {{- include "triggermesh.webhook.labels" . | nindent 4 }}
 spec:
   ports:
-  - name: https-webhook
-    port: 443
-    targetPort: 8443
-    protocol: TCP
+    - name: https-webhook
+      port: 443
+      targetPort: 8443
   selector:
     {{- include "triggermesh.webhook.selectorLabels" . | nindent 4 }}

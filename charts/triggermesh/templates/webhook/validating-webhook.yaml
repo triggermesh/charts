@@ -19,13 +19,13 @@ metadata:
   labels:
     {{- include "triggermesh.webhook.labels" . | nindent 4 }}
 webhooks:
-- name: validation.webhook.triggermesh.io
-  admissionReviewVersions:
-  - v1beta1
-  clientConfig:
-    service:
-      name: {{ include "triggermesh.webhook.fullname" . }}
-      namespace: {{ .Release.Namespace }}
-  sideEffects: None
-  failurePolicy: Fail
+  - admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: {{ include "triggermesh.webhook.fullname" . }}
+        namespace: {{ .Release.Namespace }}
+    sideEffects: None
+    failurePolicy: Fail
+    name: validation.webhook.triggermesh.io
 
