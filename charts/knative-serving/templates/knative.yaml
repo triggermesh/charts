@@ -10,8 +10,6 @@ spec:
     domain:
       {{- toYaml .Values.domain | nindent 6 }}
     network:
-{{- if .Values.tls.enabled }}
-      autoTLS: Enabled
-{{- end }}
+      autoTLS: {{ if .Values.tls.enabled }}Enabled{{ else }}Disabled{{ end }}
     deployment:
       registriesSkippingTagResolving: kind.local,ko.local,dev.local,knative.registry.svc.cluster.local
