@@ -27,7 +27,7 @@ spec:
         runAsGroup: 65534
       containers:
       - name: controller
-        image: "{{ .Values.global.image.registry }}/triggermesh-private/triggerflow:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.global.image.registry }}/{{ .Values.triggerflow.image.repository }}:{{ if .Values.triggerflow.image.tag }}{{ .Values.triggerflow.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
         imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         terminationMessagePolicy: FallbackToLogsOnError
         env:
