@@ -78,6 +78,7 @@ rules:
       - azureiothubsources
       - azurequeuestoragesources
       - azureservicebusqueuesources
+      - azureservicebustopicsources
       - googlecloudauditlogssources
       - googlecloudbillingsources
       - googlecloudiotsources
@@ -117,6 +118,7 @@ rules:
       - azureiothubsources/status
       - azurequeuestoragesources/status
       - azureservicebusqueuesources/status
+      - azureservicebustopicsources/status
       - googlecloudauditlogssources/status
       - googlecloudbillingsources/status
       - googlecloudiotsources/status
@@ -144,6 +146,7 @@ rules:
       - awss3targets
       - awssnstargets
       - awssqstargets
+      - azureeventhubstargets
       - confluenttargets
       - datadogtargets
       - elasticsearchtargets
@@ -182,6 +185,7 @@ rules:
       - awss3targets/status
       - awssnstargets/status
       - awssqstargets/status
+      - azureeventhubstargets/status
       - confluenttargets/status
       - datadogtargets/status
       - elasticsearchtargets/status
@@ -211,6 +215,7 @@ rules:
       - flow.triggermesh.io
     resources:
       - transformations
+      - xslttransforms
     verbs:
       - list
       - watch
@@ -220,6 +225,7 @@ rules:
       - flow.triggermesh.io
     resources:
       - transformations/status
+      - xslttransforms/status
     verbs:
       - update
   # +rbac-check
@@ -280,6 +286,7 @@ rules:
       - azureiothubsources/finalizers
       - azurequeuestoragesources/finalizers
       - azureservicebusqueuesources/finalizers
+      - azureservicebustopicsources/finalizers
       - googlecloudauditlogssources/finalizers
       - googlecloudbillingsources/finalizers
       - googlecloudiotsources/finalizers
@@ -307,6 +314,7 @@ rules:
       - awss3targets/finalizers
       - awssnstargets/finalizers
       - awssqstargets/finalizers
+      - azureeventhubstargets/finalizers
       - confluenttargets/finalizers
       - datadogtargets/finalizers
       - elasticsearchtargets/finalizers
@@ -336,6 +344,7 @@ rules:
       - flow.triggermesh.io
     resources:
       - transformations/finalizers
+      - xslttransforms/finalizers
     verbs:
       - update
   # +rbac-check:subresource=finalizers
@@ -363,6 +372,7 @@ rules:
       - azureblobstoragesources
       - azureeventgridsources
       - azureservicebusqueuesources
+      - azureservicebustopicsources
       - googlecloudauditlogssources
       - googlecloudbillingsources
       - googlecloudiotsources
@@ -382,46 +392,6 @@ rules:
       - list
       - watch
       - create
-  - apiGroups:
-      - ''
-    resources:
-      - serviceaccounts
-    resourceNames:
-      - awscloudwatchlogssource-adapter
-      - awscloudwatchsource-adapter
-      - awscodecommitsource-adapter
-      - awscognitoidentitysource-adapter
-      - awscognitouserpoolsource-adapter
-      - awsdynamodbsource-adapter
-      - awskinesissource-adapter
-      - awsperformanceinsightssource-adapter
-      - awss3source-adapter
-      - awssnssource-adapter
-      - awssqssource-adapter
-      - azureactivitylogssource-adapter
-      - azureblobstoragesource-adapter
-      - azureeventgridsource-adapter
-      - azureeventhubsource-adapter
-      - azureiothubsource-adapter
-      - azurequeuestoragesource-adapter
-      - azureservicebusqueuesource-adapter
-      - googlecloudauditlogssource-adapter
-      - googlecloudbillingsource-adapter
-      - googlecloudiotsource-adapter
-      - googlecloudpubsubsource-adapter
-      - googlecloudrepositoriessource-adapter
-      - googlecloudstoragesource-adapter
-      - httppollersource-adapter
-      - ocimetricssource-adapter
-      - salesforcesource-adapter
-      - slacksource-adapter
-      - twiliosource-adapter
-      - webhooksource-adapter
-      - zendesksource-adapter
-      - tektontarget-adapter
-      - filter-adapter
-      - splitter-adapter
-    verbs:
       - update
   - apiGroups:
       - rbac.authorization.k8s.io
@@ -435,37 +405,10 @@ rules:
       - rbac.authorization.k8s.io
     resources:
       - rolebindings
+    # Only multi-tenant components receive permissions via RoleBindings to
+    # interact with the Kubernetes API.
     resourceNames:
-      - awscloudwatchlogssource-adapter
-      - awscloudwatchsource-adapter
-      - awscodecommitsource-adapter
-      - awscognitoidentitysource-adapter
-      - awscognitouserpoolsource-adapter
-      - awsdynamodbsource-adapter
-      - awskinesissource-adapter
-      - awsperformanceinsightssource-adapter
-      - awss3source-adapter
       - awssnssource-adapter
-      - awssqssource-adapter
-      - azureactivitylogssource-adapter
-      - azureblobstoragesource-adapter
-      - azureeventgridsource-adapter
-      - azureeventhubsource-adapter
-      - azureiothubsource-adapter
-      - azurequeuestoragesource-adapter
-      - azureservicebusqueuesource-adapter
-      - googlecloudauditlogssource-adapter
-      - googlecloudbillingsource-adapter
-      - googlecloudiotsource-adapter
-      - googlecloudpubsubsource-adapter
-      - googlecloudrepositoriessource-adapter
-      - googlecloudstoragesource-adapter
-      - httppollersource-adapter
-      - ocimetricssource-adapter
-      - salesforcesource-adapter
-      - slacksource-adapter
-      - twiliosource-adapter
-      - webhooksource-adapter
       - zendesksource-adapter
       - tektontarget-adapter
       - filter-adapter
@@ -753,6 +696,7 @@ rules:
       - azureiothubsources
       - azurequeuestoragesources
       - azureservicebusqueuesources
+      - azureservicebustopicsources
       - googlecloudauditlogssources
       - googlecloudbillingsources
       - googlecloudiotsources
@@ -794,6 +738,7 @@ rules:
       - awss3targets
       - awssnstargets
       - awssqstargets
+      - azureeventhubstargets
       - confluenttargets
       - datadogtargets
       - elasticsearchtargets
@@ -825,6 +770,7 @@ rules:
       - flow.triggermesh.io
     resources:
       - transformations
+      - xslttransforms
     verbs:
       - get
       - list

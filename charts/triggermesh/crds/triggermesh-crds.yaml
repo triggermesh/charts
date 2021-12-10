@@ -69,53 +69,57 @@ spec:
                 pollingInterval:
                   description: Duration which defines how often logs should be pulled from Amazon CloudWatch Logs. Expressed as a duration string, which format is documented at https://pkg.go.dev/time#ParseDuration. Defaults to 5m
                   type: string
-                credentials:
-                  description: Credentials to interact with the Amazon CloudWatch Logs API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon CloudWatch Logs API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events generated from Amazon CloudWatch Logs.
                   type: object
@@ -320,53 +324,57 @@ spec:
                     oneOf:
                       - required: [expression]
                       - required: [metric]
-                credentials:
-                  description: Credentials to interact with the Amazon CloudWatch API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon CloudWatch API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events generated from Amazon CloudWatch metrics.
                   type: object
@@ -527,53 +535,57 @@ spec:
                   items:
                     type: string
                     enum: [push, pull_request]
-                credentials:
-                  description: Credentials to interact with the Amazon CodeCommit API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon CodeCommit API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from Amazon CodeCommit.
                   type: object
@@ -725,53 +737,57 @@ spec:
                   description: ARN of the Amazon Cognito Identity Pool to receive notifications from. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncognitoidentity.html#amazoncognitoidentity-resources-for-iam-policies.
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:cognito-identity:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:identitypool\/.+$
-                credentials:
-                  description: Credentials to interact with the Amazon Cognito API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon Cognito API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from the Amazon Cognito Identity Pool.
                   type: object
@@ -921,53 +937,57 @@ spec:
                   description: ARN of the Amazon Cognito User Pool to receive notifications from. The expected format is documented at https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazoncognitouserpools.html#amazoncognitouserpools-resources-for-iam-policies
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:cognito-idp:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:userpool\/.+$
-                credentials:
-                  description: Credentials to interact with the Amazon Cognito API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon Cognito API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from the Amazon Cognito User Pool.
                   type: object
@@ -1117,53 +1137,57 @@ spec:
                   description: ARN of the DynamoDB table to receive modification events from. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazondynamodb.html#amazondynamodb-resources-for-iam-policies.
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:dynamodb:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:table\/.+$
-                credentials:
-                  description: Credentials to interact with the Amazon DynamoDB API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon DynamoDB API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from Amazon DynamoDB.
                   type: object
@@ -1313,53 +1337,57 @@ spec:
                   description: ARN of the Kinesis stream to receive data from. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonkinesis.html#amazonkinesis-resources-for-iam-policies.
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:kinesis:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:stream\/.+$
-                credentials:
-                  description: Credentials to interact with the Amazon Kinesis API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon Kinesis API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from Amazon Kinesis.
                   type: object
@@ -1518,53 +1546,57 @@ spec:
                   items:
                     type: string
                     minLength: 1
-                credentials:
-                  description: Credentials to interact with the Amazon RDS and Performance Insights APIs. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon RDS and Performance Insights APIs.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events generated by Amazon Performance Insights.
                   type: object
@@ -1718,11 +1750,18 @@ spec:
               type: object
               properties:
                 arn:
-                  description: ARN of the S3 bucket to receive notifications from. The expected format is 'arn:${Partition}:s3:${Region}:${Account}:${BucketName}'. Although not technically required by S3, we enforce that bucket ARNs include a region and an account ID, because this information is required by the source to operate properly. See also https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html#amazons3-resources-for-iam-policies.
+                  description: |-
+                    ARN of the Amazon S3 bucket to receive notifications from. The expected format is documented at
+                    https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html#amazons3-resources-for-iam-policies.
+
+                    Although not technically supported by S3, the ARN provided via this attribute may include a region and
+                    an account ID. When this information is provided, it is used to set an accurate identity-based access
+                    policy between the S3 bucket and the reconciled SQS queue, unless an existing queue is provided via
+                    the 'destination.sqs.queueARN' attribute.
                   type: string
                   # Bucket naming rules
                   # https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
-                  pattern: ^arn:aws(-cn|-us-gov)?:s3:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:[0-9a-z][0-9a-z.-]{2,62}$
+                  pattern: ^arn:aws(-cn|-us-gov)?:s3:([a-z]{2}(-gov)?-[a-z]+-\d)?:(\d{12})?:[0-9a-z][0-9a-z.-]{2,62}$
                 eventTypes:
                   description: List of event types that the source should subscribe to. Accepted values are listed at https://docs.aws.amazon.com/AmazonS3/latest/userguide/notification-how-to-event-types-and-destinations.html.
                   type: array
@@ -1746,57 +1785,71 @@ spec:
                       - s3:Replication:OperationNotTracked
                       - s3:Replication:OperationMissedThreshold
                       - s3:Replication:OperationReplicatedAfterThreshold
-                queueARN:
-                  description: ARN of the Amazon SQS queue that should be receiving notifications from the Amazon S3 bucket. When not provided, a SQS queue is automatically created and associated with the bucket. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonsqs.html#amazonsqs-resources-for-iam-policies.
-                  type: string
-                  pattern: ^arn:aws(-cn|-us-gov)?:sqs:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:.+$
-                credentials:
-                  description: Credentials to interact with the Amazon S3 and SQS APIs. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                destination:
+                  description: The destination of notifications originating from the Amazon S3 bucket. If omitted, an Amazon SQS queue is automatically created and associated with the bucket.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    sqs:
+                      description: Properties of an Amazon SQS queue to use as destination for bucket notifications.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
+                        queueARN:
+                          description: ARN of the Amazon SQS queue that should be receiving bucket notifications. The expected format is documented at https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonsqs.html#amazonsqs-resources-for-iam-policies.
                           type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
-                          type: object
-                          properties:
-                            name:
-                              type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
+                          pattern: ^arn:aws(-cn|-us-gov)?:sqs:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:.+$
+                      required:
+                        - queueARN
+                auth:
+                  description: Authentication method to interact with the Amazon S3 and SQS APIs.
+                  type: object
+                  properties:
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from Amazon S3.
                   type: object
@@ -1977,53 +2030,57 @@ spec:
                       type: string
                       format: json
                       nullable: true
-                credentials:
-                  description: Credentials to interact with the Amazon SNS API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html
+                auth:
+                  description: Authentication method to interact with the Amazon SNS API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                 sink:
                   description: The destination of events sourced from Amazon SNS.
                   type: object
@@ -2192,53 +2249,72 @@ spec:
                     visibilityTimeout:
                       description: Period of time during which Amazon SQS prevents other consumers from receiving and processing a message that has been received via ReceiveMessage. Expressed as a duration string, which format is documented at https://pkg.go.dev/time#ParseDuration. If not defined, the overall visibility timeout for the queue is used. For more details, please refer to the Amazon SQS Developer Guide at https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html.
                       type: string
-                credentials:
-                  description: Credentials to interact with the Amazon SQS API. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
+                auth:
+                  description: Authentication method to interact with the Amazon SQS API.
                   type: object
                   properties:
-                    accessKeyID:
-                      description: Access key ID.
+                    credentials:
+                      description: Security credentials authentication. For more information about AWS security credentials, please refer to the AWS General Reference at https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html.
                       type: object
                       properties:
-                        value:
-                          description: Literal value of the access key ID.
-                          type: string
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the access key ID.
+                        accessKeyID:
+                          description: Access key ID.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the access key ID.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
-                    secretAccessKey:
-                      description: Secret access key.
-                      type: object
-                      properties:
-                        value:
-                          description: Literal value of the secret access key.
-                          type: string
-                          format: password
-                        valueFromSecret:
-                          description: A reference to a Kubernetes Secret object containing the secret access key.
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the access key ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        secretAccessKey:
+                          description: Secret access key.
                           type: object
                           properties:
-                            name:
+                            value:
+                              description: Literal value of the secret access key.
                               type: string
-                            key:
-                              type: string
-                          required:
-                            - name
-                            - key
-                      oneOf:
-                        - required: [value]
-                        - required: [valueFromSecret]
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the secret access key.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                    iamRole:
+                      description: (Amazon EKS only) The ARN of an IAM role which can be impersonated to obtain AWS permissions. For more information about IAM roles for service accounts, please refer to the Amazon EKS User Guide at https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
+                      type: string
+                      pattern: ^arn:aws(-cn|-us-gov)?:iam::\d{12}:role\/.+$
+                  oneOf:
+                    - required: [credentials]
+                    - required: [iamRole]
+                endpoint:
+                  description: Customizations of the AWS REST API endpoint.
+                  type: object
+                  properties:
+                    url:
+                      description: URL of the endpoint.
+                      type: string
+                      format: uri
                 sink:
                   description: The destination of events sourced from Amazon SQS.
                   type: object
@@ -2385,25 +2461,39 @@ spec:
               description: Desired state of the event source.
               type: object
               properties:
-                eventHubID:
-                  description: |-
-                    Resource ID of either the Event Hubs instance or Event Hubs namespace to send activity logs to. This
-                    resource ID also conveniently contains the ID of the subscription which activity logs are to be
-                    subscribed to.
-
-                    If the resource ID represents an Event Hubs namespace, Azure automatically creates an Event Hub with
-                    the name 'insights-activity-logs' inside that namespace. Otherwise, the user-provided Event Hub is
-                    used.
-
-                    Accepted formats are
-                      - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventHubs/{eventHubName}
-                      - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
+                subscriptionID:
+                  description: The ID of the Azure subscription which activity logs to subscribe to.
                   type: string
-                  pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}(?:\/eventHubs\/[a-zA-Z0-9][\w.-]{0,49})?$
-                eventHubsSASPolicy:
-                  description: Name of a SAS policy with Manage permissions inside the Event Hubs namespace referenced in the EventHubID field. Defaults to 'RootManageSharedAccessKey'.
-                  type: string
-                  pattern: ^[\w.-]+$'
+                  format: guid
+                  pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                destination:
+                  description: The intermediate destination of activity logs, before they are retrieved by TriggerMesh.
+                  type: object
+                  properties:
+                    eventHubs:
+                      description: Properties of an Event Hubs namespace to use as intermediate destination of activity logs.
+                      type: object
+                      properties:
+                        namespaceID:
+                          description: |-
+                            Resource ID of the Event Hubs namespace.
+
+                            The expected format is
+                              /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
+                          type: string
+                          pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}$
+                        hubName:
+                          description: Name of the Event Hubs instance within the selected namespace. If omitted, Azure automatically creates an Event Hub with the name 'insights-activity-logs' inside the selected namespace.
+                          type: string
+                          pattern: ^[A-Za-z0-9][\w.-]{0,49}$
+                        sasPolicy:
+                          description: Name of a SAS policy with Manage permissions inside the Event Hubs namespace referenced by the 'namespaceID' field. Defaults to 'RootManageSharedAccessKey'.
+                          type: string
+                          pattern: ^[\w.-]+$
+                      required:
+                        - namespaceID
+                  required:
+                    - eventHubs
                 categories:
                   description: Categories of Activity Logs to collect. All available categories are selected when this attribute is empty. For a list of available Activity Logs category, please refer to https://docs.microsoft.com/en-us/azure/azure-monitor/platform/activity-log-schema#categories.
                   type: array
@@ -2529,7 +2619,8 @@ spec:
                   required:
                     - extensions
               required:
-                - eventHubID
+                - subscriptionID
+                - destination
                 - auth
                 - sink
             status:
@@ -2666,18 +2757,6 @@ spec:
                     group name which all together uniquely identify the Storage Account within Azure.
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.Storage\/storageAccounts\/[a-z0-9]{3,24}$
-                eventHubID:
-                  description: |-
-                    Resource ID of either the Event Hubs instance or Event Hubs namespace to send events to.
-
-                    Accepted formats are
-                      - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventHubs/{eventHubName}
-                      - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
-
-                    If the resource ID represents an Event Hubs namespace, an Event Hubs instance is created on behalf of
-                    the user inside that namespace. Otherwise, the user-provided Event Hub is used.
-                  type: string
-                  pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}(?:\/eventHubs\/[a-zA-Z0-9][\w.-]{0,49})?$
                 eventTypes:
                   description: |-
                     Types of events to subscribe to.
@@ -2705,6 +2784,30 @@ spec:
                       # Allowed for completeness, but users should be aware that those events use a different schema from
                       # the other Storage event types.
                       - Microsoft.Storage.BlobInventoryPolicyCompleted
+                endpoint:
+                  description: The intermediate destination of events subscribed via Event Grid, before they are retrieved by TriggerMesh.
+                  type: object
+                  properties:
+                    eventHubs:
+                      description: Properties of an Event Hubs namespace to use as intermediate destination of events.
+                      type: object
+                      properties:
+                        namespaceID:
+                          description: |-
+                            Resource ID of the Event Hubs namespace.
+
+                            The expected format is
+                              /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
+                          type: string
+                          pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}$
+                        hubName:
+                          description: Name of the Event Hubs instance within the selected namespace. If omitted, an Event Hubs instance is created on behalf of the user.
+                          type: string
+                          pattern: ^[A-Za-z0-9][\w.-]{0,49}$
+                      required:
+                        - namespaceID
+                  required:
+                    - eventHubs
                 auth:
                   description: Authentication method to interact with the Azure Storage and Azure Event Hubs REST APIs. This event source only supports the Service Principal authentication.
                   type: object
@@ -2816,7 +2919,7 @@ spec:
                     - required: [uri]
               required:
                 - storageAccountID
-                - eventHubID
+                - endpoint
                 - auth
                 - sink
             status:
@@ -2960,18 +3063,30 @@ spec:
                   type: array
                   items:
                     type: string
-                eventHubID:
-                  description: |-
-                    Resource ID of either the Event Hubs instance or Event Hubs namespace to send events to.
+                endpoint:
+                  description: The intermediate destination of events subscribed via Event Grid, before they are retrieved by TriggerMesh.
+                  type: object
+                  properties:
+                    eventHubs:
+                      description: Properties of an Event Hubs namespace to use as intermediate destination of events.
+                      type: object
+                      properties:
+                        namespaceID:
+                          description: |-
+                            Resource ID of the Event Hubs namespace.
 
-                    Accepted formats are
-                      - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventHubs/{eventHubName}
-                      - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
-
-                    If the resource ID represents an Event Hubs namespace, an Event Hubs instance is created on behalf of
-                    the user inside that namespace. Otherwise, the user-provided Event Hub is used.
-                  type: string
-                  pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}(?:\/eventHubs\/[a-zA-Z0-9][\w.-]{0,49})?$
+                            The expected format is
+                              /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
+                          type: string
+                          pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}$
+                        hubName:
+                          description: Name of the Event Hubs instance within the selected namespace. If omitted, an Event Hubs instance is created on behalf of the user.
+                          type: string
+                          pattern: ^[A-Za-z0-9][\w.-]{0,49}$
+                      required:
+                        - namespaceID
+                  required:
+                    - eventHubs
                 auth:
                   description: Authentication method to interact with the Azure Event Grid and Azure Event Hubs REST APIs. This event source only supports the Service Principal authentication.
                   type: object
@@ -3083,7 +3198,7 @@ spec:
                     - required: [uri]
               required:
                 - scope
-                - eventHubID
+                - endpoint
                 - auth
                 - sink
             status:
@@ -3834,7 +3949,7 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.microsoft.azure.servicebus.queue.message" }
+        { "type": "com.microsoft.azure.servicebus.message" }
       ]
 spec:
   group: sources.triggermesh.io
@@ -3862,16 +3977,142 @@ spec:
               description: Desired state of the event source.
               type: object
               properties:
+                queueID:
+                  description: |-
+                    The resource ID the Service Bus Queue to subscribe to.
+
+                    The expected format is
+                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
+                  type: string
+                  pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.ServiceBus\/namespaces\/[A-Za-z0-9-]{6,50}\/queues\/[A-Za-z0-9][\w.~/-]{0,258}[A-Za-z0-9]$
                 auth:
                   description: Authentication method to interact with the Azure Service Bus Queue.
                   type: object
                   properties:
+                    servicePrincipal:
+                      description: Credentials of an Azure Service Principal. For more information about service principals, please refer to the Azure Active Directory documentation at https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals.
+                      type: object
+                      properties:
+                        tenantID:
+                          description: ID of the Azure Active Directory tenant.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the tenant ID.
+                              type: string
+                              format: guid
+                              pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the tenant ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        clientID:
+                          description: ID of the registered client/application.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the client ID.
+                              type: string
+                              format: guid
+                              pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the client ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        clientSecret:
+                          description: Secret associated with the registered client/application.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the client secret.
+                              type: string
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the client secret.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                      required:
+                        - tenantID
+                        - clientID
+                        - clientSecret
                     sasToken:
                       description: An Azure shared access signature (SAS) token. For more information about SAS tokens, please refer to the Azure Service Bus Queue documentation at https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-sas.
                       type: object
                       properties:
+                        keyName:
+                          description: Name of the key used by the SAS token. Mutually exclusive with 'connectionString'.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal name of the key.
+                              type: string
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the key's name.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        keyValue:
+                          description: Value of the key used by the SAS token. Mutually exclusive with 'connectionString'.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the key.
+                              type: string
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the key's value.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
                         connectionString:
-                          description: Connection string containing both the resource URI of the Event Service Bus instance, and the SAS token.
+                          description: Connection string containing both the resource URI of the Service Bus Queue, and the SAS token. Mutually exclusive with 'keyName' and 'keyValue'.
                           type: object
                           properties:
                             value:
@@ -3885,6 +4126,21 @@ spec:
                                   type: string
                                 key:
                                   type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                      oneOf:
+                        - required:
+                            - keyName
+                            - keyValue
+                        - required:
+                            - connectionString
+                  oneOf:
+                    - required: [sasToken]
+                    - required: [servicePrincipal]
                 sink:
                   description: The destination of events sourced from Azure Service Bus Queue.
                   type: object
@@ -3913,12 +4169,252 @@ spec:
                     - required: [ref]
                     - required: [uri]
               required:
+                - queueID
                 - auth
                 - sink
             status:
               description: Reported status of the event source.
               type: object
               properties:
+                sinkUri:
+                  description: URI of the sink where events are currently sent to.
+                  type: string
+                  format: uri
+                ceAttributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      source:
+                        type: string
+                    required:
+                      - type
+                      - source
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+      additionalPrinterColumns:
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+        - name: Sink
+          type: string
+          jsonPath: .status.sinkUri
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# Copyright 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: azureservicebustopicsources.sources.triggermesh.io
+  labels:
+    eventing.knative.dev/source: 'true'
+    duck.knative.dev/source: 'true'
+    knative.dev/crd-install: 'true'
+    triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "com.microsoft.azure.servicebus.message" }
+      ]
+spec:
+  group: sources.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: AzureServiceBusTopicSource
+    plural: azureservicebustopicsources
+    categories:
+      - all
+      - knative
+      - eventing
+      - sources
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh event source for Azure Service Bus Topics.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the event source.
+              type: object
+              properties:
+                topicID:
+                  description: |-
+                    The resource ID the Service Bus Topic to subscribe to.
+
+                    The expected format is
+                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
+                  type: string
+                  pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.ServiceBus\/namespaces\/[A-Za-z0-9-]{6,50}\/topics\/[A-Za-z0-9][\w.~/-]{0,258}[A-Za-z0-9]$
+                auth:
+                  description: Authentication method to interact with the Azure Service Bus API. This event source only supports the Service Principal authentication.
+                  type: object
+                  properties:
+                    servicePrincipal:
+                      description: Credentials of an Azure Service Principal. For more information about service principals, please refer to the Azure Active Directory documentation at https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals.
+                      type: object
+                      properties:
+                        tenantID:
+                          description: ID of the Azure Active Directory tenant.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the tenant ID.
+                              type: string
+                              format: guid
+                              pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the tenant ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        clientID:
+                          description: ID of the registered client/application.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the client ID.
+                              type: string
+                              format: guid
+                              pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the client ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        clientSecret:
+                          description: Secret associated with the registered client/application.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the client secret.
+                              type: string
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the client secret.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                      required:
+                        - tenantID
+                        - clientID
+                        - clientSecret
+                  required:
+                    - servicePrincipal
+                sink:
+                  description: The destination of events sourced from the Azure Service Bus Topic.
+                  type: object
+                  properties:
+                    ref:
+                      description: Reference to an addressable Kubernetes object to be used as the destination of events.
+                      type: object
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        namespace:
+                          type: string
+                        name:
+                          type: string
+                      required:
+                        - apiVersion
+                        - kind
+                        - name
+                    uri:
+                      description: URI to use as the destination of events.
+                      type: string
+                      format: uri
+                  oneOf:
+                    - required: [ref]
+                    - required: [uri]
+              required:
+                - topicID
+                - auth
+                - sink
+            status:
+              description: Reported status of the event source.
+              type: object
+              properties:
+                subscriptionID:
+                  description: Resource ID of the Service Bus Subscription that is currently used by the event source for consuming events from the configured Service Bus Topic.
+                  type: string
                 sinkUri:
                   description: URI of the sink where events are currently sent to.
                   type: string
@@ -7662,6 +8158,265 @@ spec:
         - name: URL
           type: string
           jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# Copyright 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: azureeventhubstargets.targets.triggermesh.io
+  labels:
+    eventing.knative.dev/target: 'true'
+    duck.knative.dev/target: 'true'
+    knative.dev/crd-install: 'true'
+    triggermesh.io/crd-install: 'true'
+  annotations:
+spec:
+  group: targets.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: AzureEventHubsTarget
+    plural: azureeventhubstargets
+    categories:
+      - all
+      - knative
+      - eventing
+      - targets
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh event target for Azure Event Hubs.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the event target.
+              type: object
+              properties:
+                eventHubID:
+                  description: |-
+                    Resource ID of the Event Hubs instance.
+
+                    The expected format is
+                      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}
+                  type: string
+                  pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}\/event[Hh]ubs\/[a-zA-Z0-9][\w.-]{0,49}$
+                auth:
+                  description: Authentication method to interact with the Azure Event Hubs REST API.
+                  type: object
+                  properties:
+                    sasToken:
+                      description: An Azure shared access signature (SAS) token. For more information about SAS tokens, please refer to the Azure Storage documentation at https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview.
+                      type: object
+                      properties:
+                        keyName:
+                          description: Name of the key used by the SAS token. Mutually exclusive with 'connectionString'.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal name of the key.
+                              type: string
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the key's name.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        keyValue:
+                          description: Value of the key used by the SAS token. Mutually exclusive with 'connectionString'.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the key.
+                              type: string
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the key's value.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        connectionString:
+                          description: Connection string containing both the resource URI of the Event Hubs instance, and the SAS token. Mutually exclusive with 'keyName' and 'keyValue'.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the connection string.
+                              type: string
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the connection string.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                      oneOf:
+                        - required:
+                            - keyName
+                            - keyValue
+                        - required:
+                            - connectionString
+                    servicePrincipal:
+                      description: Credentials of an Azure Service Principal. For more information about service principals, please refer to the Azure Active Directory documentation at https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals.
+                      type: object
+                      properties:
+                        tenantID:
+                          description: ID of the Azure Active Directory tenant.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the tenant ID.
+                              type: string
+                              format: guid
+                              pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the tenant ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        clientID:
+                          description: ID of the registered client/application.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the client ID.
+                              type: string
+                              format: guid
+                              pattern: ^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the client ID.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                        clientSecret:
+                          description: Secret associated with the registered client/application.
+                          type: object
+                          properties:
+                            value:
+                              description: Literal value of the client secret.
+                              type: string
+                              format: password
+                            valueFromSecret:
+                              description: A reference to a Kubernetes Secret object containing the client secret.
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                key:
+                                  type: string
+                              required:
+                                - name
+                                - key
+                          oneOf:
+                            - required: [value]
+                            - required: [valueFromSecret]
+                      required:
+                        - tenantID
+                        - clientID
+                        - clientSecret
+                  oneOf:
+                    - required: [sasToken]
+                    - required: [servicePrincipal]
+              required:
+                - eventHubID
+                - auth
+            status:
+              description: Reported status of the event target.
+              type: object
+              properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+      additionalPrinterColumns:
         - name: Ready
           type: string
           jsonPath: .status.conditions[?(@.type=='Ready')].status
@@ -11582,6 +12337,142 @@ spec:
                       - status
                 address:
                   description: Address of the HTTP/S endpoint where Transformation is serving incoming CloudEvents.
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: Address
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+
+---
+# Copyright 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: xslttransforms.flow.triggermesh.io
+  labels:
+    triggermesh.io/crd-install: 'true'
+spec:
+  group: flow.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: XSLTTransform
+    plural: xslttransforms
+    categories:
+      - all
+      - knative
+      - eventing
+      - triggermesh
+      - transformations
+    shortNames:
+      - xslt
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh CloudEvents XSLT transformation.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the TriggerMesh component.
+              type: object
+              properties:
+                xslt:
+                  description: XSLT used to transform incoming CloudEvents.
+                  type: object
+                  properties:
+                    value:
+                      description: Literal inline value.
+                      type: string
+                    valueFromSecret:
+                      description: A reference to a Kubernetes Secret object containing the value.
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        key:
+                          type: string
+                      required:
+                        - name
+                        - key
+                    valueFromConfigMap:
+                      description: A reference to a Kubernetes ConfigMap object containing the value.
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        key:
+                          type: string
+                      required:
+                        - name
+                        - key
+                  oneOf:
+                    - required: [value]
+                    - required: [valueFromSecret]
+                    - required: [valueFromConfigMap]
+                allowPerEventXSLT:
+                  description: Whether the XSLT informed at the spec can be overriden at each CloudEvent.
+                  type: boolean
+              anyOf:
+                - required: [xslt]
+                - required: [allowPerEventXSLT]
+            status:
+              description: Reported status.
+              type: object
+              properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  description: Address of the HTTP/S endpoint where component is listening for incoming CloudEvents.
                   type: object
                   properties:
                     url:

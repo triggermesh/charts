@@ -28,7 +28,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: {{ template "triggermesh.controller.fullname" . }}
-
 ---
 # Permissions not required by controllers directly, but granted to
 # receive-adapters via RoleBindings.

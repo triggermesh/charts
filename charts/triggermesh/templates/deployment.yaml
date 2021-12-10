@@ -85,8 +85,8 @@ spec:
           value: "gcr.io/triggermesh/azureiothubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZUREQUEUESTORAGESOURCE_IMAGE
           value: "gcr.io/triggermesh/azurequeuestoragesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        - name: AZURESERVICEBUSQUEUESOURCE_IMAGE
-          value: "gcr.io/triggermesh/azureservicebusqueuesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AZURESERVICEBUSSOURCE_IMAGE
+          value: "gcr.io/triggermesh/azureservicebussource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDPUBSUBSOURCE_IMAGE
           value: "gcr.io/triggermesh/googlecloudpubsubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: HTTPPOLLERSOURCE_IMAGE
@@ -120,6 +120,8 @@ spec:
           value: "gcr.io/triggermesh/awssnstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_SQS_ADAPTER_IMAGE
           value: "gcr.io/triggermesh/awssqstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AZURE_EVENTHUBS_ADAPTER_IMAGE
+          value: "gcr.io/triggermesh/azureeventhubstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: CONFLUENT_ADAPTER_IMAGE
           value: "gcr.io/triggermesh/confluenttarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: DATADOGTARGET_IMAGE
@@ -167,6 +169,8 @@ spec:
         # Transformation adapter
         - name: TRANSFORMER_IMAGE
           value: "gcr.io/triggermesh/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: XSLTTRANSFORM_IMAGE
+          value: "gcr.io/triggermesh/xslttransform-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Routing adapters
         - name: FILTER_IMAGE
           value: "gcr.io/triggermesh/filter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -174,11 +178,11 @@ spec:
           value: "gcr.io/triggermesh/splitter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Function Runtimes
         - name: RUNTIME_KLR_PYTHON
-          value: gcr.io/triggermesh/knative-lambda-python37:v1.9.1
+          value: "gcr.io/triggermesh/knative-lambda-python37:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: RUNTIME_KLR_NODE
-          value: gcr.io/triggermesh/knative-lambda-node10:v1.8.1
+          value: "gcr.io/triggermesh/knative-lambda-node10:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: RUNTIME_KLR_RUBY
-          value: gcr.io/triggermesh/knative-lambda-ruby25:v1.8.1
+          value: "gcr.io/triggermesh/knative-lambda-ruby25:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Type-specific options
         - name: TEKTON_REAPING_INTERVAL
           value: 2m

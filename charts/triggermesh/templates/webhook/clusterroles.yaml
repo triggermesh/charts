@@ -43,6 +43,24 @@ rules:
       - filters/status
     verbs:
       - update
+  - apiGroups:
+      - flow.triggermesh.io
+    resources:
+      - xslttransforms
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - flow.triggermesh.io
+    resources:
+      - xslttransforms/status
+    verbs:
+      - update
   # Events admin
   - apiGroups:
       - ''
