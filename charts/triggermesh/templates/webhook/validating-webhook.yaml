@@ -28,4 +28,3 @@ webhooks:
     sideEffects: None
     failurePolicy: Fail
     name: validation.webhook.triggermesh.io
-
