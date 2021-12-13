@@ -32,3 +32,10 @@ dependencies:
       - targets
       - transformations
       - functions
+  - name: koby
+    version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: koby.enabled
+    tags:
+      - triggermesh
+      - koby
