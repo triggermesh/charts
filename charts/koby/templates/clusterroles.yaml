@@ -1,0 +1,180 @@
+# Copyright (c) 2021 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "koby.fullname" . }}-controller
+  labels:
+    {{- include "koby.labels" . | nindent 4 }}
+rules:
+
+# Manage component registrations
+- apiGroups:
+  - extensions.triggermesh.io
+  resources:
+  - genericregistrations
+  - knativesourceregistrations
+  verbs:
+  - get
+  - list
+  - watch
+  - patch  # set finalizers
+- apiGroups:
+  - extensions.triggermesh.io
+  resources:
+  - genericregistrations/status
+  - knativesourceregistrations/status
+  verbs:
+  - update
+
+# Managing CRDs for registered components. For each
+# registered component a CRD will need to be managed.
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+
+# Managing ClusterRoles for created CRDs.
+# Koby controller can manage any resource at the
+# pre-defined groups.
+- apiGroups:
+  - components.extensions.triggermesh.io
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - patch
+  - update
+  - delete
+
+# Manage deployments as workloads
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+
+# Manage services as workloads
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+
+# Creating observable cluster roles
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterroles
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - delete
+  - patch
+
+
+# Record Kubernetes events
+- apiGroups:
+  - ''
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+
+# Read controller configurations
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  resourceNames:
+  - config-logging
+  - config-observability
+  - config-leader-election
+  - config-koby
+  verbs:
+  - get
+
+# Knative's sharedmain method supports leader election via coordination lease mechanism.
+# This role is needed to let controller work with lease resources.
+# https://docs.google.com/document/d/1zHtVjVmzivO2PEhZkpqNo-M9cPnmfvBWMYzP8ehVXtM/edit#
+# https://github.com/knative/pkg/pull/1019
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - delete
+  - patch
+  - watch
+
+---
+
+# Koby generated components need to create a role that is labeled
+# rbac.triggermesh.io/koby-component: "true"
+# that includes API groups, resources and verbs suitable for
+# the generic component controller.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "koby.fullname" . }}-generated-components-controller
+  labels:
+    {{- include "koby.labels" . | nindent 4 }}
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.triggermesh.io/koby-component: "true"
+{{- end }}
