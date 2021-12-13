@@ -8,7 +8,15 @@ global:
     pullPolicy: "IfNotPresent"
     pullSecrets: []
 
+backend:
+  image:
+    repository: "triggermesh-private/backend-controller"
+    tag: ""
+
 frontend:
+  image:
+    repository: "triggermesh-private/console"
+    tag: "v1.10.1"
   ingress:
     enabled: false
     hostname: chart-example.local
@@ -18,6 +26,19 @@ frontend:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
       # cert-manager.io/cluster-issuer: letsencrypt-prod
+
+ghbackend:
+  image:
+    repository: "triggermesh-private/gh-backend"
+    tag: ""
+
+triggerflow:
+  image:
+    repository: "triggermesh-private/triggerflow"
+    tag: ""
+
+koby:
+  enabled: true
 
 imagepullsecret-patcher:
   enabled: true
