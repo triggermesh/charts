@@ -12,13 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if .Values.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ template "koby.fullname" . }}-controller
+  name: {{ include "tm-cloud.koby.fullname" . }}-controller
   labels:
-    {{- include "koby.labels" . | nindent 4 }}
+    {{- include "tm-cloud.koby.labels" . | nindent 4 }}
 rules:
 
 # Manage component registrations
@@ -170,11 +169,10 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ template "koby.fullname" . }}-generated-components-controller
+  name: {{ include "tm-cloud.koby.fullname" . }}-generated-components-controller
   labels:
-    {{- include "koby.labels" . | nindent 4 }}
+    {{- include "tm-cloud.koby.labels" . | nindent 4 }}
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
       rbac.triggermesh.io/koby-component: "true"
-{{- end }}

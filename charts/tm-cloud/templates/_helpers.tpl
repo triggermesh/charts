@@ -226,3 +226,27 @@ TriggerFlow Selector labels
 {{ include "tm-cloud.selectorLabels" . }}
 app.kubernetes.io/part-of: triggerflow
 {{- end }}
+
+{{/*
+Koby FQDN
+*/}}
+{{- define "tm-cloud.koby.fullname" -}}
+{{- $name := include "tm-cloud.fullname" . }}
+{{- printf "%s-%s" $name "koby" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Koby labels
+*/}}
+{{- define "tm-cloud.koby.labels" -}}
+{{ include "tm-cloud.labels" . }}
+app.kubernetes.io/part-of: koby
+{{- end }}
+
+{{/*
+Koby Selector labels
+*/}}
+{{- define "tm-cloud.koby.selectorLabels" -}}
+{{ include "tm-cloud.selectorLabels" . }}
+app.kubernetes.io/part-of: koby
+{{- end }}

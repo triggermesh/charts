@@ -38,7 +38,9 @@ triggerflow:
     tag: ""
 
 koby:
-  enabled: true
+  image:
+    repository: "triggermesh-private/koby-controller"
+    tag: ""
 
 imagepullsecret-patcher:
   enabled: true
