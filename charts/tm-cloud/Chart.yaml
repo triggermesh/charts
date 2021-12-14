@@ -4,7 +4,7 @@ description: A Helm chart for on-premise deployments of TriggerMesh cloud infras
 
 type: application
 
-version: 0.3.2
+version: 0.3.3
 
 appVersion: "v1.10.0"
 
@@ -32,10 +32,3 @@ dependencies:
       - targets
       - transformations
       - functions
-  - name: koby
-    version: 0.1.x
-    repository: https://storage.googleapis.com/triggermesh-charts
-    condition: koby.enabled
-    tags:
-      - triggermesh
-      - koby

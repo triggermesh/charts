@@ -12,18 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if .Values.serviceAccount.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ template "koby.fullname" . }}-controller
+  name: {{ include "tm-cloud.koby.fullname" . }}-controller
+  labels:
+    {{- include "tm-cloud.koby.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ template "koby.fullname" . }}-controller
+  name: {{ include "tm-cloud.koby.fullname" . }}-controller
 subjects:
 - kind: ServiceAccount
-  name: {{ template "koby.serviceAccountName" . }}
+  name: {{ include "tm-cloud.koby.fullname" . }}
   namespace: {{ .Release.Namespace }}
 
 ---
@@ -31,13 +32,14 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ template "koby.fullname" . }}-generated-components-controller
+  name: {{ include "tm-cloud.koby.fullname" . }}-generated-components-controller
+  labels:
+    {{- include "tm-cloud.koby.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ template "koby.fullname" . }}-generated-components-controller
+  name: {{ include "tm-cloud.koby.fullname" . }}-generated-components-controller
 subjects:
 - kind: ServiceAccount
-  name: {{ template "koby.serviceAccountName" . }}
+  name: {{ include "tm-cloud.koby.fullname" . }}
   namespace: {{ .Release.Namespace }}
-{{- end }}
