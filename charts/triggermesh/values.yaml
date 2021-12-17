@@ -6,8 +6,7 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  registry: "gcr.io"
-  repository: "triggermesh"
+  registry: "gcr.io/triggermesh"
   pullPolicy: "IfNotPresent"
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
