@@ -45,7 +45,7 @@ spec:
         terminationMessagePolicy: FallbackToLogsOnError
         securityContext:
           {{- toYaml .Values.webhook.securityContext | nindent 12 }}
-        image: "{{ .Values.image.registry }}/triggermesh-webhook:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/triggermesh-webhook:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: SYSTEM_NAMESPACE
