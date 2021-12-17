@@ -44,7 +44,7 @@ spec:
         terminationMessagePolicy: FallbackToLogsOnError
         securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
-        image: "{{ .Values.image.registry }}/triggermesh-controller:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/triggermesh-controller:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: SYSTEM_NAMESPACE
@@ -60,129 +60,129 @@ spec:
           value: triggermesh.io
         # Source adapters
         - name: AWSCLOUDWATCHSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awscloudwatchsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awscloudwatchsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSCLOUDWATCHLOGSSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awscloudwatchlogssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awscloudwatchlogssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSCODECOMMITSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awscodecommitsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awscodecommitsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSCOGNITOIDENTITYSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awscognitoidentitysource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awscognitoidentitysource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSCOGNITOUSERPOOLSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awscognitouserpoolsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awscognitouserpoolsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSDYNAMODBSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awsdynamodbsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awsdynamodbsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSKINESISSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awskinesissource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awskinesissource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSPERFORMANCEINSIGHTSSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awsperformanceinsightssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awsperformanceinsightssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSSNSSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awssnssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awssnssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWSSQSSOURCE_IMAGE
-          value: "gcr.io/triggermesh/awssqssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awssqssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZUREEVENTHUBSOURCE_IMAGE
-          value: "gcr.io/triggermesh/azureeventhubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/azureeventhubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZUREIOTHUBSOURCE_IMAGE
-          value: "gcr.io/triggermesh/azureiothubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/azureiothubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZUREQUEUESTORAGESOURCE_IMAGE
-          value: "gcr.io/triggermesh/azurequeuestoragesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/azurequeuestoragesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZURESERVICEBUSSOURCE_IMAGE
-          value: "gcr.io/triggermesh/azureservicebussource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/azureservicebussource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDPUBSUBSOURCE_IMAGE
-          value: "gcr.io/triggermesh/googlecloudpubsubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/googlecloudpubsubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: HTTPPOLLERSOURCE_IMAGE
-          value: "gcr.io/triggermesh/httppollersource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/httppollersource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: OCIMETRICSSOURCE_IMAGE
-          value: "gcr.io/triggermesh/ocimetricssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/ocimetricssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SALESFORCESOURCE_IMAGE
-          value: "gcr.io/triggermesh/salesforcesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/salesforcesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SLACKSOURCE_IMAGE
-          value: "gcr.io/triggermesh/slacksource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/slacksource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: TWILIOSOURCE_IMAGE
-          value: "gcr.io/triggermesh/twiliosource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/twiliosource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: WEBHOOKSOURCE_IMAGE
-          value: "gcr.io/triggermesh/webhooksource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/webhooksource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: ZENDESKSOURCE_IMAGE
-          value: "gcr.io/triggermesh/zendesksource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/zendesksource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Target adapters
         - name: ALIBABAOSS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/alibabaosstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/alibabaosstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_COMPREHEND_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awscomprehendtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awscomprehendtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_DYNAMODB_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awsdynamodbtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awsdynamodbtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_KINESIS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awskinesistarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awskinesistarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_LAMBDA_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awslambdatarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awslambdatarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_S3_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awss3target-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awss3target-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_SNS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awssnstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awssnstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AWS_SQS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/awssqstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/awssqstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZURE_EVENTHUBS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/azureeventhubstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/azureeventhubstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: CONFLUENT_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/confluenttarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/confluenttarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: DATADOGTARGET_IMAGE
-          value: "gcr.io/triggermesh/datadogtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/datadogtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: ELASTICSEARCH_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/elasticsearchtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/elasticsearchtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLESHEET_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/googlesheettarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/googlesheettarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDFIRESTORE_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/googlecloudfirestoretarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/googlecloudfirestoretarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDSTORAGE_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/googlecloudstoragetarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/googlecloudstoragetarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDWORKFLOWS_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/googlecloudworkflowstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/googlecloudworkflowstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: HASURATARGET_IMAGE
-          value: "gcr.io/triggermesh/hasuratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/hasuratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: HTTPTARGET_IMAGE
-          value: "gcr.io/triggermesh/httptarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/httptarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: INFRATARGET_IMAGE
-          value: "gcr.io/triggermesh/infratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/infratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: JIRATARGET_IMAGE
-          value: "gcr.io/triggermesh/jiratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/jiratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: LOGZTARGET_IMAGE
-          value: "gcr.io/triggermesh/logztarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/logztarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: OPENTELEMETRYTARGET_IMAGE
-          value: "gcr.io/triggermesh/opentelemetrytarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/opentelemetrytarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: ORACLE_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/oracletarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/oracletarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SALESFORCETARGET_IMAGE
-          value: "gcr.io/triggermesh/salesforcetarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/salesforcetarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SENDGRID_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/sendgridtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/sendgridtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SLACK_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/slacktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/slacktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SPLUNKTARGET_IMAGE
-          value: "gcr.io/triggermesh/splunktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/splunktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: TEKTON_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/tektontarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/tektontarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: TWILIO_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/twiliotarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/twiliotarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: UIPATH_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/uipathtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/uipathtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: ZENDESK_ADAPTER_IMAGE
-          value: "gcr.io/triggermesh/zendesktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/zendesktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Transformation adapter
         - name: TRANSFORMER_IMAGE
-          value: "gcr.io/triggermesh/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: XSLTTRANSFORM_IMAGE
-          value: "gcr.io/triggermesh/xslttransform-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/xslttransform-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Routing adapters
         - name: FILTER_IMAGE
-          value: "gcr.io/triggermesh/filter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/filter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SPLITTER_IMAGE
-          value: "gcr.io/triggermesh/splitter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/splitter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Function Runtimes
         - name: RUNTIME_KLR_PYTHON
-          value: "gcr.io/triggermesh/knative-lambda-python37:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/knative-lambda-python37:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: RUNTIME_KLR_NODE
-          value: "gcr.io/triggermesh/knative-lambda-node10:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/knative-lambda-node10:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: RUNTIME_KLR_RUBY
-          value: "gcr.io/triggermesh/knative-lambda-ruby25:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          value: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/knative-lambda-ruby25:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Type-specific options
         - name: TEKTON_REAPING_INTERVAL
           value: 2m
