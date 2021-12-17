@@ -23,7 +23,7 @@ spec:
       serviceAccountName: {{ include "tm-cloud.ghbackend.fullname" . }}
       containers:
       - name: controller
-        image: "{{ .Values.global.image.registry }}/{{ .Values.ghbackend.image.repository }}:{{ if .Values.ghbackend.image.tag }}{{ .Values.ghbackend.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
+        image: "{{ .Values.global.image.registry }}/{{ .Values.ghbackend.image.name }}:{{ if .Values.ghbackend.image.tag }}{{ .Values.ghbackend.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
         imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         env:
         - name: BASE_URL

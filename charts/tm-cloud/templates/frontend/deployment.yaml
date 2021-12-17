@@ -27,7 +27,7 @@ spec:
       serviceAccountName: {{ include "tm-cloud.ghbackend.fullname" . }}
       containers:
       - name: dashboard
-        image: "{{ .Values.global.image.registry }}/{{ .Values.frontend.image.repository }}:{{ if .Values.frontend.image.tag }}{{ .Values.frontend.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
+        image: "{{ .Values.global.image.registry }}/{{ .Values.frontend.image.name }}:{{ if .Values.frontend.image.tag }}{{ .Values.frontend.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
         imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         env:
         - name: SITE_URL

@@ -24,7 +24,7 @@ spec:
       serviceAccountName: {{ include "tm-cloud.backend-controller.fullname" . }}
       containers:
       - name: controller
-        image: "{{ .Values.global.image.registry }}/{{ .Values.backend.image.repository }}:{{ if .Values.backend.image.tag }}{{ .Values.backend.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
+        image: "{{ .Values.global.image.registry }}/{{ .Values.backend.image.name }}:{{ if .Values.backend.image.tag }}{{ .Values.backend.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
         imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         terminationMessagePolicy: FallbackToLogsOnError
         securityContext:

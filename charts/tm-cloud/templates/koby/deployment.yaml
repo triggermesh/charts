@@ -34,7 +34,7 @@ spec:
       serviceAccountName: {{ include "tm-cloud.koby.fullname" . }}
       containers:
       - name: controller
-        image: "{{ .Values.global.image.registry }}/{{ .Values.koby.image.repository }}:{{ if .Values.koby.image.tag }}{{ .Values.koby.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
+        image: "{{ .Values.global.image.registry }}/{{ .Values.koby.image.name }}:{{ if .Values.koby.image.tag }}{{ .Values.koby.image.tag }}{{ else }}{{ .Values.global.image.tag | default .Chart.AppVersion }}{{ end }}"
         imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         terminationMessagePolicy: FallbackToLogsOnError
         securityContext:
