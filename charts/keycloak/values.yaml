@@ -10,6 +10,7 @@ realm:
     registrationAllowed: true
 
 image:
+  registry: docker.io
   repository: jboss/keycloak
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
