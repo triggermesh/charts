@@ -65,7 +65,7 @@ components:
     template:
       spec:
         containers:
-        - image: gcr.io/triggermesh/bridge-examples/zendesk-zendesk-transform-sentiment-tag
+        - image: {{ .Values.global.image.registry }}/triggermesh/bridge-examples/zendesk-zendesk-transform-sentiment-tag:latest
           env:
           - name: LANGUAGE
             value: en
