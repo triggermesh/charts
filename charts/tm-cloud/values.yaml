@@ -3,19 +3,19 @@ fullnameOverride: ""
 
 global:
   image:
-    registry: "gcr.io"
+    registry: "gcr.io/triggermesh-private"
     tag: ""
     pullPolicy: "IfNotPresent"
     pullSecrets: []
 
 backend:
   image:
-    repository: "triggermesh-private/backend-controller"
+    name: "backend-controller"
     tag: ""
 
 frontend:
   image:
-    repository: "triggermesh-private/console"
+    name: "console"
     tag: "v1.10.1"
   ingress:
     enabled: false
@@ -29,17 +29,17 @@ frontend:
 
 ghbackend:
   image:
-    repository: "triggermesh-private/gh-backend"
+    name: "gh-backend"
     tag: ""
 
 triggerflow:
   image:
-    repository: "triggermesh-private/triggerflow"
+    name: "triggerflow"
     tag: ""
 
 koby:
   image:
-    repository: "triggermesh-private/koby-controller"
+    name: "koby-controller"
     tag: ""
 
 imagepullsecret-patcher:
