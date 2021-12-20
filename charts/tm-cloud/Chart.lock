@@ -4,9 +4,9 @@ dependencies:
   version: 0.1.1
 - name: keycloak
   repository: https://storage.googleapis.com/triggermesh-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: triggermesh
   repository: https://storage.googleapis.com/triggermesh-charts
   version: 0.3.2
-digest: sha256:8e0e74a79668b2be8584b1b465a738cfd6cc9624d9f4baae40a2dffaf8bf5e0b
-generated: "2021-12-17T17:04:31.499415+05:30"
+digest: sha256:50aaca2787f5bd58e50682fb59cf5799a38f86c0620421e6c960ae6c0893fc3f
+generated: "2021-12-20T12:38:46.081043+05:30"
