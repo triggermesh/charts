@@ -4,7 +4,7 @@ description: A Helm chart for on-premise deployments of TriggerMesh cloud infras
 
 type: application
 
-version: 0.3.6
+version: 0.3.7
 
 appVersion: "v1.10.0"
 
