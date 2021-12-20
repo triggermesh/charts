@@ -30,7 +30,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
       - name: chmod
-        image: "{{ .Values.image.registry }}/busybox:latest"
+        image: "docker.io/busybox:latest"
         command:
         - /bin/chown
         - -R
