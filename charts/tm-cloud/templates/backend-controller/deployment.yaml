@@ -20,7 +20,6 @@ spec:
       annotations:
         checksum/knative-configs: {{ include (print .Template.BasePath "/knative/configmap.yaml") . | sha256sum }}
     spec:
-{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
       serviceAccountName: {{ include "tm-cloud.backend-controller.fullname" . }}
       containers:
       - name: controller

@@ -19,7 +19,6 @@ spec:
         {{- include "tm-cloud.ghbackend.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: controller
     spec:
-{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
       serviceAccountName: {{ include "tm-cloud.ghbackend.fullname" . }}
       containers:
       - name: controller

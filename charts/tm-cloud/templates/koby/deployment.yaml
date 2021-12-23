@@ -30,7 +30,6 @@ spec:
         {{- include "tm-cloud.koby.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: koby
     spec:
-{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
       serviceAccountName: {{ include "tm-cloud.koby.fullname" . }}
       containers:
       - name: controller

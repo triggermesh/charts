@@ -61,15 +61,15 @@ but Helm 2.9 and 2.10 does not support it, so we need to implement this if-else 
 Also, we can not use a single if because lazy evaluation is not an option
 */}}
 
-{{- if or .Values.global.image.pullSecrets (index .Values "imagepullsecret-patcher" "enabled") }}
+{{- if or .Values.global.image.pullSecrets .Values.global.image.dockercfg }}
 imagePullSecrets:
 {{- if .Values.global.image.pullSecrets }}
 {{- range .Values.global.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
 {{- end }}
-{{- if (index .Values "imagepullsecret-patcher" "enabled") }}
-  - name: {{ index .Values "imagepullsecret-patcher" "imagePullSecretName" }}
+{{- if .Values.global.image.dockercfg }}
+  - name: {{ include "tm-cloud.fullname" . }}-imagepullsecret
 {{- end }}
 {{- end }}
 {{- end }}

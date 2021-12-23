@@ -19,7 +19,6 @@ spec:
         checksum/config: {{ include (print .Template.BasePath "/triggerflow/configmap.yaml") . | sha256sum }}
         checksum/knative-configs: {{ include (print .Template.BasePath "/knative/configmap.yaml") . | sha256sum }}
     spec:
-{{- include "tm-cloud.imagePullSecrets" . | indent 6 }}
       serviceAccountName: {{ include "tm-cloud.triggerflow.fullname" . }}
       securityContext:
         runAsNonRoot: true
