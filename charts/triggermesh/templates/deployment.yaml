@@ -166,6 +166,11 @@ spec:
           value: "{{ .Values.image.registry }}/uipathtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: ZENDESK_ADAPTER_IMAGE
           value: "{{ .Values.image.registry }}/zendesktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        # Custom build adapters
+        - name: IBMMQSOURCE_ADAPTER_IMAGE
+          value: "{{ .Values.image.registry }}/ibmmqsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: IBMMQTARGET_ADAPTER_IMAGE
+          value: "{{ .Values.image.registry }}/ibmmqtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Transformation adapter
         - name: TRANSFORMER_IMAGE
           value: "{{ .Values.image.registry }}/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
