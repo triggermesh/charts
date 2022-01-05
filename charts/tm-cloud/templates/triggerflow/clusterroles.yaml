@@ -1,3 +1,5 @@
+# Aggregated Triggerflow controller roles.
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -19,14 +21,17 @@ aggregationRule:
       # knative targets
       rbac.triggermesh.io/targets-admin: "true"
   - matchLabels:
+      # knative flow objects (transformations, routing)
+      rbac.triggermesh.io/flows-admin: "true"
+  - matchLabels:
       # tekton objects
       rbac.triggermesh.io/tekton-admin: "true"
   - matchLabels:
-      # transformation core objects
-      rbac.triggermesh.io/transformation-admin: "true"
-  - matchLabels:
       # router objects
       rbac.triggermesh.io/router-admin: "true"
+  - matchLabels:
+      # extensions objects
+      rbac.triggermesh.io/extensions-user: "true"
   - matchLabels:
       # kubernetes core objects
       rbac.triggermesh.io/kubernetes-objects-triggerflow: "true"
@@ -34,7 +39,7 @@ rules: []
 
 ---
 
-# Triggermesh specific resources for flows
+# TriggerMesh specific resources for flows
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -88,6 +93,7 @@ rules:
   - {{ include "tm-cloud.knative-configs.fullname" . }}-config-logging
   - {{ include "tm-cloud.knative-configs.fullname" . }}-config-observability
   - {{ include "tm-cloud.knative-configs.fullname" . }}-config-leader-election
+  - {{ include "tm-cloud.knative-configs.fullname" . }}-config-triggerflow
   verbs:
   - get
 
@@ -106,30 +112,6 @@ rules:
   - update
   - delete
   - patch
-  - watch
----
-
-# Kubernetes core resources managed at bridges
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ include "tm-cloud.triggerflow.fullname" . }}-triggermesh-kubernetes-objects
-  labels:
-    rbac.triggermesh.io/kubernetes-objects-triggerflow: "true"
-    {{- include "tm-cloud.triggerflow.labels" . | nindent 4 }}
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - list
-  - create
-  - update
-  - patch
-  - delete
   - watch
 
 ---
