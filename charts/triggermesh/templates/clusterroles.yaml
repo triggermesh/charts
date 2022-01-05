@@ -757,28 +757,6 @@ rules:
 
 ---
 
-# This aggregated role grants read-only access to Addressables.
-# It is intended mainly to allow sink resolvers to resolve URLs from object references.
-#
-# NOTE: This same role can also be found in Knative Eventing. It is duplicated here to allow running TriggerMesh in a
-# cluster which doesn't have Knative Eventing deployed.
-# Source:
-#   https://github.com/knative/eventing/blob/knative-v1.1.0/config/core/roles/addressable-resolvers-clusterrole.yaml
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: addressable-resolver
-  labels:
-    {{- include "triggermesh.controller.labels" . | nindent 4 }}
-aggregationRule:
-  clusterRoleSelectors:
-  - matchLabels:
-      duck.knative.dev/addressable: 'true'
-rules: []  # Rules are automatically filled in by the Kubernetes controller manager.
-
----
-
 # This role provides readonly access to "Addressable" duck types.
 # All the rules it contains get aggregated into the "addressable-resolver" ClusterRole.
 # https://github.com/knative/eventing/blob/release-0.26/config/core/roles/addressable-resolvers-clusterrole.yaml#L15-L28
