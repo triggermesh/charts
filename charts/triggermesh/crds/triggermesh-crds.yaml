@@ -5908,6 +5908,8 @@ spec:
                     retry:
                       description: The number of delivery retries before moving the message to DLQ.
                       type: integer
+                  required:
+                    - deadLetterQueue
                 sink:
                   description: The destination of events sourced from IBM MQ.
                   type: object
@@ -5978,9 +5980,65 @@ spec:
                       oneOf:
                         - required: [value]
                         - required: [valueFromSecret]
-                  required:
-                    - username
-                    - password
+                    tls:
+                      description: TLS configuration for IBM MQ client. For more information, please refer to the IBM MQ documentation at https://www.ibm.com/docs/en/ibm-mq/9.2?topic=mechanisms-tls-security-protocols-in-mq.
+                      type: object
+                      properties:
+                        cipher:
+                          description: Message encryption and authentication algorithm. For more information, please refer to the IBM MQ documentation at https://www.ibm.com/docs/en/ibm-mq/9.2?topic=tls-cipherspecs-ciphersuites.
+                          type: string
+                        clientAuthRequired:
+                          description: Parameter to specify whether TLS client authentication is required. For more information, please refer to the IBM MQ documentation at https://www.ibm.com/docs/en/ibm-mq/9.2?topic=fields-sslclientauth-mqlong.
+                          type: boolean
+                        certLabel:
+                          description: Unique identifier representing a digital certificate stored in a key repository. For more information, please refer to the IBM MQ documentation at https://www.ibm.com/docs/en/ibm-mq/9.2?topic=repository-digital-certificate-labels-understanding-requirements.
+                          type: string
+                        keyRepository:
+                          description: Key repository for (m)TLS connection. For more information, please refer to the IBM MQ documentation at https://www.ibm.com/docs/en/ibm-mq/9.2?topic=mq-ssltls-key-repository.
+                          type: object
+                          properties:
+                            keyDatabase:
+                              type: object
+                              properties:
+                                valueFromSecret:
+                                  description: A reference to a Kubernetes Secret object containing the key database.
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    key:
+                                      type: string
+                                  required:
+                                    - name
+                                    - key
+                              required:
+                                - valueFromSecret
+                            passwordStash:
+                              type: object
+                              properties:
+                                valueFromSecret:
+                                  description: A reference to a Kubernetes Secret object containing the password stash.
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    key:
+                                      type: string
+                                  required:
+                                    - name
+                                    - key
+                              required:
+                                - valueFromSecret
+                          required:
+                            - keyDatabase
+                            - passwordStash
+                      required:
+                        - cipher
+                        - clientAuthRequired
+                        - keyRepository
+                  anyOf:
+                    - required: [username, password]
+                    - required: [tls]
               required:
                 - connectionName
                 - channelName
@@ -7419,6 +7477,10 @@ metadata:
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
   annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
     registry.knative.dev/eventTypes: |
       [
         { "type": "io.triggermesh.targets.aws.comprehend.result" }
@@ -7761,7 +7823,7 @@ spec:
                   description: A Kinesis partition name is required for the target to know where to stream the events to.
                   type: string
                 discardCloudEventContext:
-                  description: Produce a new cloud event based on the response from the Kinesis invocation.
+                  description: Whether to omit CloudEvent context attributes in records created in Kinesis. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - arn
@@ -7903,7 +7965,7 @@ spec:
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:(function|layer|event-source-mapping):.+$
                 discardCloudEventContext:
-                  description: Produce a new cloud event based on the response from the lambda function.
+                  description: Whether to omit CloudEvent context attributes in Lambda function calls. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - arn
@@ -8044,9 +8106,9 @@ spec:
                 arn:
                   type: string
                   description: ARN of the S3 bucket that will receive events. The expected format is documented at https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html
-                  pattern: ^arn:aws(-cn|-us-gov)?:s3:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:.+$
+                  pattern: ^arn:aws(-cn|-us-gov)?:s3:::[0-9a-z][0-9a-z.-]{2,62}$
                 discardCloudEventContext:
-                  description: Produce a new cloud event based on the response from the Kinesis invocation.
+                  description: Whether to omit CloudEvent context attributes in objects created in S3. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - arn
@@ -8204,7 +8266,7 @@ spec:
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:sns:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:.+$
                 discardCloudEventContext:
-                  description: Produce a new cloud event based on the response from the SNS API call.
+                  description: Whether to omit CloudEvent context attributes in notifications sent to SNS. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - arn
@@ -8346,7 +8408,7 @@ spec:
                   type: string
                   pattern: ^arn:aws(-cn|-us-gov)?:sqs:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:.+$
                 discardCloudEventContext:
-                  description: Produce a new cloud event based on the response from the lambda function.
+                  description: Whether to omit CloudEvent context attributes in messages sent to SQS. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - arn
@@ -8402,7 +8464,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8426,6 +8488,14 @@ metadata:
     knative.dev/crd-install: 'true'
     triggermesh.io/crd-install: 'true'
   annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "io.triggermesh.azure.eventhubs.put.response" }
+      ]
 spec:
   group: targets.triggermesh.io
   scope: Namespaced
@@ -8649,7 +8719,15 @@ spec:
                     required:
                       - type
                       - status
+                address:
+                  type: object
+                  properties:
+                    url:
+                      type: string
       additionalPrinterColumns:
+        - name: URL
+          type: string
+          jsonPath: .status.address.url
         - name: Ready
           type: string
           jsonPath: .status.conditions[?(@.type=='Ready')].status
@@ -8683,6 +8761,11 @@ metadata:
     knative.dev/crd-install: 'true'
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: targets.triggermesh.io
   names:
@@ -8747,7 +8830,7 @@ spec:
                   description: When using the "saslSsl" securityProtocol attribute, indicate which mechanism to use. This can be "Gssapi", "OAuthBearer", "Plain", "ScramSha256", and "ScramSha512".
                   type: string
                 discardCloudEventContext:
-                  description: Produce a new cloud event based on the response from calling Kafka.
+                  description: Whether to omit CloudEvent context attributes in messages sent to Kafka. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - username
@@ -9059,7 +9142,7 @@ spec:
                       type: string
                       enum: [always, error, never]
                 discardCloudEventContext:
-                  description: Discard cloud event metadata from payload being sent to Elasticsearch.
+                  description: Whether to omit CloudEvent context attributes in documents created in Elasticsearch. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included.
                   type: boolean
               required:
                 - connection
@@ -9183,7 +9266,7 @@ spec:
                   description: Google Cloud Project ID associated with the firestore database.
                   type: string
                 discardCloudEventContext:
-                  description: Indicate whether the full cloud event payload should be sent to the target, or the data component only.
+                  description: Whether to omit CloudEvent context attributes in documents created in Firestore. When this property is false (default), the entire CloudEvent payload is included. When this property is true, only the CloudEvent data is included. component only.
                   type: boolean
                 credentialsJson:
                   type: object
@@ -9331,8 +9414,9 @@ spec:
               description: Desired state of event target.
               properties:
                 bucketName:
-                  description: GCP Storage bucket to stream events to.
+                  description: GCP Storage bucket to stream events to. Must meet the naming requirements described at https://cloud.google.com/storage/docs/naming-buckets
                   type: string
+                  pattern: ^[a-z0-9][a-z0-9_-]{1,61}[a-z0-9](\.[a-z0-9][a-z0-9_-]{1,61}[a-z0-9])*$
                 credentialsJson:
                   description: GCP credentials used to programmatically interact with Google Cloud Storage. For additional information, refer to https://cloud.google.com/docs/authentication/production.
                   type: object
@@ -9894,6 +9978,15 @@ metadata:
     knative.dev/crd-install: 'true'
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: targets.triggermesh.io
   names:
@@ -10272,6 +10365,15 @@ metadata:
     knative.dev/crd-install: 'true'
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: targets.triggermesh.io
   names:
@@ -10721,6 +10823,10 @@ metadata:
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
   annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
     registry.knative.dev/eventTypes: |
       [
         { "type": "io.triggermesh.logz.ship.response" }
@@ -10867,6 +10973,15 @@ metadata:
     knative.dev/crd-install: 'true'
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "functions.oracletargets.targets.triggermesh.io" }
+      ]
 spec:
   group: targets.triggermesh.io
   names:
@@ -11466,6 +11581,11 @@ metadata:
     knative.dev/crd-install: 'true'
     triggermesh.io/crd-install: 'true'
     duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: targets.triggermesh.io
   scope: Namespaced
@@ -12182,6 +12302,15 @@ metadata:
   name: filters.routing.triggermesh.io
   labels:
     triggermesh.io/crd-install: "true"
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: routing.triggermesh.io
   scope: Namespaced
@@ -12312,6 +12441,15 @@ metadata:
   name: splitters.routing.triggermesh.io
   labels:
     triggermesh.io/crd-install: "true"
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: routing.triggermesh.io
   scope: Namespaced
@@ -12460,6 +12598,15 @@ metadata:
   name: functions.extensions.triggermesh.io
   labels:
     triggermesh.io/crd-install: "true"
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: extensions.triggermesh.io
   scope: Namespaced
@@ -12603,6 +12750,166 @@ spec:
           jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
+# Copyright 2022 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: synchronizers.flow.triggermesh.io
+  labels:
+    duck.knative.dev/addressable: 'true'
+    triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+spec:
+  group: flow.triggermesh.io
+  names:
+    kind: Synchronizer
+    plural: synchronizers
+    categories:
+      - all
+      - knative
+      - eventing
+      - flow
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              description: Desired state of the event synchronizer.
+              type: object
+              properties:
+                correlationKey:
+                  description: Events correlation parameters.
+                  type: object
+                  properties:
+                    attribute:
+                      description: The name of the correlation key that will be injected into the CloudEvents context. Events without this attribute are forwarded to the Sink as the client requests while client connections are held open. Events, which context already has the correlation key, are sent back to the open client connections.
+                      type: string
+                    length:
+                      description: The length of the correlation key to generate. The default value is 24.
+                      type: integer
+                      minimum: 1
+                      maximum: 64
+                      default: 24
+                  required:
+                    - attribute
+                response:
+                  description: Responses handling configuration.
+                  type: object
+                  properties:
+                    timeout:
+                      description: The time during which the synchronizer will block the client and wait for the response. Expressed as a duration string, which format is documented at https://pkg.go.dev/time#ParseDuration.
+                      type: string
+                  required:
+                    - timeout
+                sink:
+                  description: The destination where the synchronizer will forward incoming requests from the clients.
+                  type: object
+                  properties:
+                    ref:
+                      description: Reference to an addressable Kubernetes object to be used as the destination of events.
+                      type: object
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        namespace:
+                          type: string
+                        name:
+                          type: string
+                      required:
+                        - apiVersion
+                        - kind
+                        - name
+                    uri:
+                      description: URI to use as the destination of events.
+                      type: string
+                      format: uri
+                  oneOf:
+                    - required: [ref]
+                    - required: [uri]
+              required:
+                - correlationKey
+                - response
+                - sink
+            status:
+              type: object
+              description: Reported status of the event synchronizer.
+              properties:
+                sinkUri:
+                  description: URI of the sink where events are currently sent to.
+                  type: string
+                  format: uri
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: URL
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
 # Copyright 2020 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12623,6 +12930,15 @@ metadata:
   name: transformations.flow.triggermesh.io
   labels:
     triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: flow.triggermesh.io
   scope: Namespaced
@@ -12794,6 +13110,155 @@ spec:
           jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
+# Copyright 2022 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: xmltojsontransformations.flow.triggermesh.io
+  labels:
+    triggermesh.io/crd-install: 'true'
+    duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "io.triggermesh.xmltojsontransformation.error" },
+        { "type": "*" }
+      ]
+spec:
+  group: flow.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: XMLToJSONTransformation
+    plural: xmltojsontransformations
+    categories:
+      - all
+      - knative
+      - eventing
+      - triggermesh
+      - transformations
+    shortNames:
+      - xmltojsontrn
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh CloudEvents XML to JSON Transformation engine.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the transformer.
+              type: object
+              properties:
+                sink:
+                  description: The destination of events transformed by this component.
+                  type: object
+                  properties:
+                    ref:
+                      description: Reference to an addressable Kubernetes object to be used as the destination of events.
+                      type: object
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        namespace:
+                          type: string
+                        name:
+                          type: string
+                      required:
+                        - apiVersion
+                        - kind
+                        - name
+                    uri:
+                      description: URI to use as the destination of events.
+                      type: string
+                      format: uri
+                  oneOf:
+                    - required: ['ref']
+                    - required: ['uri']
+            status:
+              description: Reported status of the transformer.
+              type: object
+              properties:
+                sinkUri:
+                  description: URI of the sink where events are currently sent to.
+                  type: string
+                  format: uri
+                ceAttributes:
+                  description: CloudEvents context attributes overrides.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      source:
+                        type: string
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  description: Address of the HTTP/S endpoint where the transformer is serving incoming CloudEvents.
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: Address
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+
+---
 # Copyright 2021 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12814,6 +13279,15 @@ metadata:
   name: xslttransforms.flow.triggermesh.io
   labels:
     triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "*" }
+      ]
 spec:
   group: flow.triggermesh.io
   scope: Namespaced

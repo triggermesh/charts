@@ -166,16 +166,15 @@ spec:
           value: "{{ .Values.image.registry }}/uipathtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: ZENDESK_ADAPTER_IMAGE
           value: "{{ .Values.image.registry }}/zendesktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        # Custom build adapters
-        - name: IBMMQSOURCE_ADAPTER_IMAGE
-          value: "{{ .Values.image.registry }}/ibmmqsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        - name: IBMMQTARGET_ADAPTER_IMAGE
-          value: "{{ .Values.image.registry }}/ibmmqtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        # Transformation adapter
+        # Flow adapters
         - name: TRANSFORMER_IMAGE
           value: "{{ .Values.image.registry }}/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: XMLTOJSONTRANSFORMATION_IMAGE
+          value: "{{ .Values.image.registry }}/xmltojsontransformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: XSLTTRANSFORM_IMAGE
           value: "{{ .Values.image.registry }}/xslttransform-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: SYNCHRONIZER_ADAPTER_IMAGE
+          value: "{{ .Values.image.registry }}/synchronizer-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         # Routing adapters
         - name: FILTER_IMAGE
           value: "{{ .Values.image.registry }}/filter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -191,6 +190,11 @@ spec:
         # Type-specific options
         - name: TEKTON_REAPING_INTERVAL
           value: 2m
+        # Custom build adapters
+        - name: IBMMQSOURCE_ADAPTER_IMAGE
+          value: "{{ .Values.image.registry }}/ibmmqsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: IBMMQTARGET_ADAPTER_IMAGE
+          value: "{{ .Values.image.registry }}/ibmmqtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         ports:
         - name: metrics
           containerPort: 9090
