@@ -8,8 +8,30 @@ spec:
   version: {{ .Chart.AppVersion }}
   config:
     domain:
+      {{- if .Values.knative.domain }}
+      "{{ .Values.knative.domain }}": ""
+      {{- else }}
+      # for backwards compatibility
       {{- toYaml .Values.domain | nindent 6 }}
+      {{- end }}
     network:
-      autoTLS: {{ if .Values.tls.enabled }}Enabled{{ else }}Disabled{{ end }}
+      {{- if .Values.tls.enabled }}
+      {{- if .Values.tls.autoTLS.enabled }}
+      autoTLS: Enabled
+      {{- else }}
+      autoTLS: Disabled
+      defaultExternalScheme: 'https'
+      domainTemplate: '{{`{{`}}.Name{{`}}`}}-{{`{{`}}.Namespace{{`}}`}}.{{`{{`}}.Domain{{`}}`}}'
+      {{- end }}
+      {{- end }}
     deployment:
       registriesSkippingTagResolving: kind.local,ko.local,dev.local,knative.registry.svc.cluster.local
+  additionalManifests:
+  {{- if and .Values.tls.enabled (not .Values.tls.autoTLS.enabled) }}
+    # HACK to configure the knative-ingress-gateway Gateway for TLS support.
+    # We use this method until there's a better way to override the config of the
+    # knative-ingress-gateway gateway using the operator.
+    # ref: https://github.com/knative/operator/issues/505
+    #      https://github.com/knative/serving/issues/11335
+  - URL: https://tm-config-additional-manifests.s3.us-west-1.amazonaws.com/knative-ingress-gateway.yaml
+  {{- end }}

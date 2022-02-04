@@ -1,4 +1,4 @@
-{{- if .Values.tls.enabled }}
+{{- if and .Values.tls.enabled .Values.tls.autoTLS.enabled }}
 
 ---
 # net-certmanager.yaml
