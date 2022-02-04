@@ -1,7 +1,10 @@
-domain: {}
+knative:
+  domain: ""
 
 tls:
   enabled: true
+  autoTLS:
+    enabled: true
   clusterIssuer: letsencrypt-dns-issuer
   nscert:
     enabled: true

@@ -3,8 +3,34 @@
 ************************************************************
 
 {{- if .Values.tls.enabled }}
+  {{- if .Values.tls.autoTLS.enabled }}
+
   Knative Serving is configured with autoTLS support enabled.
   Please ensure the cert-manager ClusterIssuer for DNS-01 challenge named {{ .Values.tls.clusterIssuer }} exists.
 
   Refer to https://knative.dev/docs/serving/using-auto-tls/#clusterissuer-for-dns-01-challenge for more information.
+
+  {{- else }}
+
+  Knative Serving is configured with TLS support, please ensure a wildcard certificate for your Knative domain exists in the istio-system namespace, fe.:
+
+  $ kubectl apply -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: knative-tls
+  namespace: istio-system
+spec:
+  commonName: '*.{{ default "example.com" .Values.knative.domain}}'
+  dnsNames:
+  - '*.{{ default "example.com" .Values.knative.domain}}'
+  issuerRef:
+    kind: ClusterIssuer
+    name: {{ .Values.tls.clusterIssuer }}
+  secretName: knative-tls
+EOF
+
+  Please ensure the cert-manager ClusterIssuer for DNS-01 challenge named {{ .Values.tls.clusterIssuer }} exists.
+
+  {{- end }}
 {{- end }}
