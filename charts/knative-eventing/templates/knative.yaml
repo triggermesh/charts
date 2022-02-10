@@ -6,6 +6,13 @@ metadata:
     {{- include "knative-eventing.labels" . | nindent 4 }}
 spec:
   version: {{ .Chart.AppVersion }}
+  source:
+    github:
+      enabled: {{ .Values.sources.github.enabled }}
+    gitlab:
+      enabled: {{ .Values.sources.gitlab.enabled }}
+    kafka:
+      enabled: {{ .Values.sources.kafka.enabled }}
   resources:
   - container: ingress
     requests:
