@@ -1,2 +1,10 @@
 knative-operator:
   enabled: false
+
+sources:
+  github:
+    enabled: true
+  gitlab:
+    enabled: true
+  kafka:
+    enabled: true
