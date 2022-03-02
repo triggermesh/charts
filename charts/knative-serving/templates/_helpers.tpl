@@ -67,6 +67,7 @@ Net-certmanager labels
 */}}
 {{- define "knative-serving.net-certmanager.labels" -}}
 {{ include "knative-serving.labels" . }}
+app.kubernetes.io/component: net-certmanager
 serving.knative.dev/release: "v{{ .Chart.AppVersion }}"
 networking.knative.dev/certificate-provider: cert-manager
 {{- end }}

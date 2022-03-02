@@ -17,11 +17,13 @@ spec:
     network:
       {{- if .Values.tls.enabled }}
       {{- if .Values.tls.autoTLS.enabled }}
-      autoTLS: Enabled
+      auto-tls: Enabled
+      namespace-wildcard-cert-selector: '{"matchExpressions": [{"key":"networking.knative.dev/disableWildcardCert", "operator": "NotIn", "values":["true"]}]}'
       {{- else }}
-      autoTLS: Disabled
-      defaultExternalScheme: 'https'
-      domainTemplate: '{{`{{`}}.Name{{`}}`}}-{{`{{`}}.Namespace{{`}}`}}.{{`{{`}}.Domain{{`}}`}}'
+      auto-tls: Disabled
+      domain-template: '{{`{{`}}.Name{{`}}`}}-{{`{{`}}.Namespace{{`}}`}}.{{`{{`}}.Domain{{`}}`}}'
+      default-external-scheme: 'https'
+      http-protocol: Enabled
       {{- end }}
       {{- end }}
     deployment:
