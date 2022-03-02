@@ -7,12 +7,25 @@ metadata:
 spec:
   version: {{ .Chart.AppVersion }}
   source:
+    ceph:
+      enabled: {{ .Values.sources.ceph.enabled }}
+    couchdb:
+      enabled: {{ .Values.sources.couchdb.enabled }}
     github:
       enabled: {{ .Values.sources.github.enabled }}
     gitlab:
       enabled: {{ .Values.sources.gitlab.enabled }}
     kafka:
       enabled: {{ .Values.sources.kafka.enabled }}
+    natss:
+      enabled: {{ .Values.sources.natss.enabled }}
+    prometheus:
+      enabled: {{ .Values.sources.prometheus.enabled }}
+    rabbitmq:
+      enabled: {{ .Values.sources.rabbitmq.enabled }}
+    redis:
+      enabled: {{ .Values.sources.redis.enabled }}
+
   resources:
   - container: ingress
     requests:
