@@ -1,0 +1,243 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "istio-operator.fullname" . }}
+  labels:
+    {{- include "istio-operator.labels" . | nindent 4 }}
+rules:
+# istio groups
+- apiGroups:
+  - authentication.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - config.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - install.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - networking.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - security.istio.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+# k8s groups
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - '*'
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions.apiextensions.k8s.io
+  - customresourcedefinitions
+  verbs:
+  - '*'
+- apiGroups:
+  - apps
+  - extensions
+  resources:
+  - daemonsets
+  - deployments
+  - deployments/finalizers
+  - replicasets
+  verbs:
+  - '*'
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - '*'
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - get
+  - create
+  - update
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - '*'
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - clusterroles
+  - roles
+  - rolebindings
+  verbs:
+  - '*'
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - events
+  - namespaces
+  - pods
+  - pods/proxy
+  - pods/portforward
+  - persistentvolumeclaims
+  - secrets
+  - services
+  - serviceaccounts
+  verbs:
+  - '*'
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "istio-operator.fullname" . }}
+  labels:
+    {{- include "istio-operator.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "istio-operator.fullname" . }}
+  namespace: {{ .Values.operatorNamespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "istio-operator.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+---
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "istio-operator.fullname" . }}
+  namespace: {{ .Values.operatorNamespace }}
+  labels:
+    {{- include "istio-operator.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "istio-operator.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "istio-operator.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "istio-operator.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command:
+          - operator
+          - server
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: WATCH_NAMESPACE
+              value: "{{ .Values.watchedNamespaces }}"
+            - name: LEADER_ELECTION_NAMESPACE
+              value: "{{ .Values.operatorNamespace }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "{{ .Values.operatorNamespace }}"
+            - name: WAIT_FOR_RESOURCES_TIMEOUT
+              value: "{{ .Values.waitForResourcesTimeout }}"
+            - name: REVISION
+              value: ""
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+{{- if .Values.createNamespace }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.operatorNamespace }}
+  labels:
+    istio-operator-managed: Reconcile
+    istio-injection: disabled
+    {{- include "istio-operator.labels" . | nindent 4 }}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "istio-operator.labels" . | nindent 4 }}
+  name: {{ include "istio-operator.fullname" . }}
+  namespace: {{ .Values.operatorNamespace }}
+spec:
+  type: ClusterIP
+  ports:
+  - name: http-metrics
+    port: 8383
+    targetPort: 8383
+    protocol: TCP
+  selector:
+    {{- include "istio-operator.selectorLabels" . | nindent 4 }}
+---
+{{- if .Values.serviceAccount.create -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "istio-operator.serviceAccountName" . }}
+  namespace: {{ .Values.operatorNamespace }}
+  labels:
+    {{- include "istio-operator.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
