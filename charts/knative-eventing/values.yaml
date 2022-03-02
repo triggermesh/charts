@@ -2,9 +2,21 @@ knative-operator:
   enabled: false
 
 sources:
+  ceph:
+    enabled: false
+  couchdb:
+    enabled: false
   github:
     enabled: true
   gitlab:
     enabled: true
   kafka:
     enabled: true
+  natss:
+    enabled: false
+  prometheus:
+    enabled: false
+  rabbitmq:
+    enabled: false
+  redis:
+    enabled: false
