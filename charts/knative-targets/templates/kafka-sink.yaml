@@ -17,7 +17,7 @@ metadata:
   name: config-kafka-sink-data-plane
   namespace: {{ .Release.Namespace }}
   labels:
-    kafka.eventing.knative.dev/release: devel
+    kafka.eventing.knative.dev/release: "devel"
 data:
   config-kafka-sink-producer.properties: |
     key.serializer=org.apache.kafka.common.serialization.StringSerializer
@@ -68,9 +68,9 @@ data:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: knative-kafka-data-plane
+  name: knative-kafka-sink-data-plane
   labels:
-    kafka.eventing.knative.dev/release: devel
+    kafka.eventing.knative.dev/release: "devel"
 rules:
   - apiGroups:
       - "*"
@@ -78,6 +78,8 @@ rules:
       - secrets
     verbs:
       - get
+      - list
+      - watch
 
 ---
 # Copyright 2020 The Knative Authors
@@ -96,10 +98,10 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: knative-kafka-data-plane
+  name: knative-kafka-sink-data-plane
   namespace: {{ .Release.Namespace }}
   labels:
-    kafka.eventing.knative.dev/release: devel
+    kafka.eventing.knative.dev/release: "devel"
 
 ---
 # Copyright 2020 The Knative Authors
@@ -118,21 +120,19 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: knative-kafka-data-plane
+  name: knative-kafka-sink-data-plane
   labels:
-    kafka.eventing.knative.dev/release: devel
+    kafka.eventing.knative.dev/release: "devel"
 subjects:
   - kind: ServiceAccount
-    name: knative-kafka-data-plane
+    name: knative-kafka-sink-data-plane
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: knative-kafka-data-plane
+  name: knative-kafka-sink-data-plane
   apiGroup: rbac.authorization.k8s.io
 
 ---
----
-
 # Copyright 2020 The Knative Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -146,7 +146,6 @@ roleRef:
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -154,7 +153,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: kafka-sink-receiver
-    kafka.eventing.knative.dev/release: devel
+    kafka.eventing.knative.dev/release: "devel"
 spec:
   selector:
     matchLabels:
@@ -164,9 +163,9 @@ spec:
       name: kafka-sink-receiver
       labels:
         app: kafka-sink-receiver
-        kafka.eventing.knative.dev/release: devel
+        kafka.eventing.knative.dev/release: "devel"
     spec:
-      serviceAccountName: knative-kafka-data-plane
+      serviceAccountName: knative-kafka-sink-data-plane
       securityContext:
         runAsNonRoot: true
       # To avoid node becoming SPOF, spread our replicas to different nodes.
@@ -181,7 +180,7 @@ spec:
               weight: 100
       containers:
         - name: kafka-sink-receiver
-          image: gcr.io/knative-releases/knative-kafka-broker-receiver:01834fa0-1fd8-11ec-a0a2-6e1827973222
+          image: gcr.io/knative-releases/knative-kafka-broker-receiver:02825eb076d76738006140ef3ca34910e686b323b81e1d7088e2314b8c055c91
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /etc/config
@@ -281,7 +280,7 @@ spec:
           configMap:
             name: config-kafka-sink-data-plane
         - name: cache
-          emptyDir: { }
+          emptyDir: {}
         - name: kafka-sink-config-logging
           configMap:
             name: kafka-config-logging
@@ -290,7 +289,6 @@ spec:
             name: config-tracing
       restartPolicy: Always
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -298,7 +296,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: kafka-sink-receiver
-    kafka.eventing.knative.dev/release: devel
+    kafka.eventing.knative.dev/release: "devel"
 spec:
   selector:
     app: kafka-sink-receiver
@@ -311,4 +309,7 @@ spec:
       port: 9090
       protocol: TCP
       targetPort: 9090
+---
+
+
 ---
