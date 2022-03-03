@@ -171,7 +171,7 @@ spec:
           value: "{{ .Values.image.registry }}/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: XMLTOJSONTRANSFORMATION_IMAGE
           value: "{{ .Values.image.registry }}/xmltojsontransformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        - name: XSLTTRANSFORM_IMAGE
+        - name: XSLTTRANSFORMATION_IMAGE
           value: "{{ .Values.image.registry }}/xslttransform-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SYNCHRONIZER_ADAPTER_IMAGE
           value: "{{ .Values.image.registry }}/synchronizer-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
