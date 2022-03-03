@@ -4,6 +4,6 @@ dependencies:
   version: 0.1.6
 - name: triggermesh
   repository: https://storage.googleapis.com/triggermesh-charts
-  version: 0.3.5
-digest: sha256:6aabf57c9537e9da9251080646ac954b14f75d9a0d090cbbbb8f268133e50174
-generated: "2022-02-01T21:03:08.141758+05:30"
+  version: 0.4.0
+digest: sha256:60aca9852fe9249c173cdf3b2bf2b6677fbc7d8ab3a80d44778c2a85fefb72b8
+generated: "2022-03-03T10:40:16.394089+05:30"
