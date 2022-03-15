@@ -5,5 +5,8 @@ dependencies:
 - name: triggermesh
   repository: https://storage.googleapis.com/triggermesh-charts
   version: 0.4.1
-digest: sha256:d340a78a2a04dc8291a6e55694ddc465542981ff840b2b655e4ef7ec849d4017
-generated: "2022-03-15T12:00:14.074216+05:30"
+- name: koby
+  repository: https://storage.googleapis.com/triggermesh-charts
+  version: 0.1.1
+digest: sha256:0fd5ac18841101692e54c60592921e3830f0f472eb887c8b1eca96d468cc2fe9
+generated: "2022-03-15T14:50:50.813486+05:30"

@@ -39,9 +39,7 @@ triggerflow:
     tag: ""
 
 koby:
-  image:
-    name: "koby-controller"
-    tag: ""
+  enabled: true
 
 keycloak:
   enabled: true
