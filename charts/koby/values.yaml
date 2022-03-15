@@ -1,0 +1,39 @@
+global:
+  image:
+    pullSecrets: []
+    dockercfg: ""
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+image:
+  registry: gcr.io/triggermesh-private
+  name: koby-controller
+  tag: ""
+  pullPolicy: IfNotPresent
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources:
+  requests:
+    cpu: 20m
+    memory: 20Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
