@@ -14,8 +14,8 @@ spec:
       # for backwards compatibility
       {{- toYaml .Values.domain | nindent 6 }}
       {{- end }}
+    {{- if .Values.tls.enabled }}
     network:
-      {{- if .Values.tls.enabled }}
       {{- if .Values.tls.autoTLS.enabled }}
       auto-tls: Enabled
       namespace-wildcard-cert-selector: '{"matchExpressions": [{"key":"networking.knative.dev/disableWildcardCert", "operator": "NotIn", "values":["true"]}]}'
@@ -25,7 +25,7 @@ spec:
       default-external-scheme: 'https'
       http-protocol: Enabled
       {{- end }}
-      {{- end }}
+    {{- end }}
     deployment:
       registriesSkippingTagResolving: kind.local,ko.local,dev.local,knative.registry.svc.cluster.local
   additionalManifests:
