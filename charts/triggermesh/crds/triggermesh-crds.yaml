@@ -8,7 +8,7 @@
 ---
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -211,7 +211,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -467,7 +467,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -679,7 +679,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -879,7 +879,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1079,7 +1079,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1279,7 +1279,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1479,7 +1479,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1690,7 +1690,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1948,7 +1948,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -2184,7 +2184,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -2406,7 +2406,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -2684,7 +2684,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -2986,7 +2986,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -3268,7 +3268,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -3578,7 +3578,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -3746,7 +3746,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -3923,7 +3923,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -4233,7 +4233,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -4472,7 +4472,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -4677,7 +4677,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -4873,7 +4873,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -5058,7 +5058,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -5239,7 +5239,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -5424,7 +5424,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -5630,7 +5630,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -5828,7 +5828,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6116,7 +6116,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6367,7 +6367,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6565,7 +6565,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6744,7 +6744,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6891,7 +6891,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -7075,7 +7075,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -7289,7 +7289,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -7454,7 +7454,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -7596,7 +7596,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -7877,7 +7877,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8021,7 +8021,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8163,7 +8163,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8322,7 +8322,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8464,7 +8464,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -8884,7 +8884,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9032,7 +9032,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9177,7 +9177,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9342,7 +9342,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9500,7 +9500,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9652,7 +9652,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9795,7 +9795,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9944,7 +9944,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10104,7 +10104,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10283,7 +10283,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10547,7 +10547,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10679,7 +10679,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10826,7 +10826,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11004,7 +11004,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11155,7 +11155,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11313,7 +11313,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11466,7 +11466,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11627,7 +11627,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11763,7 +11763,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11898,7 +11898,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12033,7 +12033,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12194,7 +12194,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12339,7 +12339,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12486,7 +12486,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12623,7 +12623,7 @@ spec:
           jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12778,7 +12778,7 @@ spec:
           jsonPath: .status.conditions[?(@.type=='Ready')].reason
 
 ---
-# Copyright 2021 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12965,6 +12965,333 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  name: dataweavetransformations.flow.triggermesh.io
+  labels:
+    triggermesh.io/crd-install: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "io.triggermesh.dataweavetransformation.error" },
+        { "type": "*" }
+      ]
+spec:
+  group: flow.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: DataWeaveTransformation
+    plural: dataweavetransformations
+    categories:
+      - all
+      - knative
+      - eventing
+      - triggermesh
+      - transformations
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh CloudEvents DataWeave transformation.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the TriggerMesh component.
+              type: object
+              properties:
+                dw_spell:
+                  description: DataWeave spell used to transform incoming CloudEvents.
+                  type: object
+                  properties:
+                    value:
+                      description: Literal inline value.
+                      type: string
+                    valueFromSecret:
+                      description: A reference to a Kubernetes Secret object containing the value.
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        key:
+                          type: string
+                      required:
+                        - name
+                        - key
+                    valueFromConfigMap:
+                      description: A reference to a Kubernetes ConfigMap object containing the value.
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        key:
+                          type: string
+                      required:
+                        - name
+                        - key
+                  oneOf:
+                    - required: [value]
+                    - required: [valueFromSecret]
+                    - required: [valueFromConfigMap]
+                incoming_content_type:
+                  description: Content type for transformation.
+                  type: string
+                  enum: ['application/json', 'application/xml']
+                output_content_type:
+                  description: Content type for transformation output.
+                  type: string
+                  enum: ['application/json', 'application/xml']
+                sink:
+                  description: The destination of events transformed by this component.
+                  type: object
+                  properties:
+                    ref:
+                      description: Reference to an addressable Kubernetes object to be used as the destination of events. If left empty, the events will be sent back to the sender/source.
+                      type: object
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        namespace:
+                          type: string
+                        name:
+                          type: string
+                      required:
+                        - apiVersion
+                        - kind
+                        - name
+                    uri:
+                      description: URI to use as the destination of events.
+                      type: string
+                      format: uri
+                  oneOf:
+                    - required: ['ref']
+                    - required: ['uri']
+              required:
+                - dw_spell
+                - incoming_content_type
+                - output_content_type
+            status:
+              description: Reported status.
+              type: object
+              properties:
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  description: Address of the HTTP/S endpoint where component is listening for incoming CloudEvents.
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: Address
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+
+---
+# Copyright 2022 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: jqtransformations.flow.triggermesh.io
+  labels:
+    triggermesh.io/crd-install: 'true'
+    duck.knative.dev/addressable: 'true'
+  annotations:
+    registry.triggermesh.io/acceptedEventTypes: |
+      [
+        { "type": "*" }
+      ]
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "io.triggermesh.jqtransformation.error" },
+        { "type": "*" }
+      ]
+spec:
+  group: flow.triggermesh.io
+  scope: Namespaced
+  names:
+    kind: JQTransformation
+    plural: jqtransformations
+    categories:
+      - all
+      - knative
+      - eventing
+      - triggermesh
+      - transformations
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          description: TriggerMesh CloudEvents JSON Query Transformation engine.
+          type: object
+          properties:
+            spec:
+              description: Desired state of the transformer.
+              type: object
+              properties:
+                query:
+                  description: The JSON Query to perform on the incoming event
+                  type: string
+                sink:
+                  description: The destination of events transformed by this component.
+                  type: object
+                  properties:
+                    ref:
+                      description: Reference to an addressable Kubernetes object to be used as the destination of events.
+                      type: object
+                      properties:
+                        apiVersion:
+                          type: string
+                        kind:
+                          type: string
+                        namespace:
+                          type: string
+                        name:
+                          type: string
+                      required:
+                        - apiVersion
+                        - kind
+                        - name
+                    uri:
+                      description: URI to use as the destination of events.
+                      type: string
+                      format: uri
+                  oneOf:
+                    - required: ['ref']
+                    - required: ['uri']
+            status:
+              description: Reported status of the transformer.
+              type: object
+              properties:
+                sinkUri:
+                  description: URI of the sink where events are currently sent to.
+                  type: string
+                  format: uri
+                ceAttributes:
+                  description: CloudEvents context attributes overrides.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      source:
+                        type: string
+                observedGeneration:
+                  type: integer
+                  format: int64
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum: ['True', 'False', Unknown]
+                      severity:
+                        type: string
+                        enum: [Error, Warning, Info]
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - type
+                      - status
+                address:
+                  description: Address of the HTTP/S endpoint where the transformer is serving incoming CloudEvents.
+                  type: object
+                  properties:
+                    url:
+                      type: string
+      additionalPrinterColumns:
+        - name: Address
+          type: string
+          jsonPath: .status.address.url
+        - name: Ready
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].status
+        - name: Reason
+          type: string
+          jsonPath: .status.conditions[?(@.type=='Ready')].reason
+
+---
+# Copyright 2022 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
   name: synchronizers.flow.triggermesh.io
   labels:
     duck.knative.dev/addressable: 'true'
@@ -13108,7 +13435,7 @@ spec:
           jsonPath: .metadata.creationTimestamp
 
 ---
-# Copyright 2020 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13580,6 +13907,10 @@ spec:
               description: Reported status.
               type: object
               properties:
+                sinkUri:
+                  description: URI of the sink where events are currently sent to.
+                  type: string
+                  format: uri
                 observedGeneration:
                   type: integer
                   format: int64
