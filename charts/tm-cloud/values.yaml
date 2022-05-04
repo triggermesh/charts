@@ -17,7 +17,7 @@ backend:
 frontend:
   image:
     name: "console"
-    tag: "v1.10.1"
+    tag: "v1.10.2"
   ingress:
     enabled: false
     hostname: chart-example.local
