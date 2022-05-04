@@ -1,4 +1,4 @@
-# Copyright 2021-2022 TriggerMesh Inc.
+# Copyright 2022 TriggerMesh Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,6 +83,7 @@ rules:
   - azurequeuestoragesources
   - azureservicebusqueuesources
   - azureservicebustopicsources
+  - cloudeventssources
   - googlecloudauditlogssources
   - googlecloudbillingsources
   - googlecloudiotsources
@@ -124,6 +125,7 @@ rules:
   - azurequeuestoragesources/status
   - azureservicebusqueuesources/status
   - azureservicebustopicsources/status
+  - cloudeventssources/status
   - googlecloudauditlogssources/status
   - googlecloudbillingsources/status
   - googlecloudiotsources/status
@@ -306,6 +308,7 @@ rules:
   - azurequeuestoragesources/finalizers
   - azureservicebusqueuesources/finalizers
   - azureservicebustopicsources/finalizers
+  - cloudeventssources/finalizers
   - googlecloudauditlogssources/finalizers
   - googlecloudbillingsources/finalizers
   - googlecloudiotsources/finalizers
@@ -751,6 +754,7 @@ rules:
   - azurequeuestoragesources
   - azureservicebusqueuesources
   - azureservicebustopicsources
+  - cloudeventssources
   - googlecloudauditlogssources
   - googlecloudbillingsources
   - googlecloudiotsources

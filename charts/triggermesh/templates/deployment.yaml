@@ -87,6 +87,8 @@ spec:
           value: "{{ .Values.image.registry }}/azurequeuestoragesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZURESERVICEBUSSOURCE_IMAGE
           value: "{{ .Values.image.registry }}/azureservicebussource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: CLOUDEVENTSSOURCE_IMAGE
+          value: "{{ .Values.image.registry }}/cloudeventssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDPUBSUBSOURCE_IMAGE
           value: "{{ .Values.image.registry }}/googlecloudpubsubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: HTTPPOLLERSOURCE_IMAGE
@@ -173,7 +175,7 @@ spec:
           value: "{{ .Values.image.registry }}/jqtransformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SYNCHRONIZER_IMAGE
           value: "{{ .Values.image.registry }}/synchronizer-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        - name: TRANSFORMER_IMAGE
+        - name: TRANSFORMATION_IMAGE
           value: "{{ .Values.image.registry }}/transformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: XMLTOJSONTRANSFORMATION_IMAGE
           value: "{{ .Values.image.registry }}/xmltojsontransformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
