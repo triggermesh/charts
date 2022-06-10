@@ -62,3 +62,38 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Webhook FQDN
+*/}}
+{{- define "knative-operator.webhook.fullname" -}}
+{{- $name := include "knative-operator.fullname" . }}
+{{- printf "%s-%s" $name "webhook" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Webhook labels
+*/}}
+{{- define "knative-operator.webhook.labels" -}}
+{{ include "knative-operator.labels" . }}
+app.kubernetes.io/component: webhook
+{{- end }}
+
+{{/*
+Webhook Selector labels
+*/}}
+{{- define "knative-operator.webhook.selectorLabels" -}}
+{{ include "knative-operator.selectorLabels" . }}
+app.kubernetes.io/component: webhook
+{{- end }}
+
+{{/*
+Create the name of the webhook service account to use
+*/}}
+{{- define "knative-operator.webhook.serviceAccountName" -}}
+{{- if .Values.webhook.serviceAccount.create }}
+{{- default (include "knative-operator.webhook.fullname" .) .Values.webhook.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.webhook.serviceAccount.name }}
+{{- end }}
+{{- end }}
