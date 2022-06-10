@@ -165,10 +165,14 @@ spec:
         app: kafka-sink-receiver
         kafka.eventing.knative.dev/release: "devel"
     spec:
-      serviceAccountName: knative-kafka-sink-data-plane
-      securityContext:
-        runAsNonRoot: true
-      # To avoid node becoming SPOF, spread our replicas to different nodes.
+      # To avoid node becoming SPOF, spread our replicas to different nodes and zones.
+      topologySpreadConstraints:
+        - maxSkew: 2
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: kafka-sink-receiver
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -178,9 +182,12 @@ spec:
                     app: kafka-sink-receiver
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      serviceAccountName: knative-kafka-sink-data-plane
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: kafka-sink-receiver
-          image: gcr.io/knative-releases/knative-kafka-broker-receiver:02825eb076d76738006140ef3ca34910e686b323b81e1d7088e2314b8c055c91
+          image: gcr.io/knative-releases/knative-kafka-broker-receiver:231855405145958c8a6ec18c1411a427e259671939003943bdb69b30242ebe95
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /etc/config
@@ -303,6 +310,10 @@ spec:
   ports:
     - name: http
       port: 80
+      protocol: TCP
+      targetPort: 8080
+    - name: http-container
+      port: 8080
       protocol: TCP
       targetPort: 8080
     - name: http-metrics
