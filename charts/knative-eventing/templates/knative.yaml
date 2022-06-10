@@ -9,8 +9,6 @@ spec:
   source:
     ceph:
       enabled: {{ .Values.sources.ceph.enabled }}
-    couchdb:
-      enabled: {{ .Values.sources.couchdb.enabled }}
     github:
       enabled: {{ .Values.sources.github.enabled }}
     gitlab:
@@ -19,34 +17,42 @@ spec:
       enabled: {{ .Values.sources.kafka.enabled }}
     natss:
       enabled: {{ .Values.sources.natss.enabled }}
-    prometheus:
-      enabled: {{ .Values.sources.prometheus.enabled }}
     rabbitmq:
       enabled: {{ .Values.sources.rabbitmq.enabled }}
     redis:
       enabled: {{ .Values.sources.redis.enabled }}
 
-  resources:
-  - container: ingress
-    requests:
-      cpu: 150m
-      memory: 100Mi
-    limits:
-      cpu: '2'
-      memory: 500Mi
-
-  - container: filter
-    requests:
-      cpu: 500m
-      memory: 70Mi
-    limits:
-      cpu: '4'
-      memory: 500Mi
-
-  - container: dispatcher
-    requests:
-      cpu: 200m
-      memory: 250Mi
-    limits:
-      cpu: '4'
-      memory: 1500Mi
+  #
+  # suitable for up to 2,500 events/sec per replica
+  deployments:
+  # Broker
+  #
+  - name: mt-broker-ingress
+    resources:
+    - container: ingress
+      requests:
+        cpu: 150m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 500Mi
+  - name: mt-broker-filter
+    resources:
+    - container: filter
+      requests:
+        cpu: 500m
+        memory: 70Mi
+      limits:
+        cpu: '4'
+        memory: 500Mi
+  # In-memory channel
+  #
+  - name: imc-dispatcher
+    resources:
+    - container: dispatcher
+      requests:
+        cpu: 200m
+        memory: 250Mi
+      limits:
+        cpu: '4'
+        memory: 1500Mi

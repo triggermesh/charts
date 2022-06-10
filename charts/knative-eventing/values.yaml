@@ -4,8 +4,6 @@ knative-operator:
 sources:
   ceph:
     enabled: false
-  couchdb:
-    enabled: false
   github:
     enabled: true
   gitlab:
@@ -13,8 +11,6 @@ sources:
   kafka:
     enabled: true
   natss:
-    enabled: false
-  prometheus:
     enabled: false
   rabbitmq:
     enabled: false
