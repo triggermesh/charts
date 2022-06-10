@@ -1,7 +1,5 @@
 {{- if and .Values.tls.enabled .Values.tls.autoTLS.enabled }}
 
----
-# net-certmanager.yaml
 # Copyright 2020 The Knative Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -64,10 +62,10 @@ webhooks:
     failurePolicy: Fail
     sideEffects: None
     name: config.webhook.net-certmanager.networking.internal.knative.dev
-    namespaceSelector:
-      matchExpressions:
-        - key: serving.knative.dev/release
-          operator: Exists
+    objectSelector:
+      matchLabels:
+        app.kubernetes.io/name: knative-serving
+        app.kubernetes.io/component: net-certmanager
 
 ---
 # Copyright 2020 The Knative Authors
