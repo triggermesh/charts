@@ -17,7 +17,7 @@ kind: CustomResourceDefinition
 metadata:
   name: kafkachannels.messaging.knative.dev
   labels:
-    kafka.eventing.knative.dev/release: "v20211214-f1bb19a50"
+    kafka.eventing.knative.dev/release: "v20220419-a62d7ca56"
     knative.dev/crd-install: "true"
     messaging.knative.dev/subscribable: "true"
     duck.knative.dev/addressable: "true"
@@ -204,6 +204,9 @@ spec:
                     namespace:
                       description: 'Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/ This is optional field, it gets defaulted to the object holding it if left out.'
                       type: string
+                deadLetterSinkUri:
+                  description: DeadLetterSinkURI is the resolved URI of the dead letter ref if one is specified in the Spec.Delivery.
+                  type: string
                 observedGeneration:
                   description: ObservedGeneration is the 'Generation' of the Service that was last processed by the controller.
                   type: integer
@@ -262,6 +265,133 @@ spec:
           namespace: knative-eventing
 ---
 
+
+---
+# Copyright 2021 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    kafka.eventing.knative.dev/release: "devel"
+    knative.dev/crd-install: "true"
+  name: consumers.internal.kafka.eventing.knative.dev
+spec:
+  group: internal.kafka.eventing.knative.dev
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      schema:
+        openAPIV3Schema:
+          type: object
+          # this is a work around so we don't need to flesh out the
+          # schema for each version at this time
+          x-kubernetes-preserve-unknown-fields: true
+      additionalPrinterColumns:
+        - name: Ready
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+        - name: Reason
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
+        - name: Subscriber
+          type: string
+          jsonPath: .status.subscriberUri
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+  names:
+    kind: Consumer
+    plural: consumers
+    singular: consumer
+  scope: Namespaced
+
+---
+# Copyright 2021 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    kafka.eventing.knative.dev/release: "devel"
+    knative.dev/crd-install: "true"
+  name: consumergroups.internal.kafka.eventing.knative.dev
+spec:
+  group: internal.kafka.eventing.knative.dev
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+        scale:
+          # specReplicasPath defines the JSONPath inside a custom resource that corresponds to Scale.Spec.Replicas.
+          specReplicasPath: .spec.replicas
+          # statusReplicasPath defines the JSONPath inside a custom resource that corresponds to Scale.Status.Replicas.
+          statusReplicasPath: .status.replicas
+          # labelSelectorPath defines the JSONPath inside a custom resource that corresponds to Scale.Status.Selector
+          labelSelectorPath: .status.selector
+      schema:
+        openAPIV3Schema:
+          type: object
+          # this is a work around so we don't need to flesh out the
+          # schema for each version at this time
+          x-kubernetes-preserve-unknown-fields: true
+      additionalPrinterColumns:
+        - name: Ready
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].status"
+        - name: Reason
+          type: string
+          jsonPath: ".status.conditions[?(@.type=='Ready')].reason"
+        - name: Subscriber
+          type: string
+          jsonPath: .status.subscriberUri
+        - name: Replicas
+          type: string
+          jsonPath: .spec.replicas
+        - name: Ready Replicas
+          type: string
+          jsonPath: .status.replicas
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+  names:
+    kind: ConsumerGroup
+    plural: consumergroups
+    singular: consumergroup
+  scope: Namespaced
+
+---
 # Copyright 2020 The Knative Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -427,3 +557,89 @@ spec:
 #        service:
 #          name: eventing-kafka-webhook
 #          namespace: knative-eventing
+
+---
+# Copyright 2019 The Knative Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  labels:
+    kafka.eventing.knative.dev/release: "v20220419-a62d7ca56"
+    eventing.knative.dev/source: "true"
+    duck.knative.dev/source: "true"
+    knative.dev/crd-install: "true"
+  annotations:
+    registry.knative.dev/eventTypes: |
+      [
+        { "type": "dev.knative.kafka.event" }
+      ]
+  name: kafkasources.sources.knative.dev
+spec:
+  group: sources.knative.dev
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          # this is a work around so we don't need to flush out the
+          # schema for each version at this time
+          #
+          # see issue: https://github.com/knative/serving/issues/912
+          x-kubernetes-preserve-unknown-fields: true
+      subresources:
+        status: {}
+        scale:
+          # specReplicasPath defines the JSONPath inside of a custom resource that corresponds to Scale.Spec.Replicas.
+          specReplicasPath: .spec.consumers
+          # statusReplicasPath defines the JSONPath inside of a custom resource that corresponds to Scale.Status.Replicas.
+          statusReplicasPath: .status.consumers
+          # labelSelectorPath defines the JSONPath inside of a custom resource that corresponds to Scale.Status.Selector
+          labelSelectorPath: .status.selector
+      additionalPrinterColumns:
+        - name: Topics
+          type: string
+          jsonPath: ".spec.topics"
+        - name: BootstrapServers
+          type: string
+          jsonPath: ".spec.bootstrapServers"
+        - name: Ready
+          type: string
+          jsonPath: ".status.conditions[?(@.type==\"Ready\")].status"
+        - name: Reason
+          type: string
+          jsonPath: ".status.conditions[?(@.type==\"Ready\")].reason"
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+  names:
+    categories:
+      - all
+      - knative
+      - eventing
+      - sources
+    kind: KafkaSource
+    plural: kafkasources
+  scope: Namespaced
+  conversion:
+    strategy: Webhook
+    webhook:
+      conversionReviewVersions: ["v1", "v1beta1"]
+      clientConfig:
+        service:
+          name: kafka-source-webhook
+          namespace: knative-eventing
