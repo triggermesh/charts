@@ -30,12 +30,20 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext:
+  runAsNonRoot: true
   allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
 
-resources: {}
-  # requests:
-  #   cpu: 50m
-  #   memory: 20Mi
+resources:
+  requests:
+    cpu: 50m
+    memory: 150Mi
+  limits:
+    cpu: 200m
+    memory: 500Mi
 
 nodeSelector: {}
 

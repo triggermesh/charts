@@ -17,7 +17,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ template "triggermesh.controller.fullname" . }}
+  name: triggermesh-controller
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}
 
@@ -70,6 +70,7 @@ rules:
   - awscognitoidentitysources
   - awscognitouserpoolsources
   - awsdynamodbsources
+  - awseventbridgesources
   - awskinesissources
   - awsperformanceinsightssources
   - awss3sources
@@ -112,6 +113,7 @@ rules:
   - awscognitoidentitysources/status
   - awscognitouserpoolsources/status
   - awsdynamodbsources/status
+  - awseventbridgesources/status
   - awskinesissources/status
   - awsperformanceinsightssources/status
   - awss3sources/status
@@ -156,6 +158,7 @@ rules:
   - awssnstargets
   - awssqstargets
   - azureeventhubstargets
+  - cloudeventstargets
   - confluenttargets
   - datadogtargets
   - elasticsearchtargets
@@ -197,6 +200,7 @@ rules:
   - awssnstargets/status
   - awssqstargets/status
   - azureeventhubstargets/status
+  - cloudeventstargets/status
   - confluenttargets/status
   - datadogtargets/status
   - elasticsearchtargets/status
@@ -295,6 +299,7 @@ rules:
   - awscognitoidentitysources/finalizers
   - awscognitouserpoolsources/finalizers
   - awsdynamodbsources/finalizers
+  - awseventbridgesources/finalizers
   - awskinesissources/finalizers
   - awsperformanceinsightssources/finalizers
   - awss3sources/finalizers
@@ -339,6 +344,7 @@ rules:
   - awssnstargets/finalizers
   - awssqstargets/finalizers
   - azureeventhubstargets/finalizers
+  - cloudeventstargets/finalizers
   - confluenttargets/finalizers
   - datadogtargets/finalizers
   - elasticsearchtargets/finalizers
@@ -447,15 +453,6 @@ rules:
   verbs:
   - update
 
-# List namespaces
-# Required by the TektonTarget reaper.
-- apiGroups:
-  - ''
-  resources:
-  - namespaces
-  verbs:
-  - list
-
 # Read credentials
 - apiGroups:
   - ''
@@ -507,13 +504,41 @@ rules:
   - create
   - update
 
-# Determine the exact reason why Deployments fail
+# Observe status of Pods and their ancestors
 - apiGroups:
   - ''
   resources:
   - pods
   verbs:
   - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - replicasets
+  verbs:
+  - list
+  - watch
+
+---
+
+# This role is used to grant receive adapters read-only access to per-component
+# configurations such as logging, observability and tracing.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: triggermesh-config-watcher
+  labels:
+    app.kubernetes.io/part-of: triggermesh
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - list
+  - watch
+  - get
 
 ---
 
@@ -741,6 +766,7 @@ rules:
   - awscognitoidentitysources
   - awscognitouserpoolsources
   - awsdynamodbsources
+  - awseventbridgesources
   - awskinesissources
   - awsperformanceinsightssources
   - awss3sources
@@ -801,6 +827,7 @@ rules:
   - awssnstargets
   - awssqstargets
   - azureeventhubstargets
+  - cloudeventstargets
   - confluenttargets
   - datadogtargets
   - elasticsearchtargets
@@ -875,6 +902,77 @@ rules:
   resources:
   - routes
   - services
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+
+# Copyright 2022 TriggerMesh Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: triggermesh-namespaced-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    {{- include "triggermesh.controller.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  - routing.triggermesh.io
+  - sources.triggermesh.io
+  - targets.triggermesh.io
+  resources: ["*"]
+  verbs: ["*"]
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: triggermesh-namespaced-edit
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    {{- include "triggermesh.controller.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  - routing.triggermesh.io
+  - sources.triggermesh.io
+  - targets.triggermesh.io
+  resources: ["*"]
+  verbs:
+  - create
+  - update
+  - patch
+  - delete
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: triggermesh-namespaced-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    {{- include "triggermesh.controller.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - flow.triggermesh.io
+  - routing.triggermesh.io
+  - sources.triggermesh.io
+  - targets.triggermesh.io
+  resources: ["*"]
   verbs:
   - get
   - list
