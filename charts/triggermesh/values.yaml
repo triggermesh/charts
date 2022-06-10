@@ -13,6 +13,9 @@ image:
 
 imagePullSecrets: []
 
+# list of name/value pairs to inject as additional environment variables to deployment
+extraEnv: []
+
 rbac:
   create: true
 
