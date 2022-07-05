@@ -7,13 +7,14 @@ pilot:
   enabled: true
   nodeSelector: {}
   affinity: {}
-  tolerations: {}
+  tolerations: []
 
 ingressGateways:
   enabled: true
+  serviceAnnotations: {}
   nodeSelector: {}
   affinity: {}
-  tolerations: {}
+  tolerations: []
 
 istio-operator:
   enabled: false

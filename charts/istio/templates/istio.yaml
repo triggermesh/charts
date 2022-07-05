@@ -28,6 +28,10 @@ spec:
     - name: istio-ingressgateway
       enabled: {{ .Values.ingressGateways.enabled }}
       k8s:
+        {{- with .Values.ingressGateways.serviceAnnotations }}
+        serviceAnnotations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- with .Values.ingressGateways.nodeSelector }}
         nodeSelector:
           {{- toYaml . | nindent 10 }}
