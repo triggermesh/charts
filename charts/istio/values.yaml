@@ -11,6 +11,7 @@ pilot:
 
 ingressGateways:
   enabled: true
+  serviceAnnotations: {}
   nodeSelector: {}
   affinity: {}
   tolerations: {}
