@@ -95,6 +95,8 @@ spec:
           value: "{{ .Values.image.registry }}/httppollersource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: OCIMETRICSSOURCE_IMAGE
           value: "{{ .Values.image.registry }}/ocimetricssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: KAFKASOURCE_IMAGE
+          value: "{{ .Values.image.registry }}/kafkasource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SALESFORCESOURCE_IMAGE
           value: "{{ .Values.image.registry }}/salesforcesource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: SLACKSOURCE_IMAGE
@@ -126,6 +128,8 @@ spec:
           value: "{{ .Values.image.registry }}/awssqstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: AZUREEVENTHUBSTARGET_IMAGE
           value: "{{ .Values.image.registry }}/azureeventhubstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: AZURESENTINELTARGET_IMAGE
+          value: "{{ .Values.image.registry }}/azuresentineltarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: CLOUDEVENTSTARGET_IMAGE
           value: "{{ .Values.image.registry }}/cloudeventstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: CONFLUENTTARGET_IMAGE
@@ -140,6 +144,8 @@ spec:
           value: "{{ .Values.image.registry }}/googlecloudstoragetarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLECLOUDWORKFLOWSTARGET_IMAGE
           value: "{{ .Values.image.registry }}/googlecloudworkflowstarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: GOOGLECLOUDPUBSUBTARGET_IMAGE
+          value: "{{ .Values.image.registry }}/googlecloudpubsubtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: GOOGLESHEETTARGET_IMAGE
           value: "{{ .Values.image.registry }}/googlesheettarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: HASURATARGET_IMAGE
@@ -150,6 +156,8 @@ spec:
           value: "{{ .Values.image.registry }}/infratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: JIRATARGET_IMAGE
           value: "{{ .Values.image.registry }}/jiratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: KAFKATARGET_IMAGE
+          value: "{{ .Values.image.registry }}/kafkatarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: LOGZTARGET_IMAGE
           value: "{{ .Values.image.registry }}/logztarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
         - name: OPENTELEMETRYTARGET_IMAGE
