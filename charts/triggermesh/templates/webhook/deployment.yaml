@@ -41,42 +41,42 @@ spec:
       securityContext:
         {{- toYaml .Values.webhook.podSecurityContext | nindent 8 }}
       containers:
-      - name: webhook
-        terminationMessagePolicy: FallbackToLogsOnError
-        securityContext:
-          {{- toYaml .Values.webhook.securityContext | nindent 12 }}
-        image: "{{ .Values.image.registry }}/triggermesh-webhook:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        env:
-        - name: SYSTEM_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: CONFIG_LOGGING_NAME
-          value: config-logging
-        - name: METRICS_DOMAIN
-          value: triggermesh.io/sources
-        - name: WEBHOOK_NAME
-          value: {{ include "triggermesh.webhook.fullname" . }}
-        ports:
-        - name: metrics
-          containerPort: 9090
-        readinessProbe:
-          periodSeconds: 1
-          httpGet:
-            scheme: HTTPS
-            port: 8443
-            httpHeaders:
-            - name: k-kubelet-probe
-              value: webhook
-        livenessProbe:
-          periodSeconds: 1
-          httpGet:
-            scheme: HTTPS
-            port: 8443
-            httpHeaders:
-            - name: k-kubelet-probe
-              value: webhook
+        - name: webhook
+          terminationMessagePolicy: FallbackToLogsOnError
+          securityContext:
+            {{- toYaml .Values.webhook.securityContext | nindent 12 }}
+          image: "{{ .Values.image.registry }}/triggermesh-webhook:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: METRICS_DOMAIN
+              value: triggermesh.io/sources
+            - name: WEBHOOK_NAME
+              value: {{ include "triggermesh.webhook.fullname" . }}
+          ports:
+            - name: metrics
+              containerPort: 9090
+          readinessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: webhook
+          livenessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: webhook
       {{- with .Values.webhook.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
