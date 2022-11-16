@@ -17,6 +17,21 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  name: {{ template "triggermesh.controller.fullname" . }}-watcher
+  labels:
+    {{- include "triggermesh.controller.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "triggermesh.controller.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: triggermesh-controller-watcher
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
   name: {{ template "triggermesh.controller.fullname" . }}
   labels:
     {{- include "triggermesh.controller.labels" . | nindent 4 }}

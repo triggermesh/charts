@@ -15,52 +15,13 @@
 {{- if .Values.rbac.create }}
 
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
-  name: triggermesh-webhook
+  name: triggermesh-webhook-namespaced
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "triggermesh.webhook.labels" . | nindent 4 }}
 rules:
-  # Routing admin
-  - apiGroups:
-      - routing.triggermesh.io
-    resources:
-      - filters
-      - splitters
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
-  # Routing statuses update
-  - apiGroups:
-      - routing.triggermesh.io
-    resources:
-      - splitters/status
-      - filters/status
-    verbs:
-      - update
-  - apiGroups:
-      - flow.triggermesh.io
-    resources:
-      - xslttransformations
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - update
-      - patch
-      - delete
-  - apiGroups:
-      - flow.triggermesh.io
-    resources:
-      - xslttransformations/status
-    verbs:
-      - update
   # Events admin
   - apiGroups:
       - ''
@@ -86,6 +47,14 @@ rules:
       - update
       - list
       - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: triggermesh-webhook
+  labels:
+    {{- include "triggermesh.webhook.labels" . | nindent 4 }}
+rules:
   # Validation webhook gets system namespace to use it as an owner.
   - apiGroups:
       - ''
