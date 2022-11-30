@@ -66,3 +66,6 @@ webhook:
   tolerations: []
 
   affinity: {}
+
+triggermesh-core:
+  enabled: true
