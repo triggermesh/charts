@@ -77,7 +77,7 @@ spec:
               value: "{{ .Values.image.registry }}/awssnssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: AWSSQSSOURCE_IMAGE
               value: "{{ .Values.image.registry }}/awssqssource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: AZUREEVENTHUBSOURCE_IMAGE
+            - name: AZUREEVENTHUBSSOURCE_IMAGE
               value: "{{ .Values.image.registry }}/azureeventhubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: AZUREIOTHUBSOURCE_IMAGE
               value: "{{ .Values.image.registry }}/azureiothubsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -150,8 +150,6 @@ spec:
               value: "{{ .Values.image.registry }}/hasuratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: HTTPTARGET_IMAGE
               value: "{{ .Values.image.registry }}/httptarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: INFRATARGET_IMAGE
-              value: "{{ .Values.image.registry }}/infratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: JIRATARGET_IMAGE
               value: "{{ .Values.image.registry }}/jiratarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: KAFKATARGET_IMAGE
@@ -174,8 +172,6 @@ spec:
               value: "{{ .Values.image.registry }}/tektontarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: TWILIOTARGET_IMAGE
               value: "{{ .Values.image.registry }}/twiliotarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: UIPATHTARGET_IMAGE
-              value: "{{ .Values.image.registry }}/uipathtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: ZENDESKTARGET_IMAGE
               value: "{{ .Values.image.registry }}/zendesktarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             # Flow adapters
