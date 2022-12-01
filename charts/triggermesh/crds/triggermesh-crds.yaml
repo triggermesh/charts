@@ -24,7 +24,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.logs.log" }
+        {
+          "type": "com.amazon.logs.log",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.logs.log.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -141,7 +145,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -279,8 +283,16 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.cloudwatch.metrics.message" },
-        { "type": "com.amazon.cloudwatch.metrics.metric" }
+        {
+          "type": "com.amazon.cloudwatch.metrics.message",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.cloudwatch.metrics.message.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.cloudwatch.metrics.metric",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.cloudwatch.metrics.metric.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -448,7 +460,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -587,8 +599,16 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.codecommit.push" },
-        { "type": "com.amazon.codecommit.pull_request" }
+        {
+          "type": "com.amazon.codecommit.push",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.codecommit.push.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.codecommit.pull_request",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.codecommit.pull_request.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -711,7 +731,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -851,7 +871,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.cognito-identity.sync_trigger" }
+        {
+          "type": "com.amazon.cognito-identity.sync_trigger",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.cognito-identity.sync_trigger.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -965,7 +989,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -1103,7 +1127,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.cognitouserpool.sync_trigger" }
+        {
+          "type": "com.amazon.cognitouserpool.sync_trigger",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.cognitouserpool.sync_trigger.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -1217,7 +1245,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -1355,7 +1383,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.dynamodb.stream_record" }
+        {
+          "type": "com.amazon.dynamodb.stream_record",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.dynamodb.stream_record.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -1469,7 +1501,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -1747,7 +1779,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -1894,7 +1926,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.kinesis.stream_record" }
+        {
+          "type": "com.amazon.kinesis.stream_record",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.kinesis.stream_record.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -2008,7 +2044,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -2269,7 +2305,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -2409,12 +2445,36 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.s3.objectcreated" },
-        { "type": "com.amazon.s3.objectremoved" },
-        { "type": "com.amazon.s3.objectrestore" },
-        { "type": "com.amazon.s3.reducedredundancylostobject" },
-        { "type": "com.amazon.s3.replication" },
-        { "type": "com.amazon.s3.testevent" }
+        {
+          "type": "com.amazon.s3.objectcreated",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.s3.event.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.s3.objectremoved",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.s3.event.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.s3.objectrestore",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.s3.event.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.s3.reducedredundancylostobject",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.s3.event.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.s3.replication",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.s3.event.json",
+          "description": ""
+        },
+        {
+          "type": "com.amazon.s3.testevent",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.s3.event.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -2583,7 +2643,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -2728,7 +2788,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.sns.notification" }
+        {
+          "type": "com.amazon.sns.notification",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.sns.notification.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -2859,7 +2923,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -3009,7 +3073,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.amazon.sqs.message" }
+        {
+          "type": "com.amazon.sqs.message",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.amazon.sqs.message.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -3143,7 +3211,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -3281,7 +3349,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.microsoft.azure.monitor.activity-log" }
+        {
+          "type": "com.microsoft.azure.monitor.activity-log",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.monitor.activity-log.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -3349,7 +3421,7 @@ spec:
                   items:
                     type: string
                 auth:
-                  description: Authentication method to interact with the Azure Monitor REST API. This event source only supports the Service Principal authentication.
+                  description: Authentication method to interact with the Azure Monitor REST API. This event source only supports the Service Principal authentication. If it not present, it will try to use Azure AKS Managed Identity
                   type: object
                   properties:
                     servicePrincipal:
@@ -3454,7 +3526,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 ceOverrides:
@@ -3530,7 +3602,6 @@ spec:
               required:
                 - subscriptionID
                 - destination
-                - auth
                 - sink
             status:
               description: Reported status of the event source.
@@ -3604,15 +3675,51 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "Microsoft.Storage.BlobCreated" },
-        { "type": "Microsoft.Storage.BlobDeleted" },
-        { "type": "Microsoft.Storage.BlobRenamed" },
-        { "type": "Microsoft.Storage.DirectoryCreated" },
-        { "type": "Microsoft.Storage.DirectoryDeleted" },
-        { "type": "Microsoft.Storage.DirectoryRenamed" },
-        { "type": "Microsoft.Storage.BlobTierChanged" },
-        { "type": "Microsoft.Storage.AsyncOperationInitiated" },
-        { "type": "Microsoft.Storage.BlobInventoryPolicyCompleted" }
+        {
+          "type": "Microsoft.Storage.BlobCreated",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.BlobDeleted",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.BlobRenamed",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.DirectoryCreated",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.DirectoryDeleted",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.DirectoryRenamed",
+           "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.BlobTierChanged",
+           "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.AsyncOperationInitiated",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        },
+        {
+          "type": "Microsoft.Storage.BlobInventoryPolicyCompleted",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.blobstorage.event.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -3703,7 +3810,7 @@ spec:
                   required:
                     - eventHubs
                 auth:
-                  description: Authentication method to interact with the Azure Storage and Azure Event Hubs REST APIs. This event source only supports the Service Principal authentication.
+                  description: Authentication method to interact with the Azure Storage and Azure Event Hubs REST APIs. This event source only supports the Service Principal authentication. If it not present, it will try to use Azure AKS Managed Identity
                   type: object
                   properties:
                     servicePrincipal:
@@ -3808,7 +3915,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -3874,7 +3981,6 @@ spec:
               required:
                 - storageAccountID
                 - endpoint
-                - auth
                 - sink
             status:
               description: Reported status of the event source.
@@ -4027,7 +4133,7 @@ spec:
                   required:
                     - eventHubs
                 auth:
-                  description: Authentication method to interact with the Azure Event Grid and Azure Event Hubs REST APIs. This event source only supports the Service Principal authentication.
+                  description: Authentication method to interact with the Azure Event Grid and Azure Event Hubs REST APIs. This event source only supports the Service Principal authentication. If it not present, it will try to use Azure AKS Managed Identity
                   type: object
                   properties:
                     servicePrincipal:
@@ -4132,7 +4238,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -4198,7 +4304,6 @@ spec:
               required:
                 - scope
                 - endpoint
-                - auth
                 - sink
             status:
               description: Reported status of the event source.
@@ -4269,7 +4374,7 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: azureeventhubsources.sources.triggermesh.io
+  name: azureeventhubssources.sources.triggermesh.io
   labels:
     eventing.knative.dev/source: 'true'
     duck.knative.dev/source: 'true'
@@ -4284,8 +4389,8 @@ spec:
   group: sources.triggermesh.io
   scope: Namespaced
   names:
-    kind: AzureEventHubSource
-    plural: azureeventhubsources
+    kind: AzureEventHubsSource
+    plural: azureeventhubssources
     categories:
       - all
       - knative
@@ -4315,7 +4420,7 @@ spec:
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.EventHub\/namespaces\/[A-Za-z0-9-]{6,50}\/event[Hh]ubs\/[a-zA-Z0-9][\w.-]{0,49}$
                 auth:
-                  description: Authentication method to interact with the Azure Event Hubs REST API.
+                  description: Authentication method to interact with the Azure Event Hubs REST API. If it not present, it will try to use Azure AKS Managed Identity
                   type: object
                   properties:
                     sasToken:
@@ -4494,7 +4599,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -4559,7 +4664,6 @@ spec:
                             format: int64
               required:
                 - eventHubID
-                - auth
                 - sink
             status:
               description: Reported status of the event source.
@@ -4708,7 +4812,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -4922,7 +5026,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -5068,7 +5172,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.microsoft.azure.servicebus.message" }
+        {
+          "type": "com.microsoft.azure.servicebus.message",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.servicebus.message.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -5105,7 +5213,7 @@ spec:
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.ServiceBus\/namespaces\/[A-Za-z0-9-]{6,50}\/queues\/[A-Za-z0-9][\w.~/-]{0,258}[A-Za-z0-9]$
                 auth:
-                  description: Authentication method to interact with the Azure Service Bus Queue.
+                  description: Authentication method to interact with the Azure Service Bus Queue. If it not present, it will try to use Azure AKS Managed Identity
                   type: object
                   properties:
                     servicePrincipal:
@@ -5284,7 +5392,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -5349,7 +5457,6 @@ spec:
                             format: int64
               required:
                 - queueID
-                - auth
                 - sink
             status:
               description: Reported status of the event source.
@@ -5423,7 +5530,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.microsoft.azure.servicebus.message" }
+        {
+          "type": "com.microsoft.azure.servicebus.message",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.microsoft.azure.servicebus.message.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -5460,7 +5571,7 @@ spec:
                   type: string
                   pattern: ^\/subscriptions\/[a-z0-9-]+\/resourceGroups\/[\w.()-]+\/providers\/Microsoft.ServiceBus\/namespaces\/[A-Za-z0-9-]{6,50}\/topics\/[A-Za-z0-9][\w.~/-]{0,258}[A-Za-z0-9]$
                 auth:
-                  description: Authentication method to interact with the Azure Service Bus API. This event source only supports the Service Principal authentication.
+                  description: Authentication method to interact with the Azure Service Bus API. This event source only supports the Service Principal authentication. If it not present, it will try to use Azure AKS Managed Identity
                   type: object
                   properties:
                     servicePrincipal:
@@ -5568,7 +5679,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -5633,7 +5744,6 @@ spec:
                             format: int64
               required:
                 - topicID
-                - auth
                 - sink
             status:
               description: Reported status of the event source.
@@ -5819,7 +5929,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -6068,7 +6178,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -6135,7 +6245,6 @@ spec:
                 - serviceName
                 - methodName
                 - pubsub
-                - serviceAccountKey
                 - sink
             status:
               description: Reported status of the event source.
@@ -6312,7 +6421,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -6379,7 +6488,6 @@ spec:
                 - billingAccountId
                 - budgetId
                 - pubsub
-                - serviceAccountKey
                 - sink
             status:
               description: Reported status of the event source.
@@ -6450,236 +6558,6 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: googlecloudiotsources.sources.triggermesh.io
-  labels:
-    eventing.knative.dev/source: 'true'
-    duck.knative.dev/source: 'true'
-    knative.dev/crd-install: 'true'
-    triggermesh.io/crd-install: 'true'
-  annotations:
-    registry.knative.dev/eventTypes: |
-      [
-        { "type": "com.google.cloud.iot.message" }
-      ]
-spec:
-  group: sources.triggermesh.io
-  scope: Namespaced
-  names:
-    kind: GoogleCloudIoTSource
-    plural: googlecloudiotsources
-    categories:
-      - all
-      - knative
-      - eventing
-      - sources
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-      subresources:
-        status: {}
-      schema:
-        openAPIV3Schema:
-          description: TriggerMesh event source for Google Cloud IoT.
-          type: object
-          properties:
-            spec:
-              description: Desired state of the event source.
-              type: object
-              properties:
-                registry:
-                  description: Full resource name of the Registry.
-                  type: string
-                  pattern: ^projects\/[a-z][a-z0-9-]{3,29}\/locations\/[a-z][a-z0-9-]{3,29}\/registries\/[a-zA-Z][\w-.~%+]{2,254}$
-                pubsub:
-                  description: Attributes related to the configuration of Pub/Sub resources associated with the Cloud IoT Registry.
-                  type: object
-                  properties:
-                    topic:
-                      description: Full resource name of the Pub/Sub topic where messages originating from the configured IoT Registry are sent to, before being retrieved by this event source. If not supplied, a topic is created on behalf of the user, in the GCP project referenced by the 'project' attribute. The expected format is described at https://cloud.google.com/pubsub/docs/admin#resource_names.
-                      type: string
-                      pattern: ^projects\/[a-z][a-z0-9-]{3,29}\/topics\/[a-zA-Z][\w-.~%+]{2,254}$
-                serviceAccountKey:
-                  description: Service account key used to authenticate the event source and allow it to interact with Google Cloud APIs. Only the JSON format is supported.
-                  type: object
-                  properties:
-                    value:
-                      description: Literal value of the service account key.
-                      type: string
-                    valueFromSecret:
-                      description: A reference to a Kubernetes Secret object containing the service account key.
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        key:
-                          type: string
-                      required:
-                        - name
-                        - key
-                  oneOf:
-                    - required: [value]
-                    - required: [valueFromSecret]
-                sink:
-                  description: The destination of events received via messages.
-                  type: object
-                  properties:
-                    ref:
-                      description: Reference to an addressable Kubernetes object to be used as the destination of events.
-                      type: object
-                      properties:
-                        apiVersion:
-                          type: string
-                        kind:
-                          type: string
-                        namespace:
-                          type: string
-                        name:
-                          type: string
-                      required:
-                        - apiVersion
-                        - kind
-                        - name
-                    uri:
-                      description: URI to use as the destination of events.
-                      type: string
-                      format: uri
-                  oneOf:
-                    - required: [ref]
-                    - required: [uri]
-                adapterOverrides:
-                  description: Kubernetes object parameters to apply on top of default adapter values.
-                  type: object
-                  properties:
-                    env:
-                      description: Adapter environment variables.
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          value:
-                            type: string
-                    resources:
-                      description: Compute Resources required by the adapter. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                      type: object
-                      properties:
-                        limits:
-                          additionalProperties:
-                            anyOf:
-                              - type: integer
-                              - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          description: Limits describes the maximum amount of compute resources allowed. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                          type: object
-                        requests:
-                          additionalProperties:
-                            anyOf:
-                              - type: integer
-                              - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          description: Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                          type: object
-                    tolerations:
-                      description: Pod tolerations, as documented at https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          key:
-                            description: Taint key that the toleration applies to.
-                            type: string
-                          operator:
-                            description: Key's relationship to the value.
-                            type: string
-                            enum: [Exists, Equal]
-                          value:
-                            description: Taint value the toleration matches to.
-                            type: string
-                          effect:
-                            description: Taint effect to match.
-                            type: string
-                            enum: [NoSchedule, PreferNoSchedule, NoExecute]
-                          tolerationSeconds:
-                            description: Period of time a toleration of effect NoExecute tolerates the taint.
-                            type: integer
-                            format: int64
-              required:
-                - registry
-                - serviceAccountKey
-                - sink
-            status:
-              description: Reported status of the event source.
-              type: object
-              properties:
-                topic:
-                  description: Resource name of the Pub/Sub topic where IoT messages are currently sent to.
-                  type: string
-                subscription:
-                  description: Resource name of the Pub/Sub subscription currently used by the event source for pulling events from the IoT Registry.
-                  type: string
-                sinkUri:
-                  description: URI of the sink where events are currently sent to.
-                  type: string
-                  format: uri
-                ceAttributes:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      source:
-                        type: string
-                    required:
-                      - type
-                      - source
-                observedGeneration:
-                  type: integer
-                  format: int64
-                conditions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      status:
-                        type: string
-                        enum: ['True', 'False', Unknown]
-                      severity:
-                        type: string
-                        enum: [Error, Warning, Info]
-                      reason:
-                        type: string
-                      message:
-                        type: string
-                      lastTransitionTime:
-                        type: string
-                        format: date-time
-                    required:
-                      - type
-                      - status
-      additionalPrinterColumns:
-        - name: Ready
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].status
-        - name: Reason
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].reason
-        - name: Sink
-          type: string
-          jsonPath: .status.sinkUri
-        - name: Age
-          type: date
-          jsonPath: .metadata.creationTimestamp
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
   name: googlecloudpubsubsources.sources.triggermesh.io
   labels:
     eventing.knative.dev/source: 'true'
@@ -6689,7 +6567,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.google.cloud.pubsub.message" }
+        {
+          "type": "com.google.cloud.pubsub.message",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.google.cloud.pubsub.message.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -6770,7 +6652,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -6835,7 +6717,6 @@ spec:
                             format: int64
               required:
                 - topic
-                - serviceAccountKey
                 - sink
             status:
               description: Reported status of the event source.
@@ -7011,7 +6892,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -7076,7 +6957,6 @@ spec:
                             format: int64
               required:
                 - repository
-                - serviceAccountKey
                 - sink
             status:
               description: Reported status of the event source.
@@ -7258,7 +7138,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -7324,7 +7204,6 @@ spec:
               required:
                 - bucket
                 - pubsub
-                - serviceAccountKey
                 - sink
             status:
               description: Reported status of the event source.
@@ -7509,7 +7388,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -7730,7 +7609,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 credentials:
@@ -7983,7 +7862,7 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "io.triggermesh.kafka.message" }
+        { "type": "io.triggermesh.kafka.event" }
       ]
 spec:
   group: sources.triggermesh.io
@@ -8011,12 +7890,9 @@ spec:
               description: Desired state of the event source.
               type: object
               properties:
-                topics:
+                topic:
                   description: Topic name to stream the target events to.
-                  type: array
-                  items:
-                    type: string
-                    minLength: 1
+                  type: string
                 bootstrapServers:
                   description: Array of Kafka servers used to bootstrap the connection.
                   type: array
@@ -8214,7 +8090,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -8279,7 +8155,7 @@ spec:
                             format: int64
               required:
                 - bootstrapServers
-                - topics
+                - topic
                 - groupID
                 - sink
             status:
@@ -8363,7 +8239,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.oracle.cloud.monitoring" }
+        {
+          "type": "com.oracle.cloud.monitoring",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.oracle.cloud.monitoring.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -8512,7 +8392,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -8763,7 +8643,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -8902,7 +8782,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.slack.events" }
+        {
+          "type": "com.slack.events",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.slack.events.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -8980,7 +8864,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -9129,7 +9013,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.triggermesh.twilio.sms" }
+        {
+          "type": "com.triggermesh.twilio.sms",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.triggermesh.twilio.sms.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -9181,7 +9069,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -9423,7 +9311,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -9573,7 +9461,11 @@ metadata:
   annotations:
     registry.knative.dev/eventTypes: |
       [
-        { "type": "com.zendesk.ticket.created" }
+        {
+          "type": "com.zendesk.ticket.created",
+          "schema": "https://raw.githubusercontent.com/triggermesh/triggermesh/main/schemas/com.zendesk.ticket.created.json",
+          "description": ""
+        }
       ]
 spec:
   group: sources.triggermesh.io
@@ -9681,7 +9573,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -14769,186 +14661,6 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: infratargets.targets.triggermesh.io
-  labels:
-    knative.dev/crd-install: 'true'
-    triggermesh.io/crd-install: 'true'
-    duck.knative.dev/addressable: 'true'
-  annotations:
-    registry.triggermesh.io/acceptedEventTypes: |
-      [
-        { "type": "*" }
-      ]
-    registry.knative.dev/eventTypes: |
-      [
-        { "type": "*" }
-      ]
-spec:
-  group: targets.triggermesh.io
-  names:
-    kind: InfraTarget
-    plural: infratargets
-    categories:
-      - all
-      - knative
-      - eventing
-      - targets
-  scope: Namespaced
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-      subresources:
-        status: {}
-      schema:
-        openAPIV3Schema:
-          description: TriggerMesh event target to manipulate cloud events using JavaScript. An event is consumed by the target, and a new event is produced in the response.
-          type: object
-          properties:
-            spec:
-              description: Desired state of event target.
-              type: object
-              properties:
-                script:
-                  description: JavaScript code to invoke when an event comes in.
-                  type: object
-                  properties:
-                    code:
-                      type: string
-                    timeout:
-                      type: integer
-                  required:
-                    - code
-                state:
-                  type: object
-                  description: Indicate whether stateful headers should be created (ensure), propagated (propagate), or dropped (none).
-                  properties:
-                    headersPolicy:
-                      type: string
-                      enum: [ensure, propagate, none]
-                    bridge:
-                      type: string
-                typeLoopProtection:
-                  description: Prevent the InfraTarget from consuming events it just produced.
-                  type: boolean
-                adapterOverrides:
-                  description: Kubernetes object parameters to apply on top of default adapter values.
-                  type: object
-                  properties:
-                    env:
-                      description: Adapter environment variables.
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          value:
-                            type: string
-                    public:
-                      description: Adapter visibility scope.
-                      type: boolean
-                    resources:
-                      description: Compute Resources required by the adapter. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                      type: object
-                      properties:
-                        limits:
-                          additionalProperties:
-                            anyOf:
-                              - type: integer
-                              - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          description: Limits describes the maximum amount of compute resources allowed. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                          type: object
-                        requests:
-                          additionalProperties:
-                            anyOf:
-                              - type: integer
-                              - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          description: Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                          type: object
-                    tolerations:
-                      description: Pod tolerations, as documented at https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          key:
-                            description: Taint key that the toleration applies to.
-                            type: string
-                          operator:
-                            description: Key's relationship to the value.
-                            type: string
-                            enum: [Exists, Equal]
-                          value:
-                            description: Taint value the toleration matches to.
-                            type: string
-                          effect:
-                            description: Taint effect to match.
-                            type: string
-                            enum: [NoSchedule, PreferNoSchedule, NoExecute]
-                          tolerationSeconds:
-                            description: Period of time a toleration of effect NoExecute tolerates the taint.
-                            type: integer
-                            format: int64
-              anyOf:
-                - required: [script]
-                - required: [state]
-            status:
-              type: object
-              description: Reported status of the event target.
-              properties:
-                observedGeneration:
-                  type: integer
-                  format: int64
-                conditions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      status:
-                        type: string
-                        enum: ['True', 'False', Unknown]
-                      severity:
-                        type: string
-                        enum: [Error, Warning, Info]
-                      reason:
-                        type: string
-                      message:
-                        type: string
-                      lastTransitionTime:
-                        type: string
-                        format: date-time
-                    required:
-                      - type
-                      - status
-                address:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-      additionalPrinterColumns:
-        - name: URL
-          type: string
-          jsonPath: .status.address.url
-        - name: Ready
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].status
-        - name: Reason
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].reason
-        - name: Age
-          type: date
-          jsonPath: .metadata.creationTimestamp
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
   name: jiratargets.targets.triggermesh.io
   labels:
     knative.dev/crd-install: 'true'
@@ -17279,199 +16991,6 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: uipathtargets.targets.triggermesh.io
-  labels:
-    knative.dev/crd-install: 'true'
-    triggermesh.io/crd-install: 'true'
-    duck.knative.dev/addressable: 'true'
-  annotations:
-    registry.triggermesh.io/acceptedEventTypes: |
-      [
-        { "type": "io.triggermesh.uipath.job.start" },
-        { "type": "io.triggermesh.uipath.queue.post" }
-      ]
-    registry.knative.dev/eventTypes: |
-      [
-        { "type": "io.triggermesh.targets.response" }
-      ]
-spec:
-  group: targets.triggermesh.io
-  names:
-    kind: UiPathTarget
-    plural: uipathtargets
-    categories:
-      - all
-      - knative
-      - eventing
-      - targets
-  scope: Namespaced
-  versions:
-    - name: v1alpha1
-      served: true
-      storage: true
-      subresources:
-        status: {}
-      schema:
-        openAPIV3Schema:
-          type: object
-          description: TriggerMesh event target for UiPath.
-          properties:
-            spec:
-              description: Desired state of event target.
-              type: object
-              properties:
-                userKey:
-                  description: UiPath user refresh token to support OAuth based authentication. For additional details, refer to https://docs.uipath.com/orchestrator/reference/using-oauth-for-external-apps.
-                  type: object
-                  properties:
-                    secretKeyRef:
-                      type: object
-                      properties:
-                        key:
-                          type: string
-                        name:
-                          type: string
-                robotName:
-                  description: Robot to invoke. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-robots.
-                  type: string
-                processName:
-                  description: UiProccess encompassing the robot. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-processes
-                  type: string
-                tenantName:
-                  description: UiPath tenant name. For additional details, refer to https://docs.uipath.com/orchestrator/docs/about-tenants.
-                  type: string
-                accountLogicalName:
-                  description: The unique site URL used to identify the UiPath tenant.
-                  type: string
-                clientID:
-                  description: OAuth ClientID registered by UiPath to identify the target. For details on registering a new client, please see https://docs.uipath.com/orchestrator/reference/using-oauth-for-external-apps.
-                  type: string
-                organizationUnitID:
-                  description: A grouping of orchestrator components within a tenant. For additional details, please see https://docs.uipath.com/orchestrator/docs/about-organization-units.
-                  type: string
-                adapterOverrides:
-                  description: Kubernetes object parameters to apply on top of default adapter values.
-                  type: object
-                  properties:
-                    env:
-                      description: Adapter environment variables.
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          value:
-                            type: string
-                    public:
-                      description: Adapter visibility scope.
-                      type: boolean
-                    resources:
-                      description: Compute Resources required by the adapter. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                      type: object
-                      properties:
-                        limits:
-                          additionalProperties:
-                            anyOf:
-                              - type: integer
-                              - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          description: Limits describes the maximum amount of compute resources allowed. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                          type: object
-                        requests:
-                          additionalProperties:
-                            anyOf:
-                              - type: integer
-                              - type: string
-                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                            x-kubernetes-int-or-string: true
-                          description: Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-                          type: object
-                    tolerations:
-                      description: Pod tolerations, as documented at https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          key:
-                            description: Taint key that the toleration applies to.
-                            type: string
-                          operator:
-                            description: Key's relationship to the value.
-                            type: string
-                            enum: [Exists, Equal]
-                          value:
-                            description: Taint value the toleration matches to.
-                            type: string
-                          effect:
-                            description: Taint effect to match.
-                            type: string
-                            enum: [NoSchedule, PreferNoSchedule, NoExecute]
-                          tolerationSeconds:
-                            description: Period of time a toleration of effect NoExecute tolerates the taint.
-                            type: integer
-                            format: int64
-              required:
-                - organizationUnitID
-                - clientID
-                - accountLogicalName
-                - tenantName
-                - processName
-                - robotName
-                - userKey
-            status:
-              type: object
-              description: Reported status of the event target.
-              properties:
-                observedGeneration:
-                  type: integer
-                  format: int64
-                conditions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                      status:
-                        type: string
-                        enum: ['True', 'False', Unknown]
-                      severity:
-                        type: string
-                        enum: [Error, Warning, Info]
-                      reason:
-                        type: string
-                      message:
-                        type: string
-                      lastTransitionTime:
-                        type: string
-                        format: date-time
-                    required:
-                      - type
-                      - status
-                address:
-                  type: object
-                  properties:
-                    url:
-                      type: string
-      additionalPrinterColumns:
-        - name: URL
-          type: string
-          jsonPath: .status.address.url
-        - name: Ready
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].status
-        - name: Reason
-          type: string
-          jsonPath: .status.conditions[?(@.type=='Ready')].reason
-        - name: Age
-          type: date
-          jsonPath: .metadata.creationTimestamp
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
   name: zendesktargets.targets.triggermesh.io
   labels:
     knative.dev/crd-install: 'true'
@@ -17714,7 +17233,7 @@ spec:
                 sink:
                   description: Sink is a reference to an object that will resolve to a uri to use as the sink.
                   type: object
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                   properties:
@@ -17918,7 +17437,7 @@ spec:
                 sink:
                   description: Sink is a reference to an object that will resolve to a uri to use as the sink.
                   type: object
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                   properties:
@@ -18138,7 +17657,7 @@ spec:
                 sink:
                   description: The destination of events emitted by the component. If left empty, the events will be sent back to the sender.
                   type: object
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                   properties:
@@ -18394,7 +17913,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -18581,7 +18100,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -18793,7 +18312,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -19035,7 +18554,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -19230,7 +18749,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
@@ -19460,7 +18979,7 @@ spec:
                       description: URI to use as the destination of events.
                       type: string
                       format: uri
-                  oneOf:
+                  anyOf:
                     - required: [ref]
                     - required: [uri]
                 adapterOverrides:
