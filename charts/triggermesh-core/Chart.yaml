@@ -4,6 +4,6 @@ description: A Helm chart deploying TriggerMesh Core Open Source Components
 
 type: application
 
-version: 0.1.0
+version: 1.0.0
 
-appVersion: "v0.0.2"
+appVersion: "v1.0.0"
