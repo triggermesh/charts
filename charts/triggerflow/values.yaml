@@ -1,0 +1,46 @@
+## Global parameters
+global:
+  image:
+    pullSecrets: []
+    dockercfg: ""
+    registry: ""
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+image:
+  registry: gcr.io/triggermesh-private
+  name: triggerflow
+  tag: ""
+  pullPolicy: IfNotPresent
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext:
+  runAsNonRoot: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 300Mi
+  limits:
+    cpu: 100m
+    memory: 300Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
