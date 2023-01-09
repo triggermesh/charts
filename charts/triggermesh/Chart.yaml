@@ -4,6 +4,15 @@ description: A Helm chart deploying TriggerMesh Open Source Components
 
 type: application
 
-version: 0.5.4-2
+version: 0.5.5
 
 appVersion: "v1.21.0"
+
+dependencies:
+  - name: triggerflow
+    version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: triggerflow.enabled
+    tags:
+      - triggermesh
+      - triggerflow

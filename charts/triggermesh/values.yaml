@@ -72,3 +72,6 @@ webhook:
   tolerations: []
 
   affinity: {}
+
+triggerflow:
+  enabled: true
