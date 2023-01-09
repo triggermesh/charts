@@ -125,4 +125,3 @@ Webhook Selector labels
 {{ include "triggermesh.selectorLabels" . }}
 app: triggermesh-webhook
 {{- end }}
-
