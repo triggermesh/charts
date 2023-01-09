@@ -1,13 +1,19 @@
+## Global parameters
+global:
+  image:
+    registry: ""
+
 # Default values
 
 nameOverride: ""
+
 fullnameOverride: ""
 
 replicaCount: 1
 
 image:
-  registry: "gcr.io/triggermesh"
-  pullPolicy: "IfNotPresent"
+  registry: gcr.io/triggermesh
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
