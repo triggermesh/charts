@@ -17,3 +17,10 @@ dependencies:
       - triggermesh
       - triggermesh-core
       - brokers
+  - name: triggerflow
+    version: 0.1.x
+    repository: https://storage.googleapis.com/triggermesh-charts
+    condition: triggerflow.enabled
+    tags:
+      - triggermesh
+      - triggerflow
