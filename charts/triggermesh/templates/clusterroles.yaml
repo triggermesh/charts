@@ -87,6 +87,27 @@ rules:
     verbs:
       - list
       - watch
+  # knative core objects
+  - apiGroups:
+      - serving.knative.dev
+      - eventing.knative.dev
+      - messaging.knative.dev
+      - messaging.triggermesh.dev
+    resources:
+      - brokers
+      - channels
+      - configurations
+      - revisions
+      - routes
+      - triggers
+      - subscriptions
+      - services
+      - kinesischannels
+      - inmemorychannels
+      - clusterchannelprovisioners
+    verbs:
+      - list
+      - watch
   # List and watch reconciled TriggerMesh resources
   - apiGroups:
       - sources.triggermesh.io
@@ -204,6 +225,50 @@ rules:
       - update
       - delete
       - patch
+  # knative core objects
+  - apiGroups:
+      - serving.knative.dev
+      - eventing.knative.dev
+      - messaging.knative.dev
+      - messaging.triggermesh.dev
+    resources:
+      - brokers
+      - channels
+      - configurations
+      - revisions
+      - routes
+      - triggers
+      - subscriptions
+      - services
+      - kinesischannels
+      - inmemorychannels
+      - clusterchannelprovisioners
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - patch
+      - delete
+      - deletecollection
+      - watch
+
+  # knative sources
+  - apiGroups:
+    - sources.knative.dev
+    - sources.eventing.knative.dev
+    - sources.eventing.triggermesh.dev
+    - sources.triggermesh.io
+    resources: ["*"]
+    verbs:
+    - get
+    - list
+    - create
+    - update
+    - patch
+    - delete
+    - deletecollection
+    - watch
   # Read reconciled TriggerMesh resources and update their statuses
   - apiGroups:
       - sources.triggermesh.io
