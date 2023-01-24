@@ -71,6 +71,7 @@ spec:
                   value: webhook
           livenessProbe:
             periodSeconds: 1
+            initialDelaySeconds: 180
             httpGet:
               scheme: HTTPS
               port: 8443
