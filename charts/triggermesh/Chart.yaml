@@ -4,13 +4,13 @@ description: A Helm chart deploying TriggerMesh Open Source Components
 
 type: application
 
-version: 0.6.4
+version: 0.7.0
 
-appVersion: "v1.23.3"
+appVersion: "v1.24.0"
 
 dependencies:
   - name: triggermesh-core
-    version: 1.0.x
+    version: 1.1.x
     repository: https://storage.googleapis.com/triggermesh-charts
     condition: triggermesh-core.enabled
     tags:
