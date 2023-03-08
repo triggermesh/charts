@@ -74,4 +74,4 @@ webhook:
   affinity: {}
 
 triggerflow:
-  enabled: true
+  enabled: false
