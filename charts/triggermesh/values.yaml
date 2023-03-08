@@ -81,4 +81,4 @@ triggermesh-core:
   enabled: true
 
 triggerflow:
-  enabled: false
+  enabled: true
