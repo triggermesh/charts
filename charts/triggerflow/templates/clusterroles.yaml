@@ -129,6 +129,14 @@ rules:
   - list
   - watch
 
+# routing objects
+- apiGroups:
+  - routing.triggermesh.io
+  resources: ["*"]
+  verbs:
+  - list
+  - watch
+
 ---
 
 # Aggregated Triggerflow controller roles.
@@ -266,6 +274,22 @@ rules:
   - delete
   - deletecollection
   - watch
+
+
+# routing objects
+- apiGroups:
+  - routing.triggermesh.io
+  resources: ["*"]
+  verbs:
+  - get
+  - list
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
+  - watch
+
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1

@@ -57,6 +57,12 @@ data:
           "version": "*",
           "kind": "Splitter",
           "paths": [".spec"]
+        },
+        {
+          "group": "routing.triggermesh.io",
+          "version": "*",
+          "kind": "*",
+          "paths": [".spec"]
         }
       ]
     }
