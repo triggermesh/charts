@@ -192,23 +192,10 @@ spec:
               value: "{{ .Values.global.image.registry | default .Values.image.registry }}/filter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: SPLITTER_IMAGE
               value: "{{ .Values.global.image.registry | default .Values.image.registry }}/splitter-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            # Function Runtimes
-            - name: RUNTIME_KLR_PYTHON
-              value: "{{ .Values.global.image.registry | default .Values.image.registry }}/knative-lambda-python37:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: RUNTIME_KLR_NODE
-              value: "{{ .Values.global.image.registry | default .Values.image.registry }}/knative-lambda-node10:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: RUNTIME_KLR_RUBY
-              value: "{{ .Values.global.image.registry | default .Values.image.registry }}/knative-lambda-ruby25:{{ .Values.image.tag | default .Chart.AppVersion }}"
             # Type-specific options
             - name: TEKTONTARGET_REAPING_INTERVAL
               value: 2m
             # Custom build adapters
-            - name: DATAWEAVETRANSFORMATION_IMAGE
-              value: "{{ .Values.global.image.registry | default .Values.image.registry }}/dataweavetransformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: IBMMQSOURCE_IMAGE
-              value: "{{ .Values.global.image.registry | default .Values.image.registry }}/ibmmqsource-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
-            - name: IBMMQTARGET_IMAGE
-              value: "{{ .Values.global.image.registry | default .Values.image.registry }}/ibmmqtarget-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: XSLTTRANSFORMATION_IMAGE
               value: "{{ .Values.global.image.registry | default .Values.image.registry }}/xslttransformation-adapter:{{ .Values.image.tag | default .Chart.AppVersion }}"
             {{- with .Values.extraEnv -}}
