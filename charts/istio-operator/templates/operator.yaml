@@ -228,7 +228,7 @@ spec:
   selector:
     {{- include "istio-operator.selectorLabels" . | nindent 4 }}
 ---
-{{- if .Values.serviceAccount.create -}}
+{{- if .Values.serviceAccount.create }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:

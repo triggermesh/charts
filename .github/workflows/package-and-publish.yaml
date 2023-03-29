@@ -1,0 +1,60 @@
+name: Package and Publish charts
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Run lint
+      run: helm lint charts/*
+
+  publish:
+    name: Publish charts
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
+
+    - name: Activate service-account
+      run: gcloud auth activate-service-account --key-file=${GOOGLE_GHA_CREDS_PATH}
+
+    - name: Package charts
+      run: helm package -u charts/* -d ${CHARTS_DIR}/
+      env:
+        CHARTS_DIR: /tmp/charts-repo
+
+    - name: Generating repository index
+      run: |
+        gsutil cp gs://${{ secrets.GOOGLE_PROJECT_ID }}-charts/index.yaml upstream.yaml
+        helm repo index --merge upstream.yaml --url https://storage.googleapis.com/${GOOGLE_PROJECT_ID}-charts ${CHARTS_DIR}/
+      env:
+        CHARTS_DIR: /tmp/charts-repo
+
+    - name: Publish charts
+      run: |
+        gsutil -m rsync -r ${CHARTS_DIR}/  gs://${{ secrets.GOOGLE_PROJECT_ID }}-charts/
+        gsutil -m setmeta -h "Cache-Control:no-cache" gs://${{ secrets.GOOGLE_PROJECT_ID }}-charts/index.yaml
+      env:
+        CHARTS_DIR: /tmp/charts-repo
