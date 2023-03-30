@@ -47,10 +47,10 @@ jobs:
 
     - name: Generating repository index
       run: |
-        gsutil cp gs://${{ secrets.GOOGLE_PROJECT_ID }}-charts/index.yaml upstream.yaml
-        helm repo index --merge upstream.yaml --url https://storage.googleapis.com/${{ secrets.GOOGLE_PROJECT_ID }}-charts ${CHARTS_DIR}/
+        gsutil cp gs://triggermesh-charts/index.yaml upstream.yaml
+        helm repo index --merge upstream.yaml --url https://storage.googleapis.com/triggermesh-charts ${CHARTS_DIR}/
 
     - name: Publish charts
       run: |
-        gsutil -m rsync -r ${CHARTS_DIR}/  gs://${{ secrets.GOOGLE_PROJECT_ID }}-charts/
-        gsutil -m setmeta -h "Cache-Control:no-cache" gs://${{ secrets.GOOGLE_PROJECT_ID }}-charts/index.yaml
+        gsutil -m rsync -r ${CHARTS_DIR}/  gs://triggermesh-charts/
+        gsutil -m setmeta -h "Cache-Control:no-cache" gs://triggermesh-charts/index.yaml
