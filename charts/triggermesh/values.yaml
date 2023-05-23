@@ -78,7 +78,7 @@ webhook:
   affinity: {}
 
 triggermesh-core:
-  enabled: true
+  enabled: false
 
 triggerflow:
-  enabled: true
+  enabled: false
