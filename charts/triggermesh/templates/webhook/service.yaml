@@ -19,6 +19,7 @@ metadata:
   labels:
     {{- include "triggermesh.webhook.labels" . | nindent 4 }}
 spec:
+  type: ClusterIP
   ports:
     - name: https-webhook
       port: 443
