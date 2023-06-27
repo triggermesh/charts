@@ -224,6 +224,39 @@ rules:
     verbs:
       - list
       - watch
+  - apiGroups:
+      - flow.triggermesh.io
+    resources:
+      - jqtransformations
+      - synchronizers
+      - transformations
+      - xmltojsontransformations
+      - xslttransformations
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - extensions.triggermesh.io
+    resources:
+      - functions
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - routing.triggermesh.io
+    resources:
+      - filters
+      - splitters
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps
+    verbs:
+      - list
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

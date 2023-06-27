@@ -2,27 +2,7 @@
 *** PLEASE BE PATIENT: DEPLOYMENT IN PROGRESS ***
 *************************************************
 
+By default the `triggermesh-controller` can only manage resources only in the `{{ .Release.Namespace }}`
+namespace. To allow the controller access to other namespaces, execute the following command in that namespace:
 
-NOTE: In the default configuration the `triggermesh-controller` can manage
-resources in all namespaces, to explicitly specify the namespaces, first delete
-the default `triggermesh-controller` ClusterRoleBinding:
-
-  kubectl delete clusterrolebinding {{ template "triggermesh.controller.fullname" . }}
-
-Create the following RoleBinding in the namespaces you want to be accessible
-by the `triggermesh-controller`:
-
-  apiVersion: rbac.authorization.k8s.io/v1
-  kind: RoleBinding
-  metadata:
-    name: {{ template "triggermesh.controller.fullname" . }}
-    labels:
-      app.kubernetes.io/part-of: triggermesh
-  subjects:
-    - kind: ServiceAccount
-      name: {{ include "triggermesh.controller.serviceAccountName" . }}
-      namespace: {{ .Release.Namespace }}
-  roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
-    name: triggermesh-controller
+  kubectl create rolebinding {{ template "triggermesh.controller.fullname" . }} --clusterrole=triggermesh-controller --serviceaccount={{ .Release.Namespace }}:{{ include "triggermesh.controller.serviceAccountName" . }}

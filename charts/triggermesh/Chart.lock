@@ -5,5 +5,5 @@ dependencies:
 - name: triggerflow
   repository: https://storage.googleapis.com/triggermesh-charts
   version: 0.1.1
-digest: sha256:16dc5b367c89b57595dd43c5642631b74b584d2b2e25a899eef6762942388986
-generated: "2023-05-23T11:33:12.752546+05:30"
+digest: sha256:5d002115dd81eac60645fcf89dbe655545c87c8d066518138af7e8896c9a30a1
+generated: "2023-06-26T16:13:57.85408+05:30"

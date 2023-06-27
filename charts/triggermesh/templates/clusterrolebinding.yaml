@@ -51,7 +51,7 @@ roleRef:
 #   "attempting to grant RBAC permissions not currently held"
 #
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: awssnssource-adapter
   labels:
@@ -66,7 +66,7 @@ roleRef:
   name: awssnssource-adapter
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: zendesksource-adapter
   labels:
@@ -81,7 +81,7 @@ roleRef:
   name: zendesksource-adapter
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: filter-adapter
   labels:
@@ -96,7 +96,7 @@ roleRef:
   name: filter-adapter
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: splitter-adapter
   labels:
